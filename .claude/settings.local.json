@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat -n \"/Volumes/n1TB/GDrive \\(Class with Nico\\)/# Human,/Website/index.html\")"
+    ]
+  }
+}

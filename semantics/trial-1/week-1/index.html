@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 1: Noticing Language Choices</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + react-is (peer dep for Spectacle) -->
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/react-is@18.2.0/umd/react-is.production.min.js"></script>
+
+  <!-- Spectacle -->
+  <script src="https://unpkg.com/spectacle@9.7.1/dist/spectacle.min.js"></script>
+
+  <!--
+    htm — imported from CDN as ES module (HTTPS imports work from file://).
+    slides.js is then injected as a regular script to avoid file:// CORS on local modules.
+  -->
+  <script type="module">
+    import htm from 'https://unpkg.com/htm@3.1.1/dist/htm.module.js';
+    window.html = htm.bind(React.createElement);
+
+    // Load theme.js first (tokens + components), then slides.js (content)
+    const t = document.createElement('script');
+    t.src = 'theme.js';
+    t.onload = () => {
+      const s = document.createElement('script');
+      s.src = 'slides.js';
+      document.body.appendChild(s);
+    };
+    document.body.appendChild(t);
+  </script>
+</body>
+</html>

@@ -1,0 +1,567 @@
+/* ============================================
+   Human, an Education Collective — Slide Deck
+   DARK THEME — Apple HIG dark-mode design system
+   ============================================ */
+
+:root {
+  /* HIG Dark-Mode Colours */
+  --black: #000000;
+  --white: #FFFFFF;
+  --slide-bg: #000000;
+  --card-fill: #1C1C1E;
+  --elevated-fill: #2C2C2E;
+
+  --label: #F5F5F7;
+  --secondary-label: #A1A1A6;
+  --tertiary-label: #636366;
+
+  /* HIG Dark-Mode System Colours */
+  --blue: #0A84FF;
+  --green: #30D158;
+  --orange: #FF9F0A;
+  --red: #FF453A;
+  --indigo: #5E5CE6;
+  --gold: #FFD60A;
+
+  --gray3: #48484A;
+  --gray4: #3A3A3C;
+  --gray5: #2C2C2E;
+  --separator: #38383A;
+
+  /* Fonts */
+  --font-display: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--black);
+  font-family: var(--font-body);
+}
+
+/* ============================================
+   Progress bar & slide counter
+   ============================================ */
+.progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gray4);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--blue);
+  transition: width 0.3s ease;
+}
+
+.slide-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 24px;
+  font-size: 16px;
+  color: var(--secondary-label);
+  font-family: var(--font-body);
+}
+
+/* ============================================
+   Brand mark
+   ============================================ */
+.brand-mark {
+  height: 24px;
+  display: block;
+}
+
+/* ============================================
+   Speaker notes
+   ============================================ */
+.speaker-notes {
+  white-space: pre-line;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   Cards (dark mode)
+   ============================================ */
+.card {
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 20px;
+  line-height: 1.5;
+  background: var(--card-fill);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Vertical spacing between stacked cards (not in flex-row) */
+.flex-col > .card + .card {
+  margin-top: 12px;
+}
+
+/* Also apply when cards are direct children of slide-content */
+.slide-content > .card + .card {
+  margin-top: 12px;
+}
+
+/* ---- Vivid tinted card backgrounds (dark) ---- */
+.tint-blue   { background: rgba(10,132,255,0.18); }
+.tint-green  { background: rgba(48,209,88,0.18); }
+.tint-orange { background: rgba(255,159,10,0.18); }
+.tint-red    { background: rgba(255,69,58,0.18); }
+.tint-gold   { background: rgba(255,214,10,0.14); }
+.tint-indigo { background: rgba(94,92,230,0.18); }
+
+/* ---- Card label (overline) ---- */
+.card-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--label);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ---- Discussion card ---- */
+.discussion-card {
+  background: var(--card-fill);
+  border: 1px solid var(--separator);
+  border-radius: 12px;
+  padding: 20px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 16px;
+}
+
+/* ---- Discussion item ---- */
+.d-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+  align-items: baseline;
+}
+
+.d-item-num {
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--blue);
+  min-width: 28px;
+}
+
+.d-item-text {
+  font-family: var(--font-body);
+  font-size: 24px;
+  color: var(--label);
+  line-height: 1.5;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+/* Slide heading (plain div, not Spectacle <Heading>) */
+.slide-heading {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--label);
+  line-height: 1.2;
+  margin: 0 0 8px 0;
+}
+
+/* Subtitle / description line */
+.slide-subtitle {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--secondary-label);
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+/* Card body text */
+.card-body {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--label);
+  line-height: 1.5;
+}
+
+.card-secondary {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--secondary-label);
+  line-height: 1.5;
+}
+
+/* Concept title inside a card (e.g. "Denotation") */
+.card-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--label);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+/* Footnote / attribution */
+.footnote {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--secondary-label);
+  line-height: 1.4;
+}
+
+/* Overline (e.g. "WEEK 1") */
+.overline {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+/* ============================================
+   Layout helpers
+   ============================================ */
+/* Flexbox layout */
+.flex-col  { display: flex; flex-direction: column; }
+.flex-row  { display: flex; flex-direction: row; }
+.flex-wrap { display: flex; flex-wrap: wrap; }
+.items-start   { align-items: flex-start; }
+.items-stretch { align-items: stretch; }
+.justify-center  { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.gap-8  { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.w-full { width: 100%; }
+.flex-1 { flex: 1; }
+.mt-6  { margin-top: 6px; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+
+/* Slide content wrapper — consistent padding, full width, vertically centred */
+.slide-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 48px 80px;
+  box-sizing: border-box;
+}
+
+/* Title slide bottom bar */
+.title-bottom-bar {
+  position: absolute;
+  bottom: 32px;
+  left: 80px;
+  right: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Slide 1 title text */
+.title-heading {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 600;
+  color: var(--label);
+  line-height: 1.2;
+  margin: 0 0 16px 0;
+}
+
+.title-subtitle {
+  font-family: var(--font-body);
+  font-size: 24px;
+  color: var(--secondary-label);
+  line-height: 1.5;
+}
+
+/* ============================================
+   Word chips (dark mode)
+   ============================================ */
+.chip {
+  display: inline-block;
+  background: var(--card-fill);
+  color: var(--label);
+  border: 1px solid var(--separator);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 20px;
+  font-family: var(--font-body);
+  margin: 4px;
+}
+
+.chip-red {
+  background: rgba(255,69,58,0.18);
+  border-color: rgba(255,69,58,0.35);
+}
+
+/* ============================================
+   Material icon
+   ============================================ */
+.icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 24px;
+  vertical-align: middle;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  font-style: normal;
+}
+
+/* ============================================
+   Gradient bar (slide 7)
+   ============================================ */
+.gradient-bar {
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.gradient-bar > div {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: var(--font-body);
+  color: var(--label);
+}
+
+.gradient-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.gradient-label-text {
+  font-size: 16px;
+  color: var(--secondary-label);
+  font-family: var(--font-body);
+}
+
+/* ============================================
+   Sorting grid (slide 6)
+   ============================================ */
+.sort-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.sort-header {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-cell {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 20px;
+  text-align: center;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--label);
+}
+
+.sort-dashed {
+  border: 2px dashed var(--gray3);
+  background: transparent;
+  min-height: 40px;
+}
+
+/* ============================================
+   Quote block (slide 10)
+   ============================================ */
+.quote-block {
+  border-left: 4px solid var(--indigo);
+  padding: 20px 24px;
+  background: rgba(94,92,230,0.18);
+  border-radius: 0 12px 12px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.quote-text {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--label);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.quote-attribution {
+  font-size: 16px;
+  color: var(--indigo);
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ============================================
+   Dark card variants (slide 11 recap)
+   ============================================ */
+.dark-card {
+  border-radius: 12px;
+  padding: 20px 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dark-card + .dark-card {
+  margin-top: 12px;
+}
+
+.dark-card-title {
+  font-size: 20px;
+  color: var(--label);
+  font-family: var(--font-body);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.dark-card-body {
+  font-size: 18px;
+  color: var(--secondary-label);
+  font-family: var(--font-body);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Homework card */
+.homework-card {
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.homework-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+
+.homework-body {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--secondary-label);
+  line-height: 1.5;
+}
+
+/* Footer */
+.dark-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.dark-footer-text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--secondary-label);
+  line-height: 1.4;
+}
+
+/* ============================================
+   Sentence label (A / B on slide 3)
+   ============================================ */
+.sentence-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.sentence-body {
+  font-family: var(--font-body);
+  font-size: 22px;
+  color: var(--label);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   Accent colours (for labels, highlights)
+   ============================================ */
+.accent-blue   { color: var(--blue); }
+.accent-green  { color: var(--green); }
+.accent-orange { color: var(--orange); }
+.accent-red    { color: var(--red); }
+.accent-indigo { color: var(--indigo); }
+.accent-gold   { color: var(--gold); }
+
+/* ============================================
+   PDF export button
+   ============================================ */
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pdf-btn:hover {
+  background: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
+}
+
+/* ============================================
+   Print / export mode
+   ============================================ */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: var(--black) !important;
+  }
+
+  .pdf-btn {
+    display: none !important;
+  }
+}
