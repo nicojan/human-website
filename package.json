@@ -1,0 +1,28 @@
+{
+  "name": "human-website",
+  "version": "0.1.0",
+  "description": "Human, an Education Collective — bilingual website (EN + ZH).",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18.17.1"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "humanize": "node scripts/humanize.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "gray-matter": "^4.0.3",
+    "typescript": "^5.7.0"
+  }
+}

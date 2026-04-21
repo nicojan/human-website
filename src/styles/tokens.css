@@ -1,0 +1,232 @@
+/*
+ * tokens.css — design tokens for Human, an Education Collective.
+ *
+ * Three layers:
+ *   1. Primitives     — raw values pulled from Figma / designer-MCP.
+ *   2. Semantic       — role-based aliases used by components.
+ *   3. Component-local — defined inside component CSS using the semantic layer.
+ *
+ * Source of truth: Figma file "Logo" (Design System page) + mcp-designer-for-human.
+ * Do not hardcode colour, spacing, or typography values outside this file.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ============================================================
+   * Layer 1 — PRIMITIVES
+   * ============================================================ */
+
+  /* Colour — primary */
+  --color-bark: #322A22;
+  --color-cream: #FAF7F2;
+  --color-cream-mid: #F2EDE5;
+  --color-white: #FFFFFF;
+  --color-ink: #2B3A4E;
+
+  /* Colour — secondary */
+  --color-sage: #5B7254;
+  --color-sage-deep: #3D5236;
+  --color-sage-light: #E8EDE6;
+  --color-terracotta: #B86F4A;
+  --color-terracotta-light: #F5E6DB;
+  --color-clay: #C9906D;
+  --color-rose: #B5454A;
+  --color-rose-light: #F5DEDE;
+  --color-ochre: #C08B2E;
+  --color-ochre-light: #FBF3E0;
+  --color-ink-light: #E0E4EA;
+  --color-slate: #3D6B80;
+  --color-slate-light: #DDE8EE;
+
+  /* Colour — neutrals */
+  --color-neutral-200: #E5E1DB;
+  --color-neutral-400: #B0A99E;
+  --color-neutral-600: #6B655C;
+
+  /* Spacing (maps to Figma space/N where N ≈ px / 4) */
+  --space-1: 0.25rem;   /* 4  — Figma: space/1  */
+  --space-2: 0.5rem;    /* 8  — Figma: space/2  */
+  --space-3: 0.75rem;   /* 12 — Figma: space/3  */
+  --space-4: 1rem;      /* 16 — Figma: space/4  */
+  --space-5: 1.25rem;   /* 20 — Figma: space/5  */
+  --space-6: 1.5rem;    /* 24 — Figma: space/6  */
+  --space-8: 2rem;      /* 32 — Figma: space/8  */
+  --space-10: 2.5rem;   /* 40 — Figma: space/10 */
+  --space-12: 3rem;     /* 48 — Figma: space/12 */
+  --space-16: 4rem;     /* 64 — Figma: space/16 */
+  --space-20: 5rem;     /* 80 — Figma: space/20 */
+  --space-24: 6rem;     /* 96 — Figma: space/24 */
+  --space-32: 8rem;     /* 128 — Figma: space/32 */
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Typography — font families */
+  --font-display: 'Literata', 'Noto Serif TC', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-body: 'Atkinson Hyperlegible Next', 'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Typography — font sizes
+   * Headings use clamp() for fluid scaling between mobile (≈40rem) and desktop (≈80rem).
+   * Body text stays fixed at 17px so user-set browser font-size still respects WCAG 1.4.4.
+   */
+  --fs-display: clamp(2rem, 1.4rem + 2.5vw, 3rem);          /* 32 → 48 */
+  --fs-h1:      clamp(1.625rem, 1.2rem + 1.75vw, 2.25rem);  /* 26 → 36 */
+  --fs-h2:      clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);  /* 22 → 28 */
+  --fs-h3:      clamp(1.125rem, 1rem + 0.5vw, 1.375rem);    /* 18 → 22 */
+  --fs-h4:      1.0625rem;  /* 17 */
+  --fs-body-lg: 1.25rem;    /* 20 */
+  --fs-body:    1.0625rem;  /* 17 — matches h4 per Apple HIG */
+  --fs-caption: 0.9375rem;  /* 15 */
+  --fs-label:   0.8125rem;  /* 13 */
+  --fs-small:   0.6875rem;  /* 11 */
+
+  /* Typography — line heights (unitless multipliers) */
+  --lh-display:  1.08;
+  --lh-h1:       1.14;
+  --lh-h2:       1.21;
+  --lh-h3:       1.27;
+  --lh-h4:       1.35;
+  --lh-body-lg:  1.45;
+  --lh-body:     1.47;
+  --lh-caption:  1.40;
+  --lh-label:    1.38;
+  --lh-small:    1.36;
+
+  /* Typography — letter spacing */
+  --ls-display: -0.022em;
+  --ls-h1:      -0.015em;
+  --ls-h2:      -0.01em;
+  --ls-h3:      -0.005em;
+  --ls-body:     0;
+  --ls-label:    0.02em;
+
+  /* Typography — font weights */
+  --fw-display:     500;
+  --fw-h1:          500;
+  --fw-h2:          600;
+  --fw-h3:          600;
+  --fw-h4:          600;
+  --fw-body:        400;
+  --fw-body-medium: 500;
+  --fw-body-bold:   700;
+
+  /* Layout */
+  --max-width:      72rem;  /* 1152 — page content max */
+  --content-width:  48rem;  /* 768  — prose max */
+  --sidebar-width:  16rem;  /* 256  — sidebar reserved */
+
+  /* Breakpoints (reference; use in @media queries directly) */
+  --bp-sm: 40rem;  /* 640  */
+  --bp-md: 48rem;  /* 768  */
+  --bp-lg: 64rem;  /* 1024 */
+  --bp-xl: 80rem;  /* 1280 */
+
+  /* Motion */
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:      cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out:  cubic-bezier(0.45, 0, 0.55, 1);
+  --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-instant: 100ms;
+  --duration-fast:    200ms;
+  --duration-normal:  350ms;
+  --duration-slow:    500ms;
+
+  /* Elevation — shadows derived from Bark (no pure black) */
+  --shadow-xs: 0 1px 2px rgba(50, 42, 34, 0.06);
+  --shadow-sm: 0 2px 4px rgba(50, 42, 34, 0.08), 0 1px 2px rgba(50, 42, 34, 0.04);
+  --shadow-md: 0 4px 12px rgba(50, 42, 34, 0.10), 0 2px 4px rgba(50, 42, 34, 0.06);
+  --shadow-lg: 0 8px 24px rgba(50, 42, 34, 0.12), 0 4px 8px rgba(50, 42, 34, 0.06);
+  --shadow-xl: 0 16px 48px rgba(50, 42, 34, 0.16), 0 8px 16px rgba(50, 42, 34, 0.08);
+
+  /* Touch targets */
+  --touch-min: 44px;
+  --touch-comfortable: 48px;
+
+  /* ============================================================
+   * Layer 2 — SEMANTIC
+   * ============================================================ */
+
+  /* Text */
+  --text-primary:     var(--color-bark);
+  --text-secondary:   var(--color-neutral-600);
+  --text-tertiary:    var(--color-neutral-400);
+  --text-disabled:    var(--color-neutral-400);
+  --text-placeholder: var(--color-neutral-400);
+  --text-inverse:     var(--color-white);
+  --text-brand:       var(--color-terracotta);
+  --text-link:        var(--color-ink);
+
+  /* Backgrounds */
+  --bg-canvas:         var(--color-white);
+  --bg-warm:           var(--color-cream);
+  --bg-surface:        var(--color-cream-mid);
+  --bg-surface-hover:  var(--color-neutral-200);
+  --bg-emphasis:       var(--color-ink);
+
+  /* Borders */
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+  --border-brand:   var(--color-terracotta);
+
+  /* Actions */
+  --action-primary:          var(--color-terracotta);
+  --action-primary-hover:    #A0603F;
+  --action-secondary:        var(--color-ink);
+  --action-secondary-hover:  #1E2C3D;
+
+  /* Status */
+  --status-success-fg: var(--color-sage);
+  --status-success-bg: var(--color-sage-light);
+  --status-warning-fg: var(--color-ochre);
+  --status-warning-bg: var(--color-ochre-light);
+  --status-error-fg:   var(--color-rose);
+  --status-error-bg:   var(--color-rose-light);
+  --status-info-fg:    var(--color-slate);
+  --status-info-bg:    var(--color-slate-light);
+
+  /* Accent */
+  --accent:               var(--color-terracotta);
+  --accent-discovery:     var(--color-ochre);
+  --accent-discovery-bg:  var(--color-ochre-light);
+
+  /* Interactive */
+  --focus-ring:       var(--color-terracotta);
+  --surface-active:   var(--color-neutral-200);
+  --link-default:     var(--color-ink);
+  --link-hover:       #1E2C3D;
+  --link-visited:     var(--color-neutral-600);
+}
+
+/* Per-page language overrides — makes pure-ZH pages prefer Noto Serif/Sans TC,
+ * while still allowing inline [lang] tweaks inside bilingual blocks.
+ */
+html[lang^="zh"] {
+  --font-display: 'Noto Serif TC', 'Literata', ui-serif, Georgia, serif;
+  --font-body: 'Noto Sans TC', 'Atkinson Hyperlegible Next', system-ui, -apple-system, sans-serif;
+}
+
+[lang^="zh"] {
+  font-family: var(--font-body);
+}
+
+[lang^="zh"] :is(h1, h2, h3, h4, .display) {
+  font-family: 'Noto Serif TC', 'Literata', ui-serif, Georgia, serif;
+}
+
+/* Reduced motion — WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity !important;
+  }
+  html:focus-within { scroll-behavior: auto; }
+}
