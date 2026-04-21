@@ -1,0 +1,101 @@
+---
+import Wordmark from './Wordmark.astro';
+import { STRINGS, type Locale } from '@i18n/strings';
+import { localeFromPath, localisedUrl } from '@utils/i18n';
+
+const locale: Locale = localeFromPath(Astro.url.pathname);
+const t = STRINGS[locale];
+const year = new Date().getFullYear();
+
+const links = [
+  { href: localisedUrl('/about',         locale), label: t.nav.about },
+  { href: localisedUrl('/what-we-teach', locale), label: t.nav.teach },
+  { href: localisedUrl('/blog',          locale), label: t.nav.blog },
+  { href: localisedUrl('/faq',           locale), label: t.nav.faq },
+  { href: localisedUrl('/useful-words',  locale), label: t.nav.words },
+  { href: localisedUrl('/privacy',       locale), label: t.footer.privacy },
+];
+---
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <Wordmark variant="mono-bark" height={24} />
+      <p class="site-footer__tagline">{t.footer.tagline}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label={locale === 'en' ? 'Footer links' : '頁尾連結'}>
+      <ul role="list">
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-footer__contact">
+      <p class="label">{t.contact.labels.email}</p>
+      <p><a href={`mailto:${t.contact.email}`}>{t.contact.email}</a></p>
+    </div>
+  </div>
+
+  <div class="site-footer__bottom container">
+    <p class="small">{t.footer.copyright(year)}</p>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  margin-top: var(--space-20);
+  background: var(--bg-warm);
+  border-top: 1px solid var(--border-default);
+  color: var(--text-primary);
+}
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-12) var(--space-8);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) {
+  .site-footer__inner {
+    grid-template-columns: 1.25fr 1fr 1fr;
+    align-items: start;
+  }
+}
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.site-footer__tagline {
+  color: var(--text-secondary);
+  max-width: 38ch;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+}
+.site-footer__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
+}
+.site-footer__nav a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-body-medium);
+}
+.site-footer__nav a:hover {
+  color: var(--text-brand);
+  text-decoration: underline;
+}
+.site-footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.site-footer__contact .label { margin-bottom: var(--space-1); }
+.site-footer__bottom {
+  padding-block: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-default);
+}
+.site-footer__bottom p {
+  color: var(--text-secondary);
+}
+</style>

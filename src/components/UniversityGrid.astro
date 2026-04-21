@@ -1,0 +1,72 @@
+---
+/**
+ * UniversityGrid — logos of universities students have attended.
+ * Logos live in /public/images/schools/ with URL-safe names.
+ */
+
+const schools = [
+  { name: 'UC Berkeley', src: '/images/schools/uc-berkeley.svg' },
+  { name: 'UBC',          src: '/images/schools/UBC.svg' },
+  { name: 'McGill',       src: '/images/schools/McGill.png' },
+  { name: 'University of Toronto', src: '/images/schools/u-of-t.png' },
+  { name: 'HKU',          src: '/images/schools/HKU.svg' },
+  { name: "Queen's",      src: '/images/schools/Queens.svg' },
+  { name: 'Ivey',         src: '/images/schools/Ivey.png' },
+  { name: 'Rotman',       src: '/images/schools/Rotman.png' },
+  { name: 'SFU',          src: '/images/schools/SFU.png' },
+  { name: 'Sauder',       src: '/images/schools/Sauder.jpg' },
+  { name: 'Smith',        src: '/images/schools/Smith.jpg' },
+  { name: 'Beedie',       src: '/images/schools/Beedie.png' },
+  { name: 'Emily Carr',   src: '/images/schools/emily-carr.png' },
+  { name: 'Western',      src: '/images/schools/Western.svg' },
+];
+---
+<ul role="list" class="uni-grid">
+  {schools.map((s) => (
+    <li class="uni-grid__item">
+      <img src={s.src} alt={s.name} loading="lazy" decoding="async" />
+    </li>
+  ))}
+</ul>
+
+<style>
+.uni-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6) var(--space-8);
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 40rem) {
+  .uni-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 64rem) {
+  .uni-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-8) var(--space-10); }
+}
+
+.uni-grid__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+}
+
+.uni-grid__item img {
+  max-height: 56px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.78;
+  transition: filter var(--duration-normal) var(--ease-out),
+              opacity var(--duration-normal) var(--ease-out);
+}
+
+.uni-grid__item:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+</style>

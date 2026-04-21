@@ -1,0 +1,61 @@
+---
+/**
+ * ApproachSection — the bilingual narrative block used across the
+ * homepage and approach pages. Mirrors the Class with Nico "we do X"
+ * sections: an English headline/paragraph paired with a Chinese
+ * translation. Visual emphasis on the bilingual pairing.
+ */
+interface Props {
+  /** Optional anchor id. */
+  id?: string;
+  /** Order on wide viewports. */
+  order?: 'en-first' | 'zh-first';
+  /** Background variant. */
+  background?: 'canvas' | 'warm' | 'surface' | 'emphasis';
+}
+
+const { id, order = 'en-first', background = 'canvas' } = Astro.props;
+
+const bgClass = {
+  canvas:    '',
+  warm:      'section--warm',
+  surface:   'section--surface',
+  emphasis:  'section--emphasis',
+}[background];
+---
+<section id={id} class:list={['section', 'approach', bgClass]}>
+  <div class="container">
+    <div class:list={['approach__grid', order]}>
+      <div class="approach__col approach__col--en" lang="en-CA">
+        <slot name="en" />
+      </div>
+      <div class="approach__col approach__col--zh" lang="zh-Hant">
+        <slot name="zh" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.approach__grid {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+}
+.approach__col > h2 {
+  margin-bottom: var(--space-4);
+}
+.approach__col > p + p { margin-top: var(--space-3); }
+
+@media (min-width: 48rem) {
+  .approach__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+  .approach__grid.zh-first .approach__col--zh { order: 1; }
+  .approach__grid.zh-first .approach__col--en { order: 2; }
+}
+
+.section--surface { background: var(--bg-surface); }
+</style>

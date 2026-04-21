@@ -1,0 +1,47 @@
+---
+/**
+ * LangSwitch — toggles between the EN and ZH version of the current URL.
+ * Renders as a plain link (no JS). Falls back to the locale index when
+ * no direct translation exists for the current path.
+ */
+import { alternateLocaleUrl, localeFromPath } from '@utils/i18n';
+import { STRINGS } from '@i18n/strings';
+
+const pathname = Astro.url.pathname;
+const current = localeFromPath(pathname);
+const target = current === 'en' ? 'zh' : 'en';
+const href = alternateLocaleUrl(pathname);
+
+// Link text uses the target locale's native name so it reads naturally
+// to a speaker of that language.
+const label = target === 'zh' ? '繁體中文' : 'English';
+const a11y = STRINGS[current].a11y.languageSwitcher;
+---
+<a
+  href={href}
+  class="lang-switch"
+  aria-label={a11y}
+  hreflang={target === 'zh' ? 'zh-Hant' : 'en-CA'}
+  lang={target === 'zh' ? 'zh-Hant' : 'en-CA'}
+>{label}</a>
+
+<style>
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  font-weight: var(--fw-body-bold);
+  text-decoration: none;
+  color: var(--text-secondary);
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--touch-min);
+  border-radius: var(--radius-sm);
+}
+.lang-switch:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  text-decoration: none;
+}
+</style>

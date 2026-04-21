@@ -1,0 +1,182 @@
+---
+/**
+ * Header — site masthead with wordmark, nav, language switch.
+ *
+ * On mobile (<640px), the nav collapses into a CSS-only <details>
+ * disclosure so it stays accessible without JS. On ≥640px the nav is
+ * inline.
+ */
+import Wordmark from './Wordmark.astro';
+import LangSwitch from './LangSwitch.astro';
+import { STRINGS, type Locale } from '@i18n/strings';
+import { localeFromPath, localisedUrl } from '@utils/i18n';
+
+const locale: Locale = localeFromPath(Astro.url.pathname);
+const t = STRINGS[locale];
+
+const navItems = [
+  { href: '/',              label: t.nav.home },
+  { href: '/about',         label: t.nav.about },
+  { href: '/what-we-teach', label: t.nav.teach },
+  { href: '/blog',          label: t.nav.blog },
+  { href: '/faq',           label: t.nav.faq },
+  { href: '/useful-words',  label: t.nav.words },
+].map((item) => ({
+  ...item,
+  href: localisedUrl(item.href, locale),
+}));
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => {
+  const normalised = href.replace(/\/$/, '') || '/';
+  return pathname === normalised;
+};
+---
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a
+      href={localisedUrl('/', locale)}
+      class="site-header__brand"
+      aria-label={`${t.brand.wordmark} ${t.brand.descriptor}`}
+    >
+      <Wordmark variant="colour-on-white" height={28} title="" />
+    </a>
+
+    <nav class="site-header__nav" aria-label={t.a11y.mainNav}>
+      <details class="site-header__disclosure">
+        <summary>{t.nav.home === '首頁' ? '選單' : 'Menu'}</summary>
+        <ul role="list" class="site-header__nav-list">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="site-header__nav-link"
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    </nav>
+
+    <div class="site-header__right">
+      <LangSwitch />
+    </div>
+  </div>
+</header>
+
+<style>
+.site-header {
+  background: var(--bg-canvas);
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding-block: var(--space-3);
+}
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-height: var(--touch-min);
+}
+.site-header__brand:hover {
+  text-decoration: none;
+}
+.site-header__right {
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile — <details> disclosure */
+.site-header__disclosure > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  font-weight: var(--fw-body-bold);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  min-height: var(--touch-min);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+}
+.site-header__disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.site-header__disclosure > summary:hover {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+.site-header__disclosure[open] > summary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.site-header__nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  position: absolute;
+  inset-inline: 0;
+  background: var(--bg-canvas);
+  border-bottom: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header__disclosure:not([open]) .site-header__nav-list {
+  display: none;
+}
+
+.site-header__nav-link {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  min-height: var(--touch-min);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: var(--fw-body-medium);
+  border-radius: var(--radius-sm);
+}
+.site-header__nav-link:hover {
+  background: var(--bg-surface);
+  text-decoration: none;
+}
+.site-header__nav-link[aria-current='page'] {
+  color: var(--text-brand);
+}
+
+/* Desktop — inline nav */
+@media (min-width: 40rem) {
+  .site-header__disclosure > summary {
+    display: none;
+  }
+  .site-header__disclosure[open] > summary {
+    display: none;
+  }
+  .site-header__nav-list,
+  .site-header__disclosure:not([open]) .site-header__nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-1);
+    padding: 0;
+    position: static;
+    inset-inline: auto;
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+  }
+  .site-header__nav-link {
+    font-size: var(--fs-caption);
+  }
+}
+</style>

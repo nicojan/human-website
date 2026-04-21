@@ -1,0 +1,70 @@
+---
+/**
+ * WordCard — single glossary entry used on the Useful Words page.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  word: CollectionEntry<'useful_words'>;
+  renderedBody?: string;
+}
+const { word, renderedBody } = Astro.props;
+---
+<article class="word-card" id={word.data.pair_key}>
+  <header class="word-card__header">
+    <h3 class="word-card__term">{word.data.term}</h3>
+    {word.data.pronunciation && (
+      <span class="word-card__pronunciation">{word.data.pronunciation}</span>
+    )}
+  </header>
+  <p class="word-card__definition">{word.data.definition}</p>
+  {word.data.example && (
+    <blockquote class="word-card__example">{word.data.example}</blockquote>
+  )}
+  {word.data.etymology && (
+    <p class="word-card__etymology"><span class="label">Etymology</span> {word.data.etymology}</p>
+  )}
+  {renderedBody && <div class="word-card__body" set:html={renderedBody} />}
+</article>
+
+<style>
+.word-card {
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--border-default);
+}
+.word-card:last-child { border-bottom: 0; }
+
+.word-card__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+.word-card__term {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  font-weight: var(--fw-h3);
+}
+.word-card__pronunciation {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+.word-card__definition { max-width: 60ch; }
+.word-card__example {
+  margin-top: var(--space-3);
+  padding-inline-start: var(--space-4);
+  border-inline-start: 3px solid var(--border-brand);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.word-card__etymology {
+  margin-top: var(--space-3);
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+.word-card__etymology .label { margin-inline-end: var(--space-2); }
+.word-card__body { margin-top: var(--space-3); color: var(--text-secondary); }
+</style>

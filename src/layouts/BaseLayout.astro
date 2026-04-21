@@ -1,0 +1,97 @@
+---
+/**
+ * BaseLayout — root layout for every page.
+ * Sets <html lang>, loads fonts, wires header + footer, renders skip link.
+ */
+import '@styles/tokens.css';
+import '@styles/reset.css';
+import '@styles/global.css';
+
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { STRINGS, HTML_LANG, type Locale } from '@i18n/strings';
+import { localeFromPath, hreflangEntries } from '@utils/i18n';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Override canonical URL if needed. */
+  canonical?: string;
+  /** Class applied to <main>. */
+  mainClass?: string;
+  /** Optional OG image override (absolute URL or /public path). */
+  ogImage?: string;
+}
+
+const { title, description, canonical, mainClass, ogImage } = Astro.props;
+
+const locale: Locale = localeFromPath(Astro.url.pathname);
+const t = STRINGS[locale];
+const htmlLang = HTML_LANG[locale];
+
+const pageTitle = title === t.meta.titleSuffix
+  ? title
+  : `${title} — ${t.meta.titleSuffix}`;
+
+const pageDesc = description ?? t.meta.siteDescription;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'https://forhuman.ca').toString();
+const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? 'https://forhuman.ca').toString();
+
+const hreflangs = hreflangEntries(Astro.url.pathname).map((h) => ({
+  ...h,
+  href: new URL(h.href, Astro.site ?? 'https://forhuman.ca').toString(),
+}));
+---
+<!doctype html>
+<html lang={htmlLang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)" />
+  <meta name="color-scheme" content="light" />
+
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDesc} />
+  <link rel="canonical" href={canonicalUrl} />
+  {hreflangs.map((h) => (
+    <link rel="alternate" hreflang={h.hreflang} href={h.href} />
+  ))}
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon-180x180.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Human," />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDesc} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImg} />
+  <meta property="og:locale" content={htmlLang.replace('-', '_')} />
+  <meta property="og:locale:alternate" content={locale === 'en' ? 'zh_Hant' : 'en_CA'} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDesc} />
+  <meta name="twitter:image" content={ogImg} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap"
+  />
+
+  <slot name="head" />
+</head>
+<body>
+  <div class="page">
+    <a href="#main" class="skip-link">{t.a11y.skipToContent}</a>
+    <Header />
+    <main id="main" class={mainClass}>
+      <slot />
+    </main>
+    <Footer />
+  </div>
+</body>
+</html>

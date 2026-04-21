@@ -1,0 +1,57 @@
+---
+/**
+ * ContactBlock — simple contact list rendered from i18n strings.
+ * Shown on the homepage (#contact anchor) and linked from the footer.
+ * No forms — just direct channels.
+ */
+import { STRINGS, type Locale } from '@i18n/strings';
+import { localeFromPath } from '@utils/i18n';
+
+const locale: Locale = localeFromPath(Astro.url.pathname);
+const t = STRINGS[locale];
+
+const channels = [
+  { label: t.contact.labels.email,     value: t.contact.email, href: `mailto:${t.contact.email}` },
+  { label: t.contact.labels.whatsapp,  value: '@classwithnico', href: 'https://wa.me/message/WPWMHXAIHI5CI1' },
+  { label: t.contact.labels.instagram, value: '@classwithnico', href: 'https://instagram.com/classwithnico' },
+  { label: t.contact.labels.facebook,  value: '@classwithnico', href: 'https://m.me/classwithnico' },
+  { label: t.contact.labels.wechat,    value: 'classwithnico' },
+];
+---
+<section id="contact" class="section contact">
+  <div class="container">
+    <h2 class="h2">{t.contact.heading}</h2>
+    <ul role="list" class="contact__list">
+      {channels.map((c) => (
+        <li class="contact__row">
+          <span class="label">{c.label}</span>
+          {c.href
+            ? <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener' : undefined}>{c.value}</a>
+            : <span>{c.value}</span>
+          }
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+.contact h2 {
+  margin-bottom: var(--space-6);
+}
+.contact__list {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+}
+.contact__row {
+  display: grid;
+  grid-template-columns: minmax(6rem, max-content) 1fr;
+  gap: var(--space-4);
+  align-items: baseline;
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--border-default);
+}
+.contact__row:last-child { border-bottom: 0; }
+</style>

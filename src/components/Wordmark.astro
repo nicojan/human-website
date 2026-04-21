@@ -1,0 +1,37 @@
+---
+/**
+ * Wordmark — Human, brand wordmark.
+ *
+ * Renders the SVG wordmark for the given colour treatment and background.
+ * The wordmark must always appear as an <img> referencing a canonical SVG
+ * from `public/brand/`; it is a custom vector and must not be re-typed in
+ * any font.
+ */
+interface Props {
+  /** Colour treatment of the wordmark. */
+  variant?: 'colour-on-white' | 'colour-on-ink' | 'mono-ink' | 'mono-white' | 'mono-bark';
+  /** Optional class passthrough. */
+  class?: string;
+  /** Accessible title. The SVG is decorative when in a link whose label */
+  /* covers it; in that case pass an empty alt by setting title="".      */
+  title?: string;
+  /** Pixel height hint (width auto-scales). Default 28. */
+  height?: number;
+}
+
+const {
+  variant = 'colour-on-white',
+  class: className,
+  title = 'Human, an Education Collective',
+  height = 28,
+} = Astro.props;
+
+const src = `/brand/human-wordmark-${variant}.svg`;
+---
+<img
+  src={src}
+  alt={title}
+  height={height}
+  class={className}
+  decoding="async"
+/>

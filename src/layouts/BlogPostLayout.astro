@@ -1,0 +1,120 @@
+---
+/**
+ * BlogPostLayout — wraps a blog post body.
+ * Handles title, byline, date, and prose container. Linked from
+ * /blog/[slug] routes in both locales.
+ */
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+import { localeFromPath, localisedUrl } from '@utils/i18n';
+import { STRINGS } from '@i18n/strings';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+const { post } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname);
+const t = STRINGS[locale];
+
+const dateFormatter = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-Hant' : 'en-CA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const blogIndex = localisedUrl('/blog', locale);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.summary,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.updated ?? post.data.date).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: post.data.author,
+    url: 'https://nicojan.com/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Human, an Education Collective',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/brand/human-icon-512x512.png', Astro.site ?? 'https://forhuman.ca').toString(),
+    },
+  },
+  inLanguage: locale === 'zh' ? 'zh-Hant' : 'en-CA',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': new URL(Astro.url.pathname, Astro.site ?? 'https://forhuman.ca').toString(),
+  },
+};
+---
+<BaseLayout
+  title={post.data.title}
+  description={post.data.summary}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd)}
+  />
+  <article class="blog-post">
+    <div class="container">
+      <p class="blog-post__back">
+        <a href={blogIndex}>{t.a11y.backToBlog}</a>
+      </p>
+      <header class="blog-post__header">
+        <h1 class="blog-post__title">{post.data.title}</h1>
+        <p class="blog-post__summary">{post.data.summary}</p>
+        <div class="blog-post__meta">
+          <span>{post.data.author}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={post.data.date.toISOString()}>
+            {dateFormatter.format(post.data.date)}
+          </time>
+        </div>
+      </header>
+      <div class="blog-post__body prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+.blog-post {
+  padding-block: var(--space-12) var(--space-20);
+}
+.blog-post__back {
+  font-size: var(--fs-caption);
+  margin-bottom: var(--space-6);
+}
+.blog-post__header {
+  max-width: var(--content-width);
+  margin: 0 auto var(--space-10);
+}
+.blog-post__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: var(--fw-display);
+  margin-bottom: var(--space-4);
+}
+.blog-post__summary {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-5);
+}
+.blog-post__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+.blog-post__body { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+</style>
