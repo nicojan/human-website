@@ -1,44 +1,58 @@
 ---
 /**
- * PostCard — blog post preview card.
- * Consumed by the blog index page and any "related posts" listings.
+ * PostCard — bilingual blog post preview card for the blog index.
+ * Uses the pair_key as the canonical URL segment.
  */
 import type { CollectionEntry } from 'astro:content';
-import { localeFromPath, localisedUrl } from '@utils/i18n';
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  en?: CollectionEntry<'blog'>;
+  zh?: CollectionEntry<'blog'>;
+  pair_key: string;
 }
+const { en, zh, pair_key } = Astro.props;
 
-const { post } = Astro.props;
-const locale = localeFromPath(Astro.url.pathname);
+const primary = en ?? zh;
+if (!primary) throw new Error(`Empty pair for ${pair_key}`);
 
-const href = localisedUrl(`/blog/${post.data.pair_key}`, locale);
-
-const dateFormatter = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-Hant' : 'en-CA', {
+const dateEn = new Intl.DateTimeFormat('en-CA', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
   timeZone: 'UTC',
-});
+}).format(primary.data.date);
+const dateZh = new Intl.DateTimeFormat('zh-Hant', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(primary.data.date);
+
+const href = `/blog/${pair_key}`;
 ---
 <article class="post-card">
   <a class="post-card__link" href={href}>
-    <h3 class="post-card__title">{post.data.title}</h3>
+    <div class="post-card__titles">
+      {en && <h3 class="post-card__title" lang="en-CA">{en.data.title}</h3>}
+      {zh && <h3 class="post-card__title post-card__title--zh" lang="zh-Hant">{zh.data.title}</h3>}
+    </div>
+    <div class="post-card__summaries">
+      {en && <p lang="en-CA">{en.data.summary}</p>}
+      {zh && <p class="post-card__summary--zh" lang="zh-Hant">{zh.data.summary}</p>}
+    </div>
   </a>
-  <p class="post-card__summary">{post.data.summary}</p>
   <div class="post-card__meta">
-    <span class="label">{post.data.author}</span>
-    <span class="small">·</span>
-    <time datetime={post.data.date.toISOString()} class="small">
-      {dateFormatter.format(post.data.date)}
-    </time>
+    <span class="label">{primary.data.author}</span>
+    <span class="small" aria-hidden="true">·</span>
+    <time datetime={primary.data.date.toISOString()} class="small" lang="en-CA">{dateEn}</time>
+    <span class="small" aria-hidden="true">·</span>
+    <time datetime={primary.data.date.toISOString()} class="small" lang="zh-Hant">{dateZh}</time>
   </div>
 </article>
 
 <style>
 .post-card {
-  padding-block: var(--space-6);
+  padding-block: var(--space-8);
   border-bottom: 1px solid var(--border-default);
 }
 .post-card:last-child { border-bottom: 0; }
@@ -50,23 +64,45 @@ const dateFormatter = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-Hant' : 'en-
 }
 .post-card__link:hover .post-card__title { color: var(--text-brand); }
 
+.post-card__titles {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-3);
+}
+.post-card__summaries {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-3);
+}
+@media (min-width: 48rem) {
+  .post-card__titles,
+  .post-card__summaries {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
 .post-card__title {
   font-family: var(--font-display);
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
   font-weight: var(--fw-h3);
-  margin-bottom: var(--space-2);
   transition: color var(--duration-fast) var(--ease-out);
 }
-.post-card__summary {
+.post-card__title--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
+}
+.post-card__summary--zh {
+  font-family: var(--font-body);
   color: var(--text-secondary);
-  margin-bottom: var(--space-2);
-  max-width: 60ch;
 }
 .post-card__meta {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-wrap: wrap;
   color: var(--text-secondary);
 }
 </style>

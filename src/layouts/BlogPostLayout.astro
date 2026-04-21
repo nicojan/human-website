@@ -1,40 +1,40 @@
 ---
 /**
- * BlogPostLayout — wraps a blog post body.
- * Handles title, byline, date, and prose container. Linked from
- * /blog/[slug] routes in both locales.
+ * BlogPostLayout — bilingual blog post chrome.
+ *
+ * Renders EN and ZH side-by-side on wide viewports, stacked on narrow.
+ * Both languages share a single URL. Author, date, and JSON-LD derive
+ * from the EN entry (or ZH if EN missing).
  */
 import BaseLayout from './BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
-import { localeFromPath, localisedUrl } from '@utils/i18n';
-import { STRINGS } from '@i18n/strings';
+import { A11Y } from '@i18n/strings';
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  en?: CollectionEntry<'blog'>;
+  zh?: CollectionEntry<'blog'>;
 }
-const { post } = Astro.props;
-const locale = localeFromPath(Astro.url.pathname);
-const t = STRINGS[locale];
+const { en, zh } = Astro.props;
+const primary = en ?? zh;
+if (!primary) throw new Error('Blog post has no entries.');
 
-const dateFormatter = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-Hant' : 'en-CA', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
+const dateFmtEn = new Intl.DateTimeFormat('en-CA', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
 });
-
-const blogIndex = localisedUrl('/blog', locale);
+const dateFmtZh = new Intl.DateTimeFormat('zh-Hant', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
+});
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
-  headline: post.data.title,
-  description: post.data.summary,
-  datePublished: post.data.date.toISOString(),
-  dateModified: (post.data.updated ?? post.data.date).toISOString(),
+  headline: (en ?? zh)!.data.title,
+  description: (en ?? zh)!.data.summary,
+  datePublished: primary.data.date.toISOString(),
+  dateModified: (primary.data.updated ?? primary.data.date).toISOString(),
   author: {
     '@type': 'Person',
-    name: post.data.author,
+    name: primary.data.author,
     url: 'https://nicojan.com/',
   },
   publisher: {
@@ -45,7 +45,7 @@ const jsonLd = {
       url: new URL('/brand/human-icon-512x512.png', Astro.site ?? 'https://forhuman.ca').toString(),
     },
   },
-  inLanguage: locale === 'zh' ? 'zh-Hant' : 'en-CA',
+  inLanguage: ['en-CA', 'zh-Hant'],
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': new URL(Astro.url.pathname, Astro.site ?? 'https://forhuman.ca').toString(),
@@ -53,8 +53,8 @@ const jsonLd = {
 };
 ---
 <BaseLayout
-  title={post.data.title}
-  description={post.data.summary}
+  title={(en ?? zh)!.data.title}
+  description={(en ?? zh)!.data.summary}
 >
   <script
     is:inline
@@ -65,21 +65,44 @@ const jsonLd = {
   <article class="blog-post">
     <div class="container">
       <p class="blog-post__back">
-        <a href={blogIndex}>{t.a11y.backToBlog}</a>
+        <a href="/blog">
+          <span lang="en-CA">{A11Y.backToBlog.en}</span>
+          <span aria-hidden="true"> · </span>
+          <span lang="zh-Hant">{A11Y.backToBlog.zh}</span>
+        </a>
       </p>
       <header class="blog-post__header">
-        <h1 class="blog-post__title">{post.data.title}</h1>
-        <p class="blog-post__summary">{post.data.summary}</p>
+        <div class="blog-post__titles">
+          {en && <h1 class="blog-post__title" lang="en-CA">{en.data.title}</h1>}
+          {zh && <h1 class="blog-post__title blog-post__title--zh" lang="zh-Hant">{zh.data.title}</h1>}
+        </div>
+        <div class="blog-post__summaries">
+          {en && <p lang="en-CA">{en.data.summary}</p>}
+          {zh && <p class="blog-post__summary--zh" lang="zh-Hant">{zh.data.summary}</p>}
+        </div>
         <div class="blog-post__meta">
-          <span>{post.data.author}</span>
+          <span>{primary.data.author}</span>
           <span aria-hidden="true">·</span>
-          <time datetime={post.data.date.toISOString()}>
-            {dateFormatter.format(post.data.date)}
+          <time datetime={primary.data.date.toISOString()} lang="en-CA">
+            {dateFmtEn.format(primary.data.date)}
+          </time>
+          <span aria-hidden="true">·</span>
+          <time datetime={primary.data.date.toISOString()} lang="zh-Hant">
+            {dateFmtZh.format(primary.data.date)}
           </time>
         </div>
       </header>
-      <div class="blog-post__body prose">
-        <slot />
+      <div class="blog-post__body">
+        {en && (
+          <div class="blog-post__col prose" lang="en-CA">
+            <slot name="body-en" />
+          </div>
+        )}
+        {zh && (
+          <div class="blog-post__col blog-post__col--zh prose" lang="zh-Hant">
+            <slot name="body-zh" />
+          </div>
+        )}
       </div>
     </div>
   </article>
@@ -94,29 +117,66 @@ const jsonLd = {
   margin-bottom: var(--space-6);
 }
 .blog-post__header {
-  max-width: var(--content-width);
-  margin: 0 auto var(--space-10);
+  margin-bottom: var(--space-12);
+}
+.blog-post__titles {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-5);
+}
+.blog-post__summaries {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-5);
+}
+@media (min-width: 48rem) {
+  .blog-post__titles,
+  .blog-post__summaries {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+  }
 }
 .blog-post__title {
   font-family: var(--font-display);
-  font-size: var(--fs-display);
-  line-height: var(--lh-display);
-  letter-spacing: var(--ls-display);
-  font-weight: var(--fw-display);
-  margin-bottom: var(--space-4);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: var(--fw-h1);
 }
-.blog-post__summary {
+.blog-post__title--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
+}
+.blog-post__summaries p {
   font-size: var(--fs-body-lg);
   line-height: var(--lh-body-lg);
   color: var(--text-secondary);
-  margin-bottom: var(--space-5);
 }
+.blog-post__summary--zh { font-family: var(--font-body); }
 .blog-post__meta {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-wrap: wrap;
   color: var(--text-secondary);
   font-size: var(--fs-caption);
 }
-.blog-post__body { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+
+.blog-post__body {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 64rem) {
+  .blog-post__body {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+  }
+}
+.blog-post__col {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg);
+}
+.blog-post__col--zh { font-family: var(--font-body); }
 </style>

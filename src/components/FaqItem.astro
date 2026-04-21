@@ -1,24 +1,45 @@
 ---
 /**
- * FaqItem — a <details>/<summary> Q/A block.
- * Pure CSS + HTML; no JS needed. Keyboard-accessible by default.
- * Pass the rendered answer into the default slot (from Astro's content
- * collection Content component).
+ * FaqItem — a bilingual Q/A block. The disclosure summary shows the
+ * English question and the Chinese question side by side; the answer
+ * body renders both languages too.
+ *
+ * Slots:
+ *   - "answer-en"
+ *   - "answer-zh"
  */
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  item: CollectionEntry<'faq'>;
+  en?: CollectionEntry<'faq'>;
+  zh?: CollectionEntry<'faq'>;
+  pair_key: string;
 }
-const { item } = Astro.props;
+const { en, zh, pair_key } = Astro.props;
 ---
-<details class="faq-item" id={item.data.pair_key}>
+<details class="faq-item" id={pair_key}>
   <summary class="faq-item__summary">
-    <span class="faq-item__question">{item.data.question}</span>
+    <div class="faq-item__questions">
+      {en && (
+        <span class="faq-item__question" lang="en-CA">{en.data.question}</span>
+      )}
+      {zh && (
+        <span class="faq-item__question faq-item__question--zh" lang="zh-Hant">{zh.data.question}</span>
+      )}
+    </div>
     <span class="faq-item__icon" aria-hidden="true">+</span>
   </summary>
   <div class="faq-item__answer">
-    <slot />
+    {en && (
+      <div class="faq-item__answer-col" lang="en-CA">
+        <slot name="answer-en" />
+      </div>
+    )}
+    {zh && (
+      <div class="faq-item__answer-col faq-item__answer-col--zh" lang="zh-Hant">
+        <slot name="answer-zh" />
+      </div>
+    )}
   </div>
 </details>
 
@@ -30,9 +51,9 @@ const { item } = Astro.props;
 
 .faq-item__summary {
   list-style: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-4);
   padding-block: var(--space-5);
   cursor: pointer;
@@ -41,6 +62,19 @@ const { item } = Astro.props;
 .faq-item__summary::-webkit-details-marker { display: none; }
 .faq-item__summary:hover .faq-item__question { color: var(--text-brand); }
 
+.faq-item__questions {
+  display: grid;
+  gap: var(--space-1);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) {
+  .faq-item__questions {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    align-items: baseline;
+  }
+}
+
 .faq-item__question {
   font-family: var(--font-display);
   font-size: var(--fs-h4);
@@ -48,20 +82,38 @@ const { item } = Astro.props;
   line-height: var(--lh-h4);
   transition: color var(--duration-fast) var(--ease-out);
 }
+.faq-item__question--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
+}
 
 .faq-item__icon {
   font-size: var(--fs-h3);
   color: var(--text-brand);
   font-weight: var(--fw-body-bold);
-  flex-shrink: 0;
   transition: transform var(--duration-normal) var(--ease-out);
 }
 .faq-item[open] .faq-item__icon { transform: rotate(45deg); }
 
 .faq-item__answer {
-  padding-block: 0 var(--space-5);
-  max-width: 60ch;
-  color: var(--text-primary);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  padding-block: 0 var(--space-6);
 }
-.faq-item__answer :global(p + p) { margin-top: var(--space-3); }
+@media (min-width: 48rem) {
+  .faq-item__answer {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+.faq-item__answer-col :global(p + p) { margin-top: var(--space-3); }
+.faq-item__answer-col--zh {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+}
+@media (min-width: 48rem) {
+  .faq-item__answer-col--zh {
+    color: var(--text-primary);
+  }
+}
 </style>

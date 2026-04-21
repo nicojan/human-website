@@ -1,63 +1,60 @@
 ---
 /**
- * Header — site masthead with wordmark, nav, language switch.
+ * Header — bilingual masthead.
  *
- * On mobile the nav wraps to a second line; on wide viewports it sits
- * inline between the brand and the language switcher. No JS required.
+ * Layout mirrors the Class with Nico pattern adapted for Human: English
+ * nav links on the left, the Human wordmark in the centre, Chinese nav
+ * links on the right. No language toggle — both languages live on the
+ * same URL.
  */
 import Wordmark from './Wordmark.astro';
-import LangSwitch from './LangSwitch.astro';
-import { STRINGS, type Locale } from '@i18n/strings';
-import { localeFromPath, localisedUrl } from '@utils/i18n';
+import { NAV_ITEMS, A11Y } from '@i18n/strings';
 
-const locale: Locale = localeFromPath(Astro.url.pathname);
-const t = STRINGS[locale];
-
-const navItems = [
-  { href: '/',              label: t.nav.home },
-  { href: '/about',         label: t.nav.about },
-  { href: '/what-we-teach', label: t.nav.teach },
-  { href: '/blog',          label: t.nav.blog },
-  { href: '/faq',           label: t.nav.faq },
-  { href: '/useful-words',  label: t.nav.words },
-].map((item) => ({
-  ...item,
-  href: localisedUrl(item.href, locale),
-}));
-
-const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => {
   const normalised = href.replace(/\/$/, '') || '/';
-  return pathname === normalised;
+  return current === normalised;
 };
+
+const items = NAV_ITEMS;
 ---
 <header class="site-header">
   <div class="site-header__inner container">
-    <a
-      href={localisedUrl('/', locale)}
-      class="site-header__brand"
-      aria-label={`${t.brand.wordmark} ${t.brand.descriptor}`}
-    >
-      <Wordmark variant="colour-on-white" height={28} title="" />
-    </a>
-
-    <nav class="site-header__nav" aria-label={t.a11y.mainNav}>
+    <nav class="site-header__nav site-header__nav--en" aria-label={A11Y.mainNav.en} lang="en-CA">
       <ul role="list" class="site-header__nav-list">
-        {navItems.map((item) => (
+        {items.map((item) => (
           <li>
             <a
               href={item.href}
               class="site-header__nav-link"
               aria-current={isCurrent(item.href) ? 'page' : undefined}
-            >{item.label}</a>
+            >{item.en}</a>
           </li>
         ))}
       </ul>
     </nav>
 
-    <div class="site-header__right">
-      <LangSwitch />
-    </div>
+    <a
+      href="/"
+      class="site-header__brand"
+      aria-label="Human, an Education Collective / 人本・共學社"
+    >
+      <Wordmark variant="colour-on-white" height={32} title="" />
+    </a>
+
+    <nav class="site-header__nav site-header__nav--zh" aria-label={A11Y.mainNav.zh} lang="zh-Hant">
+      <ul role="list" class="site-header__nav-list">
+        {items.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="site-header__nav-link"
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >{item.zh}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </header>
 
@@ -71,25 +68,19 @@ const isCurrent = (href: string) => {
 }
 .site-header__inner {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  column-gap: var(--space-4);
-  row-gap: var(--space-2);
-  min-height: 64px;
+  gap: var(--space-4);
+  min-height: 72px;
   padding-block: var(--space-3);
 }
 .site-header__brand {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
+  justify-self: center;
   min-height: var(--touch-min);
 }
 .site-header__brand:hover { text-decoration: none; }
-.site-header__right {
-  display: flex;
-  align-items: center;
-  justify-self: end;
-}
 
 .site-header__nav-list {
   display: flex;
@@ -98,19 +89,31 @@ const isCurrent = (href: string) => {
   padding: 0;
   margin: 0;
   list-style: none;
-  justify-content: center;
 }
+.site-header__nav--en .site-header__nav-list { justify-content: flex-start; }
+.site-header__nav--zh .site-header__nav-list { justify-content: flex-end; }
 
 .site-header__nav-link {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-2);
   min-height: var(--touch-min);
   color: var(--text-primary);
   text-decoration: none;
-  font-size: var(--fs-caption);
+  font-size: var(--fs-label);
   font-weight: var(--fw-body-medium);
+  letter-spacing: 0.01em;
   border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+@media (min-width: 64rem) {
+  .site-header__nav-link {
+    padding-inline: var(--space-3);
+    font-size: var(--fs-caption);
+  }
+}
+.site-header__nav--zh .site-header__nav-link {
+  font-family: var(--font-body);
 }
 .site-header__nav-link:hover {
   background: var(--bg-surface);
@@ -122,20 +125,24 @@ const isCurrent = (href: string) => {
   border-radius: 0;
 }
 
-/* Narrow viewports: nav drops to its own row below brand/lang switch */
+/* On narrow viewports, nav bars collapse under the logo. The logo row
+ * comes first, EN nav second, ZH nav third. */
 @media (max-width: 47.99rem) {
   .site-header__inner {
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr;
     grid-template-areas:
-      'brand right'
-      'nav   nav';
+      'brand'
+      'nav-en'
+      'nav-zh';
+    justify-items: center;
+    gap: var(--space-2);
   }
   .site-header__brand { grid-area: brand; }
-  .site-header__right { grid-area: right; }
-  .site-header__nav { grid-area: nav; }
-  .site-header__nav-list {
-    justify-content: flex-start;
-    gap: var(--space-1);
+  .site-header__nav--en { grid-area: nav-en; }
+  .site-header__nav--zh { grid-area: nav-zh; }
+  .site-header__nav--en .site-header__nav-list,
+  .site-header__nav--zh .site-header__nav-list {
+    justify-content: center;
   }
 }
 </style>

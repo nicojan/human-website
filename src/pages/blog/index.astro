@@ -2,35 +2,79 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostCard from '@components/PostCard.astro';
-import { STRINGS } from '@i18n/strings';
+import { groupByPairKey } from '@utils/i18n';
 
-const t = STRINGS.en;
-
-const posts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
-posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const all = await getCollection('blog', ({ data }) => !data.draft);
+const pairs = groupByPairKey(all);
+pairs.sort((a, b) => {
+  const ad = (a.en ?? a.zh)!.data.date.valueOf();
+  const bd = (b.en ?? b.zh)!.data.date.valueOf();
+  return bd - ad;
+});
 ---
 <BaseLayout
-  title={t.nav.blog}
+  title="Blog"
   description="Writing from Nico Jan on literature, learning, and what it means to stay human while learning."
 >
   <section class="section">
     <div class="container prose">
-      <p class="label">{t.nav.blog}</p>
-      <h1>Writing from Nico Jan.</h1>
-      <p>
-        Notes on literature, on teaching, and on what it means to stay
-        human while learning. Published as they're ready.
-      </p>
-      {posts.length === 0 && (
+      <p class="label">Blog · 文章</p>
+      <div class="blog-heading">
+        <h1 lang="en-CA">Writing from Nico Jan.</h1>
+        <h1 class="blog-heading--zh" lang="zh-Hant">Nico Jan 的文字。</h1>
+      </div>
+      <div class="blog-lede">
+        <p lang="en-CA">
+          Notes on literature, on teaching, and on what it means to stay
+          human while learning. Published as they're ready.
+        </p>
+        <p class="blog-lede--zh" lang="zh-Hant">
+          談文學、談教書、談在學習的過程裡還能怎麼留住「人」的那部分。寫好了就貼上來。
+        </p>
+      </div>
+      {pairs.length === 0 && (
         <p class="caption">No posts yet. Check back soon.</p>
       )}
       <div class="post-list">
-        {posts.map((post) => <PostCard post={post} />)}
+        {pairs.map((pair) => <PostCard en={pair.en} zh={pair.zh} pair_key={pair.pair_key} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+.blog-heading,
+.blog-lede {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-4);
+}
+.blog-lede { margin-bottom: var(--space-10); }
+@media (min-width: 48rem) {
+  .blog-heading,
+  .blog-lede {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: baseline;
+  }
+}
+.blog-heading h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: var(--fw-h1);
+}
+.blog-heading--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
+}
+.blog-lede--zh {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+}
+@media (min-width: 48rem) {
+  .blog-lede--zh { color: var(--text-primary); }
+}
 .post-list { margin-top: var(--space-8); }
 </style>

@@ -1,13 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import HomeContent from '@components/content/HomeContent.astro';
-import { STRINGS } from '@i18n/strings';
-
-const t = STRINGS.en;
 ---
-<BaseLayout
-  title={t.meta.titleSuffix}
-  description={t.meta.siteDescription}
->
+<BaseLayout title="Human,">
   <HomeContent />
 </BaseLayout>

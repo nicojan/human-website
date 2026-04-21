@@ -1,30 +1,57 @@
 ---
 /**
- * ContactBlock — simple contact list rendered from i18n strings.
- * Shown on the homepage (#contact anchor) and linked from the footer.
- * No forms — just direct channels.
+ * ContactBlock — plain contact channels, bilingual labels.
+ *
+ * Email + direct social handles. Human, doesn't run its own support
+ * accounts yet; links go to Nico's personal socials where he responds
+ * about Human, work.
  */
-import { STRINGS, type Locale } from '@i18n/strings';
-import { localeFromPath } from '@utils/i18n';
+import { CONTACT_HEADING } from '@i18n/strings';
 
-const locale: Locale = localeFromPath(Astro.url.pathname);
-const t = STRINGS[locale];
+interface Channel {
+  label: { en: string; zh: string };
+  value: string;
+  href?: string;
+}
 
-const channels = [
-  { label: t.contact.labels.email,     value: t.contact.email, href: `mailto:${t.contact.email}` },
-  { label: t.contact.labels.whatsapp,  value: '@classwithnico', href: 'https://wa.me/message/WPWMHXAIHI5CI1' },
-  { label: t.contact.labels.instagram, value: '@classwithnico', href: 'https://instagram.com/classwithnico' },
-  { label: t.contact.labels.facebook,  value: '@classwithnico', href: 'https://m.me/classwithnico' },
-  { label: t.contact.labels.wechat,    value: 'classwithnico' },
+const EMAIL = 'hi@nicojan.com';
+
+const channels: Channel[] = [
+  {
+    label: { en: 'Email', zh: '電子郵件' },
+    value: EMAIL,
+    href: `mailto:${EMAIL}`,
+  },
+  {
+    label: { en: 'Instagram', zh: 'Instagram' },
+    value: '@nicoxjan',
+    href: 'https://instagram.com/nicoxjan',
+  },
+  {
+    label: { en: 'LinkedIn', zh: 'LinkedIn' },
+    value: 'Nico Jan',
+    href: 'https://www.linkedin.com/in/nicojan/',
+  },
+  {
+    label: { en: 'YouTube', zh: 'YouTube' },
+    value: '@nicoxjan',
+    href: 'https://www.youtube.com/@nicoxjan',
+  },
 ];
 ---
 <section id="contact" class="section contact">
   <div class="container">
-    <h2 class="h2">{t.contact.heading}</h2>
+    <div class="contact__heading">
+      <h2 lang="en-CA">{CONTACT_HEADING.en}</h2>
+      <h2 class="contact__heading--zh" lang="zh-Hant">{CONTACT_HEADING.zh}</h2>
+    </div>
     <ul role="list" class="contact__list">
       {channels.map((c) => (
         <li class="contact__row">
-          <span class="label">{c.label}</span>
+          <div class="contact__label">
+            <span class="label" lang="en-CA">{c.label.en}</span>
+            <span class="label contact__label--zh" lang="zh-Hant">{c.label.zh}</span>
+          </div>
           {c.href
             ? <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener' : undefined}>{c.value}</a>
             : <span>{c.value}</span>
@@ -36,22 +63,52 @@ const channels = [
 </section>
 
 <style>
-.contact h2 {
-  margin-bottom: var(--space-6);
+.contact__heading {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-8);
+}
+@media (min-width: 48rem) {
+  .contact__heading {
+    grid-template-columns: 1fr 1fr;
+    align-items: baseline;
+  }
+  .contact__heading--zh { text-align: end; }
+}
+.contact__heading h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+  font-weight: var(--fw-h2);
+}
+.contact__heading--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
 }
 .contact__list {
   display: grid;
   gap: var(--space-3);
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 .contact__row {
   display: grid;
-  grid-template-columns: minmax(6rem, max-content) 1fr;
+  grid-template-columns: minmax(8rem, max-content) 1fr;
   gap: var(--space-4);
   align-items: baseline;
-  padding-block: var(--space-2);
+  padding-block: var(--space-3);
   border-bottom: 1px solid var(--border-default);
 }
 .contact__row:last-child { border-bottom: 0; }
+.contact__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.contact__label--zh {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+}
 </style>

@@ -1,18 +1,22 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { groupByPairKey } from '@utils/i18n';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.data.pair_key },
-    props: { post },
+  const all = await getCollection('blog', ({ data }) => !data.draft);
+  const pairs = groupByPairKey(all);
+  return pairs.map((pair) => ({
+    params: { slug: pair.pair_key },
+    props: { pair },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { pair } = Astro.props;
+const EnContent = pair.en ? (await render(pair.en)).Content : null;
+const ZhContent = pair.zh ? (await render(pair.zh)).Content : null;
 ---
-<BlogPostLayout post={post}>
-  <Content />
+<BlogPostLayout en={pair.en} zh={pair.zh}>
+  {EnContent && <EnContent slot="body-en" />}
+  {ZhContent && <ZhContent slot="body-zh" />}
 </BlogPostLayout>

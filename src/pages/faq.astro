@@ -2,34 +2,45 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import FaqItem from '@components/FaqItem.astro';
-import { STRINGS } from '@i18n/strings';
+import { groupByPairKey } from '@utils/i18n';
 
-const t = STRINGS.en;
+const all = await getCollection('faq');
+const pairs = groupByPairKey(all);
 
-const entries = await getCollection('faq', ({ data }) => data.lang === 'en');
-entries.sort((a, b) => a.data.order - b.data.order);
+// Sort by order using whichever language is present.
+pairs.sort((a, b) => {
+  const ao = (a.en ?? a.zh)!.data.order;
+  const bo = (b.en ?? b.zh)!.data.order;
+  return ao - bo;
+});
 
-const rendered = await Promise.all(
-  entries.map(async (entry) => ({
-    entry,
-    Content: (await render(entry)).Content,
-  })),
-);
+// Pre-render the markdown bodies for every entry.
+const rendered = await Promise.all(pairs.map(async (pair) => ({
+  pair_key: pair.pair_key,
+  en: pair.en,
+  zh: pair.zh,
+  EnContent: pair.en ? (await render(pair.en)).Content : null,
+  ZhContent: pair.zh ? (await render(pair.zh)).Content : null,
+})));
 ---
 <BaseLayout
-  title={t.nav.faq}
-  description="Common questions about lessons, pricing, and how it all works."
+  title="FAQ"
+  description="Common questions about lessons, pricing, and how it all works — in English and Traditional Chinese."
 >
   <section class="section">
     <div class="container prose">
-      <h1>{t.nav.faq}</h1>
+      <div class="faq-heading">
+        <h1 lang="en-CA">FAQ</h1>
+        <h1 class="faq-heading--zh" lang="zh-Hant">常見問題</h1>
+      </div>
       {rendered.length === 0 && (
         <p>Questions and answers will appear here soon.</p>
       )}
       <div class="faq-list">
-        {rendered.map(({ entry, Content }) => (
-          <FaqItem item={entry}>
-            <Content />
+        {rendered.map(({ pair_key, en, zh, EnContent, ZhContent }) => (
+          <FaqItem en={en} zh={zh} pair_key={pair_key}>
+            {EnContent && <EnContent slot="answer-en" />}
+            {ZhContent && <ZhContent slot="answer-zh" />}
           </FaqItem>
         ))}
       </div>
@@ -38,5 +49,28 @@ const rendered = await Promise.all(
 </BaseLayout>
 
 <style>
-.faq-list { margin-top: var(--space-8); }
+.faq-heading {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-8);
+}
+@media (min-width: 48rem) {
+  .faq-heading {
+    grid-template-columns: 1fr 1fr;
+    align-items: baseline;
+  }
+  .faq-heading--zh { text-align: end; }
+}
+.faq-heading h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: var(--fw-h1);
+}
+.faq-heading--zh {
+  font-family: 'Noto Serif TC', ui-serif, serif;
+}
+.faq-list { margin-top: var(--space-6); }
 </style>

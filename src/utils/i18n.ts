@@ -1,56 +1,35 @@
 /*
- * i18n.ts — helpers for locale-aware URLs and translation pairing.
+ * i18n.ts — helpers for working with bilingual content.
+ *
+ * The site is bilingual on every URL (no /zh/ route tree). This module
+ * mostly exists to keep pair_key lookups tidy. It intentionally exports
+ * nothing locale-related; every page shows both languages.
  */
-import type { Locale } from '@i18n/strings';
-import { DEFAULT_LOCALE } from '@i18n/strings';
+import type { CollectionEntry } from 'astro:content';
 
-/**
- * Resolve the current locale from a URL pathname. Defaults to `en` for any
- * path that does not start with `/zh/`.
- */
-export function localeFromPath(pathname: string): Locale {
-  return pathname === '/zh' || pathname.startsWith('/zh/') ? 'zh' : 'en';
+type Collection = 'blog' | 'faq' | 'useful_words';
+
+export interface BilingualPair<C extends Collection> {
+  pair_key: string;
+  en?: CollectionEntry<C>;
+  zh?: CollectionEntry<C>;
 }
 
 /**
- * Build a URL in the target locale for a given canonical path.
- * `path` should be the EN-canonical path (e.g. '/about', '/blog/welcome').
- * Returns '/zh/about', '/zh/blog/welcome', etc. for the ZH locale.
+ * Group collection entries by pair_key so each pair can render as one
+ * bilingual unit. Entries without a partner in the other language still
+ * render — the missing side is simply absent.
  */
-export function localisedUrl(path: string, locale: Locale): string {
-  const clean = path.startsWith('/') ? path : `/${path}`;
-  if (locale === DEFAULT_LOCALE) return clean === '/index' ? '/' : clean;
-  return clean === '/' ? '/zh/' : `/zh${clean}`;
-}
-
-/**
- * Strip the `/zh` prefix from a pathname, returning the canonical EN path.
- */
-export function canonicalPath(pathname: string): string {
-  if (pathname === '/zh' || pathname === '/zh/') return '/';
-  if (pathname.startsWith('/zh/')) return pathname.slice(3);
-  return pathname;
-}
-
-/**
- * Return the sibling-locale URL for the current path.
- */
-export function alternateLocaleUrl(pathname: string): string {
-  const current = localeFromPath(pathname);
-  const canonical = canonicalPath(pathname);
-  return localisedUrl(canonical, current === 'en' ? 'zh' : 'en');
-}
-
-/**
- * hreflang entries for <head>.
- */
-export function hreflangEntries(pathname: string): Array<{ href: string; hreflang: string }> {
-  const canonical = canonicalPath(pathname);
-  const enUrl = localisedUrl(canonical, 'en');
-  const zhUrl = localisedUrl(canonical, 'zh');
-  return [
-    { href: enUrl, hreflang: 'en-CA' },
-    { href: zhUrl, hreflang: 'zh-Hant' },
-    { href: enUrl, hreflang: 'x-default' },
-  ];
+export function groupByPairKey<C extends Collection>(
+  entries: CollectionEntry<C>[],
+): BilingualPair<C>[] {
+  const byKey = new Map<string, BilingualPair<C>>();
+  for (const entry of entries) {
+    const key = entry.data.pair_key;
+    const existing = byKey.get(key) ?? { pair_key: key };
+    if (entry.data.lang === 'en') existing.en = entry;
+    else if (entry.data.lang === 'zh') existing.zh = entry;
+    byKey.set(key, existing);
+  }
+  return [...byKey.values()];
 }

@@ -1,7 +1,11 @@
 ---
 /**
  * BaseLayout — root layout for every page.
- * Sets <html lang>, loads fonts, wires header + footer, renders skip link.
+ *
+ * The site is bilingual on every URL, so the `<html lang>` attribute
+ * represents the *primary* language of the document chrome (English);
+ * inline content in the other language is tagged with lang attributes
+ * on the element that holds it.
  */
 import '@styles/tokens.css';
 import '@styles/reset.css';
@@ -9,42 +13,26 @@ import '@styles/global.css';
 
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import { STRINGS, HTML_LANG, type Locale } from '@i18n/strings';
-import { localeFromPath, hreflangEntries } from '@utils/i18n';
+import { SITE_DESCRIPTION, A11Y } from '@i18n/strings';
 
 interface Props {
   title: string;
   description?: string;
-  /** Override canonical URL if needed. */
   canonical?: string;
-  /** Class applied to <main>. */
   mainClass?: string;
-  /** Optional OG image override (absolute URL or /public path). */
   ogImage?: string;
 }
 
 const { title, description, canonical, mainClass, ogImage } = Astro.props;
 
-const locale: Locale = localeFromPath(Astro.url.pathname);
-const t = STRINGS[locale];
-const htmlLang = HTML_LANG[locale];
-
-const pageTitle = title === t.meta.titleSuffix
-  ? title
-  : `${title} — ${t.meta.titleSuffix}`;
-
-const pageDesc = description ?? t.meta.siteDescription;
+const pageTitle = title === 'Human,' ? title : `${title} — Human,`;
+const pageDesc = description ?? SITE_DESCRIPTION.en;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'https://forhuman.ca').toString();
 const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? 'https://forhuman.ca').toString();
-
-const hreflangs = hreflangEntries(Astro.url.pathname).map((h) => ({
-  ...h,
-  href: new URL(h.href, Astro.site ?? 'https://forhuman.ca').toString(),
-}));
 ---
 <!doctype html>
-<html lang={htmlLang}>
+<html lang="en-CA">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,9 +42,6 @@ const hreflangs = hreflangEntries(Astro.url.pathname).map((h) => ({
   <title>{pageTitle}</title>
   <meta name="description" content={pageDesc} />
   <link rel="canonical" href={canonicalUrl} />
-  {hreflangs.map((h) => (
-    <link rel="alternate" hreflang={h.hreflang} href={h.href} />
-  ))}
 
   <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
@@ -68,8 +53,8 @@ const hreflangs = hreflangEntries(Astro.url.pathname).map((h) => ({
   <meta property="og:description" content={pageDesc} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImg} />
-  <meta property="og:locale" content={htmlLang.replace('-', '_')} />
-  <meta property="og:locale:alternate" content={locale === 'en' ? 'zh_Hant' : 'en_CA'} />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:locale:alternate" content="zh_Hant" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDesc} />
@@ -86,7 +71,7 @@ const hreflangs = hreflangEntries(Astro.url.pathname).map((h) => ({
 </head>
 <body>
   <div class="page">
-    <a href="#main" class="skip-link">{t.a11y.skipToContent}</a>
+    <a href="#main" class="skip-link" lang="en-CA">{A11Y.skipToContent.en}</a>
     <Header />
     <main id="main" class={mainClass}>
       <slot />

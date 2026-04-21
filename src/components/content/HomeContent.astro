@@ -1,8 +1,10 @@
 ---
 /**
- * HomeContent — bilingual homepage body, rendered on both /en and /zh paths.
- * The page-level locale only changes <html lang>, header, and footer strings;
- * the editorial body stays the same bilingual pairing.
+ * HomeContent — the bilingual homepage body.
+ *
+ * Each narrative section pairs English text + video on the left with a
+ * vertical Traditional Chinese column on the right. The universities
+ * section is also bilingual but stacks the copy above the logo grid.
  */
 import ApproachSection from '@components/ApproachSection.astro';
 import UniversityGrid from '@components/UniversityGrid.astro';
@@ -21,15 +23,17 @@ import ContactBlock from '@components/ContactBlock.astro';
       based out of Vancouver.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/showreel.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/showreel.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <p class="label">人本・共學社</p>
-    <h1 class="display">
+    <h2 class="display">
       陪學生把思緒想清楚、把文本讀進去、把文字寫得有力。
-    </h1>
-    <p class="body-lg">
-      我是 Nico Jan。在「人本・共學社」這個名字之下，我陪學生讀英文文學、學寫作、練批判思考。
-      我們練的是怎麼想事情，而不是只記住別人怎麼想。
-      一對一，全線上，從溫哥華出發。
+    </h2>
+    <p>
+      我是 Nico Jan。在「人本・共學社」這個名字之下，我陪學生讀英文文學、學寫作、練批判思考。我們練的是怎麼想事情，而不是只記住別人怎麼想。一對一，全線上，從溫哥華出發。
     </p>
   </div>
 </ApproachSection>
@@ -38,17 +42,19 @@ import ContactBlock from '@components/ContactBlock.astro';
   <div slot="en">
     <h2>Curiosity first. Answers later.</h2>
     <p>
-      When the answer is a click away, the muscle that lets a child wonder is
-      the one that atrophies. So we ask first. We get stuck. We revise.
+      When the answer is a click away, the muscle that lets a child wonder
+      is the one that atrophies. So we ask first. We get stuck. We revise.
       Real thinking lives in that process, and no machine can do it for you.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/progress.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/progress.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <h2>先好奇，再找答案。</h2>
     <p>
-      當答案只要一鍵就能查到，學生原本該有的「想」的力氣最容易鬆掉。
-      所以我們先問問題，允許自己卡住，然後再修。
-      真正的思考，就在這個過程裡發生，沒有機器能替學生做這件事。
+      當答案只要一鍵就能查到，學生原本該有的「想」的力氣最容易鬆掉。所以我們先問問題，允許自己卡住，然後再修。真正的思考，就在這個過程裡發生，沒有機器能替學生做這件事。
     </p>
   </div>
 </ApproachSection>
@@ -62,12 +68,14 @@ import ContactBlock from '@components/ContactBlock.astro';
       moved forward, and what's next. Nothing is a guess.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/close-reading.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/close-reading.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <h2>每週都看得見的進展。</h2>
     <p>
-      我們一起定長期目標，也定每週的小目標，全部攤在共享看板上。
-      學生和家長都能清楚看到：這週做了什麼，哪裡往前推了一步，下週做什麼。
-      不用猜。
+      我們一起定長期目標，也定每週的小目標，全部攤在共享看板上。學生和家長都能清楚看到：這週做了什麼，哪裡往前推了一步，下週做什麼。不用猜。
     </p>
   </div>
 </ApproachSection>
@@ -81,11 +89,14 @@ import ContactBlock from '@components/ContactBlock.astro';
       Arguments turn into clear writing.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/world-connection.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/world-connection.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <h2>我們細讀文本，也把想法說出來。</h2>
     <p>
-      小說、散文、圖像文本，我們在共享文件裡一起標註，把「看到什麼」講出來。
-      觀察變成論點，論點再變成清楚的文字。
+      小說、散文、圖像文本，我們在共享文件裡一起標註，把「看到什麼」講出來。觀察變成論點，論點再變成清楚的文字。
     </p>
   </div>
 </ApproachSection>
@@ -100,12 +111,14 @@ import ContactBlock from '@components/ContactBlock.astro';
       and beyond.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/research.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/research.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <h2>能帶進大學的研究習慣。</h2>
     <p>
-      學生學會用學術資料庫查資料、管理出處、正確引用。
-      到了申請大學的時候，他們是用證據寫作，不是憑感覺。
-      這個底子會一路跟著他們走到大一，甚至更遠。
+      學生學會用學術資料庫查資料、管理出處、正確引用。到了申請大學的時候，他們是用證據寫作，不是憑感覺。這個底子會一路跟著他們走到大一，甚至更遠。
     </p>
   </div>
 </ApproachSection>
@@ -118,6 +131,10 @@ import ContactBlock from '@components/ContactBlock.astro';
       clear goals, and use each one to build what the next one needs.
     </p>
   </div>
+  <video slot="video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+    <source src="/videos/production.av1.mp4" type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src="/videos/production.h264.mp4" type='video/mp4; codecs="avc1.64001F"' />
+  </video>
   <div slot="zh">
     <h2>動手做，能力才會扎下來。</h2>
     <p>
@@ -126,41 +143,59 @@ import ContactBlock from '@components/ContactBlock.astro';
   </div>
 </ApproachSection>
 
-<section class="section section--warm" aria-labelledby="universities-heading">
+<section class="section section--warm universities" aria-labelledby="universities-heading">
   <div class="container">
-    <div class="universities__layout">
-      <div class="universities__copy" lang="en-CA">
+    <div class="universities__intro">
+      <div lang="en-CA">
         <h2 id="universities-heading">Where students go next.</h2>
         <p>
           Students have gone on to study at these universities, in subjects
           from humanities to engineering to the sciences.
         </p>
       </div>
-      <div class="universities__copy" lang="zh-Hant">
+      <div class="universities__intro-zh" lang="zh-Hant">
         <h2>學生的下一站。</h2>
         <p>
           以下是部分學生就讀的大學，科系橫跨人文、工程、商學、到各領域理科。
         </p>
       </div>
     </div>
-    <div class="universities__grid">
-      <UniversityGrid />
-    </div>
+    <UniversityGrid />
   </div>
 </section>
 
 <ContactBlock />
 
 <style>
-.universities__layout {
+.universities__intro {
   display: grid;
   gap: var(--space-6);
   grid-template-columns: 1fr;
   margin-bottom: var(--space-10);
 }
 @media (min-width: 48rem) {
-  .universities__layout { grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  .universities__intro {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-10);
+    align-items: start;
+  }
+  .universities__intro-zh {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    max-height: 24rem;
+    min-height: 16rem;
+    padding-inline-start: var(--space-4);
+    border-inline-start: 1px solid var(--border-default);
+    font-family: var(--font-body);
+  }
+  .universities__intro-zh :global(h2) {
+    font-family: 'Noto Serif TC', ui-serif, serif;
+    font-weight: var(--fw-body-bold);
+    line-height: 1.5;
+  }
+  .universities__intro-zh :global(p) {
+    line-height: 1.9;
+    letter-spacing: 0.08em;
+  }
 }
-.universities__copy > h2 { margin-bottom: var(--space-3); }
-.universities__grid { margin-top: var(--space-6); }
 </style>
