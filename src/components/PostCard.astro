@@ -5,7 +5,6 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { localeFromPath, localisedUrl } from '@utils/i18n';
-import { STRINGS } from '@i18n/strings';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -13,7 +12,6 @@ interface Props {
 
 const { post } = Astro.props;
 const locale = localeFromPath(Astro.url.pathname);
-const t = STRINGS[locale];
 
 const href = localisedUrl(`/blog/${post.data.pair_key}`, locale);
 
@@ -21,6 +19,7 @@ const dateFormatter = new Intl.DateTimeFormat(locale === 'zh' ? 'zh-Hant' : 'en-
   year: 'numeric',
   month: 'long',
   day: 'numeric',
+  timeZone: 'UTC',
 });
 ---
 <article class="post-card">

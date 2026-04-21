@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PrivacyContent from '@components/content/PrivacyContent.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.zh;
+---
+<BaseLayout
+  title={t.footer.privacy}
+  description="「人本・共學社」會收集哪些資料、不會收集哪些、以及您的權利。"
+>
+  <PrivacyContent />
+</BaseLayout>

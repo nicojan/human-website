@@ -8,12 +8,16 @@
     "node": ">=18.17.1"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check",
+    "dev": "node scripts/sandbox.mjs dev",
+    "dev:raw": "astro dev",
+    "start": "node scripts/sandbox.mjs dev",
+    "build": "node scripts/sandbox.mjs build",
+    "build:raw": "astro build",
+    "preview": "node scripts/sandbox.mjs preview",
+    "check": "node scripts/sandbox.mjs check",
+    "check:raw": "astro check",
     "humanize": "node scripts/humanize.mjs",
+    "humanize:check": "node scripts/humanize.mjs --check",
     "astro": "astro"
   },
   "dependencies": {

@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import AboutContent from '@components/content/AboutContent.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.en;
+---
+<BaseLayout
+  title={t.nav.about}
+  description="Why Human, exists, what we believe, and a note from Nico."
+>
+  <AboutContent />
+</BaseLayout>

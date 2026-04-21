@@ -1,0 +1,129 @@
+---
+/**
+ * AboutContent — bilingual About body. Rendered on /about and /zh/about.
+ *
+ * Captures the origin story (why Human, exists), the four-pillar philosophy,
+ * and a short note from Nico.
+ */
+import ApproachSection from '@components/ApproachSection.astro';
+---
+<ApproachSection background="warm">
+  <div slot="en">
+    <p class="label">About</p>
+    <h1>An education collective for the age of AI.</h1>
+    <p class="body-lg">
+      In the age of AI, the most important question in education is no longer
+      what children learn but how they stay human while learning. Human, is
+      our answer.
+    </p>
+  </div>
+  <div slot="zh">
+    <p class="label">關於</p>
+    <h1>為 AI 時代而生的共學社。</h1>
+    <p class="body-lg">
+      在 AI 的時代，教育最重要的問題已經不是孩子學什麼，而是他們在學習的過程裡，還能保有多少人的樣子。
+      「人本」就是我們的回答。
+    </p>
+  </div>
+</ApproachSection>
+
+<ApproachSection>
+  <div slot="en">
+    <h2>Why "Human,"?</h2>
+    <p>
+      The comma is doing work. It's an opening, not a period. Being human
+      is the beginning of something, not the end of a sentence. Everything
+      we teach sits under that comma.
+    </p>
+    <p>
+      The Chinese name is 人本・共學社. 人本 means human-centred, the human
+      as the foundation of learning. 共學 means learning together. 社
+      means a community with shared purpose.
+    </p>
+  </div>
+  <div slot="zh">
+    <h2>為什麼叫「Human,」？</h2>
+    <p>
+      那個逗號不是裝飾。它是一個開口，不是句點。「成為人」是開端，不是結尾。
+      我們教的每一件事，都立在那個逗號底下。
+    </p>
+    <p>
+      中文名「人本・共學社」，三個字各有分量：人本，是以人為本；共學，是一起學；社，是有共同目標的群體。
+    </p>
+  </div>
+</ApproachSection>
+
+<ApproachSection background="surface">
+  <div slot="en">
+    <h2>What we believe.</h2>
+    <p>
+      <strong>Process over product.</strong> We care more about the act of
+      inquiry than the correct answer. Wonder, struggle, revise.
+    </p>
+    <p>
+      <strong>Love is infrastructure.</strong> Children learn differently
+      when they are deeply known. The relationship between teacher and
+      student is not a soft benefit. It is the foundation everything is
+      built on.
+    </p>
+    <p>
+      <strong>Human first, tools second.</strong> Technology is welcome
+      when it serves human development. We refuse it when it replaces the
+      struggle that builds understanding.
+    </p>
+    <p>
+      <strong>Learning is communal.</strong> The word "collective" is
+      deliberate. Education happens between people, not between a person
+      and a screen, and not in isolation.
+    </p>
+  </div>
+  <div slot="zh">
+    <h2>我們相信的事。</h2>
+    <p>
+      <strong>過程，比結果重要。</strong>我們在乎的是「想」的過程，而不是交出一個正確答案。
+      好奇、卡住、修過去，才是真功夫。
+    </p>
+    <p>
+      <strong>愛是基礎設施。</strong>被深深認識的孩子，學習方式會不一樣。
+      師生之間的關係不是加分項，而是整個教學的根。
+    </p>
+    <p>
+      <strong>先有人，再有工具。</strong>當科技能幫助人成長，我們歡迎它。
+      當它拿走了那段「卡住又想通」的過程，我們拒絕它。
+    </p>
+    <p>
+      <strong>學習是共同的事。</strong>「共學社」這三個字是認真選的。
+      教育發生在人與人之間，不是人與螢幕之間，也不是一個人悶著頭學出來。
+    </p>
+  </div>
+</ApproachSection>
+
+<ApproachSection>
+  <div slot="en">
+    <h2>A note from Nico.</h2>
+    <p>
+      I've been a teacher long enough to know what I don't want to be. I
+      don't want to be the person who hands a child an answer before they've
+      had a chance to chase it. I don't want to be the one who grades a draft
+      without reading it twice.
+    </p>
+    <p>
+      Human, is the way I wish I'd been taught. It's also the way I think
+      students need to be taught now, when a machine can write a passable
+      essay in seconds. My job is to help students want to write a better one.
+    </p>
+  </div>
+  <div slot="zh">
+    <h2>來自 Nico 的一點話。</h2>
+    <p>
+      我當老師夠久了，久到很清楚我不想變成哪一種老師。
+      我不想當那個在孩子還沒有機會追問之前，就把答案遞過去的人。
+      我不想當那個草草看一次文章就給分的人。
+    </p>
+    <p>
+      「人本」是我希望當年有人這樣教我。
+      也是我相信在 AI 幾秒能寫出過得去的文章的今天，學生真正需要的教法。
+      我的工作，是讓學生自己想寫出更好的那一篇。
+    </p>
+  </div>
+</ApproachSection>

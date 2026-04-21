@@ -85,6 +85,63 @@ h4, .h4 {
 }
 
 /* ============================================================
+ * Default content rhythm
+ *
+ * Applied to every element inside a content slot unless overridden.
+ * Keeps the spacing consistent even when slot content is wrapped in
+ * arbitrary divs. Components can opt out by setting margin explicitly.
+ * ============================================================ */
+
+h1 + p,
+h1 + ul,
+h1 + ol,
+h1 + blockquote,
+h1 + pre,
+h2 + p,
+h2 + ul,
+h2 + ol,
+h2 + blockquote,
+h2 + pre,
+h3 + p,
+h3 + ul,
+h3 + ol,
+h4 + p,
+.display + p {
+  margin-top: var(--space-4);
+}
+
+.label + h1,
+.label + h2,
+.label + h3,
+.label + .display,
+.label + p {
+  margin-top: var(--space-2);
+}
+
+p + p,
+p + ul,
+p + ol,
+p + blockquote,
+ul + p,
+ol + p,
+blockquote + p {
+  margin-top: var(--space-4);
+}
+
+p + h1,
+p + h2,
+p + h3,
+p + h4,
+ul + h2,
+ul + h3,
+ol + h2,
+ol + h3,
+blockquote + h2,
+blockquote + h3 {
+  margin-top: var(--space-10);
+}
+
+/* ============================================================
  * Links
  * ============================================================ */
 

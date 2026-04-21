@@ -5,7 +5,6 @@
  * no direct translation exists for the current path.
  */
 import { alternateLocaleUrl, localeFromPath } from '@utils/i18n';
-import { STRINGS } from '@i18n/strings';
 
 const pathname = Astro.url.pathname;
 const current = localeFromPath(pathname);
@@ -13,14 +12,14 @@ const target = current === 'en' ? 'zh' : 'en';
 const href = alternateLocaleUrl(pathname);
 
 // Link text uses the target locale's native name so it reads naturally
-// to a speaker of that language.
+// to a speaker of that language. No aria-label: the visible text is the
+// label, and adding a differing aria-label would trip the a11y
+// "label-content-name-mismatch" check.
 const label = target === 'zh' ? '繁體中文' : 'English';
-const a11y = STRINGS[current].a11y.languageSwitcher;
 ---
 <a
   href={href}
   class="lang-switch"
-  aria-label={a11y}
   hreflang={target === 'zh' ? 'zh-Hant' : 'en-CA'}
   lang={target === 'zh' ? 'zh-Hant' : 'en-CA'}
 >{label}</a>

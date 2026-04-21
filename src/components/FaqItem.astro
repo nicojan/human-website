@@ -2,21 +2,24 @@
 /**
  * FaqItem — a <details>/<summary> Q/A block.
  * Pure CSS + HTML; no JS needed. Keyboard-accessible by default.
+ * Pass the rendered answer into the default slot (from Astro's content
+ * collection Content component).
  */
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   item: CollectionEntry<'faq'>;
-  renderedAnswer: string;
 }
-const { item, renderedAnswer } = Astro.props;
+const { item } = Astro.props;
 ---
 <details class="faq-item" id={item.data.pair_key}>
   <summary class="faq-item__summary">
     <span class="faq-item__question">{item.data.question}</span>
     <span class="faq-item__icon" aria-hidden="true">+</span>
   </summary>
-  <div class="faq-item__answer" set:html={renderedAnswer} />
+  <div class="faq-item__answer">
+    <slot />
+  </div>
 </details>
 
 <style>

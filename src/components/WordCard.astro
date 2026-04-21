@@ -1,14 +1,14 @@
 ---
 /**
  * WordCard — single glossary entry used on the Useful Words page.
+ * Long-form context (optional) is passed through the default slot.
  */
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   word: CollectionEntry<'useful_words'>;
-  renderedBody?: string;
 }
-const { word, renderedBody } = Astro.props;
+const { word } = Astro.props;
 ---
 <article class="word-card" id={word.data.pair_key}>
   <header class="word-card__header">
@@ -24,7 +24,9 @@ const { word, renderedBody } = Astro.props;
   {word.data.etymology && (
     <p class="word-card__etymology"><span class="label">Etymology</span> {word.data.etymology}</p>
   )}
-  {renderedBody && <div class="word-card__body" set:html={renderedBody} />}
+  <div class="word-card__body">
+    <slot />
+  </div>
 </article>
 
 <style>
@@ -67,4 +69,5 @@ const { word, renderedBody } = Astro.props;
 }
 .word-card__etymology .label { margin-inline-end: var(--space-2); }
 .word-card__body { margin-top: var(--space-3); color: var(--text-secondary); }
+.word-card__body:empty { display: none; }
 </style>

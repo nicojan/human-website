@@ -2,9 +2,8 @@
 /**
  * Header — site masthead with wordmark, nav, language switch.
  *
- * On mobile (<640px), the nav collapses into a CSS-only <details>
- * disclosure so it stays accessible without JS. On ≥640px the nav is
- * inline.
+ * On mobile the nav wraps to a second line; on wide viewports it sits
+ * inline between the brand and the language switcher. No JS required.
  */
 import Wordmark from './Wordmark.astro';
 import LangSwitch from './LangSwitch.astro';
@@ -43,20 +42,17 @@ const isCurrent = (href: string) => {
     </a>
 
     <nav class="site-header__nav" aria-label={t.a11y.mainNav}>
-      <details class="site-header__disclosure">
-        <summary>{t.nav.home === '首頁' ? '選單' : 'Menu'}</summary>
-        <ul role="list" class="site-header__nav-list">
-          {navItems.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="site-header__nav-link"
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-              >{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </details>
+      <ul role="list" class="site-header__nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="site-header__nav-link"
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
     </nav>
 
     <div class="site-header__right">
@@ -74,10 +70,11 @@ const isCurrent = (href: string) => {
   z-index: 10;
 }
 .site-header__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
   min-height: 64px;
   padding-block: var(--space-3);
 }
@@ -87,63 +84,31 @@ const isCurrent = (href: string) => {
   text-decoration: none;
   min-height: var(--touch-min);
 }
-.site-header__brand:hover {
-  text-decoration: none;
-}
+.site-header__brand:hover { text-decoration: none; }
 .site-header__right {
   display: flex;
   align-items: center;
-}
-
-/* Mobile — <details> disclosure */
-.site-header__disclosure > summary {
-  list-style: none;
-  cursor: pointer;
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--fs-label);
-  letter-spacing: var(--ls-label);
-  font-weight: var(--fw-body-bold);
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  min-height: var(--touch-min);
-  display: inline-flex;
-  align-items: center;
-  border-radius: var(--radius-sm);
-}
-.site-header__disclosure > summary::-webkit-details-marker {
-  display: none;
-}
-.site-header__disclosure > summary:hover {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-}
-.site-header__disclosure[open] > summary {
-  background: var(--bg-surface);
-  color: var(--text-primary);
+  justify-self: end;
 }
 
 .site-header__nav-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-1);
-  padding: var(--space-4);
-  position: absolute;
-  inset-inline: 0;
-  background: var(--bg-canvas);
-  border-bottom: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-}
-
-.site-header__disclosure:not([open]) .site-header__nav-list {
-  display: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  justify-content: center;
 }
 
 .site-header__nav-link {
-  display: block;
-  padding: var(--space-3) var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
   min-height: var(--touch-min);
   color: var(--text-primary);
   text-decoration: none;
+  font-size: var(--fs-caption);
   font-weight: var(--fw-body-medium);
   border-radius: var(--radius-sm);
 }
@@ -152,31 +117,25 @@ const isCurrent = (href: string) => {
   text-decoration: none;
 }
 .site-header__nav-link[aria-current='page'] {
-  color: var(--text-brand);
+  color: var(--text-primary);
+  box-shadow: inset 0 -2px 0 var(--action-primary);
+  border-radius: 0;
 }
 
-/* Desktop — inline nav */
-@media (min-width: 40rem) {
-  .site-header__disclosure > summary {
-    display: none;
+/* Narrow viewports: nav drops to its own row below brand/lang switch */
+@media (max-width: 47.99rem) {
+  .site-header__inner {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      'brand right'
+      'nav   nav';
   }
-  .site-header__disclosure[open] > summary {
-    display: none;
-  }
-  .site-header__nav-list,
-  .site-header__disclosure:not([open]) .site-header__nav-list {
-    display: flex;
-    flex-direction: row;
+  .site-header__brand { grid-area: brand; }
+  .site-header__right { grid-area: right; }
+  .site-header__nav { grid-area: nav; }
+  .site-header__nav-list {
+    justify-content: flex-start;
     gap: var(--space-1);
-    padding: 0;
-    position: static;
-    inset-inline: auto;
-    background: transparent;
-    border-bottom: 0;
-    box-shadow: none;
-  }
-  .site-header__nav-link {
-    font-size: var(--fs-caption);
   }
 }
 </style>

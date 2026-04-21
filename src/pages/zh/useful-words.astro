@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import WordCard from '@components/WordCard.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.zh;
+
+const entries = await getCollection('useful_words', ({ data }) => data.lang === 'zh');
+entries.sort((a, b) => a.data.term.localeCompare(b.data.term, 'zh-Hant'));
+
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+---
+<BaseLayout
+  title={t.nav.words}
+  description="一本慢慢累積的小詞典，收錄課堂上值得留下來的字、概念、與思考習慣。"
+>
+  <section class="section">
+    <div class="container prose">
+      <p class="label">{t.nav.words}</p>
+      <h1>字詞筆記。</h1>
+      <p>
+        這是一本慢慢累積的小詞典，收錄課堂上出現、值得留在身邊的字、概念、與思考習慣。
+        有一個寫一個。
+      </p>
+      {rendered.length === 0 && (
+        <p class="caption">尚未收錄任何字詞。</p>
+      )}
+      <div class="words-list">
+        {rendered.map(({ entry, Content }) => (
+          <WordCard word={entry}>
+            <Content />
+          </WordCard>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.words-list { margin-top: var(--space-8); }
+</style>

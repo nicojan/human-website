@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostCard from '@components/PostCard.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.en;
+
+const posts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
+posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout
+  title={t.nav.blog}
+  description="Writing from Nico Jan on literature, learning, and what it means to stay human while learning."
+>
+  <section class="section">
+    <div class="container prose">
+      <p class="label">{t.nav.blog}</p>
+      <h1>Writing from Nico Jan.</h1>
+      <p>
+        Notes on literature, on teaching, and on what it means to stay
+        human while learning. Published as they're ready.
+      </p>
+      {posts.length === 0 && (
+        <p class="caption">No posts yet. Check back soon.</p>
+      )}
+      <div class="post-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.post-list { margin-top: var(--space-8); }
+</style>

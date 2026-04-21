@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PrivacyContent from '@components/content/PrivacyContent.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.en;
+---
+<BaseLayout
+  title={t.footer.privacy}
+  description="What Human, collects, what we don't, and your rights."
+>
+  <PrivacyContent />
+</BaseLayout>

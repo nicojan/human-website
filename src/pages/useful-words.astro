@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import WordCard from '@components/WordCard.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.en;
+
+const entries = await getCollection('useful_words', ({ data }) => data.lang === 'en');
+entries.sort((a, b) => a.data.term.localeCompare(b.data.term));
+
+const rendered = await Promise.all(
+  entries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+---
+<BaseLayout
+  title={t.nav.words}
+  description="A growing glossary of words, ideas, and habits of mind worth keeping."
+>
+  <section class="section">
+    <div class="container prose">
+      <p class="label">{t.nav.words}</p>
+      <h1>Useful words.</h1>
+      <p>
+        A growing glossary of the words, ideas, and habits of mind worth
+        keeping close. Added to over time, as they come up in class.
+      </p>
+      {rendered.length === 0 && (
+        <p class="caption">No entries yet.</p>
+      )}
+      <div class="words-list">
+        {rendered.map(({ entry, Content }) => (
+          <WordCard word={entry}>
+            <Content />
+          </WordCard>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.words-list { margin-top: var(--space-8); }
+</style>

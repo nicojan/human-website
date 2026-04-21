@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TeachContent from '@components/content/TeachContent.astro';
+import { STRINGS } from '@i18n/strings';
+
+const t = STRINGS.zh;
+---
+<BaseLayout
+  title={t.nav.teach}
+  description="英文文學、學術寫作、批判思考。課程對象與運作方式。"
+>
+  <TeachContent />
+</BaseLayout>
