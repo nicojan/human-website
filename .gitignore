@@ -1,12 +1,30 @@
+# System
+.DS_Store
+Thumbs.db
+
+# Environment
 .env
+.env.local
+.env.production
+
+# Python (legacy from prior experiments)
 __pycache__/
 *.pyc
 *.pyo
-.DS_Store
 *.egg-info/
-dist/
-build/
 .venv/
 venv/
-data/.git/
-*.md
+
+# Node / Astro
+node_modules/
+dist/
+.astro/
+build/
+
+# Editor/tooling
+.vscode/
+.idea/
+*.log
+
+# Scratch + archives
+class-with-nico.zip
