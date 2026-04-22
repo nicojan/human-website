@@ -1,0 +1,44 @@
+{{ define "main" }}
+<section class="section section--canvas page-hero" aria-labelledby="writing-hero">
+  <div class="container">
+    <span class="eyebrow" data-animate>Writing · <span lang="zh-Hant">文章</span></span>
+    <h1 class="page-hero__headline" id="writing-hero" data-animate>{{ .Title | default "Writing" }}</h1>
+    <p class="page-hero__sub" data-animate>
+      {{ with .Description }}{{ . }}{{ else }}Notes on teaching, learning, and the tools we use.{{ end }}
+    </p>
+  </div>
+</section>
+
+<section class="section section--warm" aria-labelledby="posts-list">
+  <div class="container container--narrow">
+    <h2 class="sr-only" id="posts-list">All posts</h2>
+
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ if eq (len $posts) 0 }}
+      <div class="prose-block" data-animate>
+        <p>First posts are on the way.</p>
+      </div>
+    {{ else }}
+      <ul class="writing-list stack stack--2xl" data-animate-stagger>
+        {{ range $posts.ByDate.Reverse }}
+          <li data-animate>
+            <article class="writing-entry">
+              <div class="writing-entry__meta">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                {{ with .Params.author }} · <span>{{ . }}</span>{{ end }}
+              </div>
+              <h2 class="writing-entry__title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </h2>
+              {{ with .Summary }}
+                <p class="writing-entry__summary">{{ . | plainify }}</p>
+              {{ end }}
+              <a class="link-cta" href="{{ .RelPermalink }}">Read <span aria-hidden="true">→</span></a>
+            </article>
+          </li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

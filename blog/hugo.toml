@@ -1,0 +1,47 @@
+# Hugo config for the Human, blog (/writing/).
+#
+# Runs as part of scripts/build.sh, output goes to ../public/writing/.
+# Marketing pages live outside Hugo at /public/*.html.
+
+baseURL = "https://forhuman.ca/writing/"
+languageCode = "en-CA"
+title = "Writing · Human,"
+enableRobotsTXT = true
+defaultContentLanguage = "en"
+enableGitInfo = false
+pluralizelisttitles = false
+summaryLength = 40
+
+# Pretty URLs (no trailing /index.html)
+uglyURLs = false
+
+[params]
+  author = "Nico Jan"
+  description = "Notes on teaching, learning, and the tools we use."
+
+[markup.goldmark.renderer]
+  unsafe = true   # allow raw HTML inside markdown when the author needs it
+
+[markup.highlight]
+  style = "github-light"
+  noClasses = false
+
+# Output the JSON feed at /writing/index.json so the homepage
+# latest-posts.js can grab the newest entries.
+[outputs]
+  home = ["html", "rss", "json"]
+  section = ["html", "rss"]
+  taxonomy = ["html"]
+  term = ["html"]
+
+[permalinks]
+  posts = "/:slug/"
+
+[taxonomies]
+  tag = "tags"
+
+# Single-language for v1. ZH blog is v2 — see copy doc 06-copy-zh.md.
+[languages.en]
+  languageName = "English"
+  weight = 1
+  title = "Writing · Human,"

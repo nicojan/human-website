@@ -16,7 +16,10 @@
 
   const htmlLang = document.documentElement.lang || 'en';
   const isZh = htmlLang.toLowerCase().startsWith('zh');
-  const indexUrl = isZh ? '/zh-hant/writing/index.json' : '/writing/index.json';
+  /* v1 has only an English blog. ZH pages still display the same posts
+     with ZH surrounding chrome. When ZH blog ships in v2, switch the
+     lookup to /zh-hant/writing/index.json. */
+  const indexUrl = '/writing/index.json';
   const localeTag = isZh ? 'zh-Hant' : 'en-CA';
   const ctaText = isZh ? '閱讀' : 'Read';
 

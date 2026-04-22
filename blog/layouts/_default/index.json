@@ -1,0 +1,18 @@
+{{- $posts := where .Site.RegularPages "Section" "posts" -}}
+{{- $posts := $posts.ByDate.Reverse -}}
+{
+  "generated": "{{ now.Format "2006-01-02T15:04:05Z07:00" }}",
+  "count": {{ len $posts }},
+  "posts": [
+    {{- range $i, $p := first 20 $posts -}}
+      {{- if $i }},{{ end }}
+      {
+        "title": {{ $p.Title | jsonify }},
+        "url": {{ $p.RelPermalink | jsonify }},
+        "date": {{ $p.Date.Format "2006-01-02T15:04:05Z07:00" | jsonify }},
+        "summary": {{ (cond (ne (index $p.Params "summary") nil) (index $p.Params "summary") ($p.Summary | plainify | htmlUnescape)) | jsonify }},
+        "author": {{ (index $p.Params "author" | default "Nico Jan") | jsonify }}
+      }
+    {{- end }}
+  ]
+}

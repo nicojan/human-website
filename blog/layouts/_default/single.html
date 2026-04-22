@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="section section--canvas writing-post">
+  <div class="container container--narrow">
+    <header class="writing-post__header" data-animate>
+      <p class="writing-post__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        {{ with .Params.author }} · <span>{{ . }}</span>{{ end }}
+      </p>
+      <h1 class="writing-post__title">{{ .Title }}</h1>
+      {{ with .Params.summary }}
+        <p class="writing-post__summary">{{ . }}</p>
+      {{ end }}
+    </header>
+
+    <div class="writing-post__body prose" data-animate>
+      {{ .Content }}
+    </div>
+
+    <footer class="writing-post__footer" data-animate>
+      {{ with .Params.tags }}
+        <div class="cluster cluster--sm">
+          {{ range . }}
+            <span class="pill">{{ . }}</span>
+          {{ end }}
+        </div>
+      {{ end }}
+      <p>
+        <a class="link-cta" href="/writing/">All writing <span aria-hidden="true">→</span></a>
+      </p>
+    </footer>
+  </div>
+</article>
+{{ end }}
