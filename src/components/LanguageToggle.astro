@@ -49,7 +49,9 @@ const isEn = current === 'en';
   color: var(--text-primary);
 }
 .lang-toggle__other {
-  color: var(--text-tertiary);
+  /* Neutral-600 (5.8:1 on white), not neutral-400 (2.3:1) — the
+   * other-language label is still a live link, not a disabled one. */
+  color: var(--text-secondary);
   text-decoration: none;
   padding: var(--space-1);
   border-radius: var(--radius-sm);

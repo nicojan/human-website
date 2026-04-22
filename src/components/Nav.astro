@@ -40,7 +40,10 @@ const current = normalize(currentPath ?? Astro.url.pathname);
 const isCurrent = (href: string) => normalize(href) === current;
 ---
 <header class:list={['nav', `nav--${variant}`]} data-variant={variant}>
-  <input type="checkbox" id="nav-menu-toggle" class="nav__menu-toggle" aria-hidden="true" />
+  {/* Visually-hidden checkbox drives the CSS-only drawer. Removed
+    * from the tab order because the visible <label.nav__burger>
+    * already carries the full keyboard + screen-reader semantics. */}
+  <input type="checkbox" id="nav-menu-toggle" class="nav__menu-toggle" tabindex="-1" aria-hidden="true" />
 
   <div class="nav__inner container">
     {variant === 'bilingual' ? (

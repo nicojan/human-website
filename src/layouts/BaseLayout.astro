@@ -96,6 +96,14 @@ const skipLabel = htmlLang === 'zh-Hant' ? A11Y.skipToContent.zh : A11Y.skipToCo
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {/* Preload fires the CSS fetch in parallel with the HTML parse, so
+    * the font faces start downloading earlier and CLS drops. The
+    * stylesheet link below is what actually applies the fonts. */}
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap"
+  />
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap"

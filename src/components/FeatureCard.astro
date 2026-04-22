@@ -48,7 +48,9 @@ const badgeLabel = String(number).padStart(2, '0');
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--color-terracotta);
+  /* 17px bold is just below WCAG's large-text threshold, so the
+   * white numeral needs the darker terracotta (4.6:1) to clear AA. */
+  background: var(--action-primary-accessible);
   color: var(--color-white);
   font-family: var(--font-display);
   font-size: var(--fs-body);

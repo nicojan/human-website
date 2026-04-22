@@ -243,7 +243,10 @@ const hreflang = [
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  background: var(--color-terracotta);
+  /* Use the accessible terracotta so 11px bold white text clears
+   * WCAG AA (4.6:1). Brand terracotta is 3.88:1 which only qualifies
+   * as large text (14pt bold / 18pt regular +). */
+  background: var(--action-primary-accessible);
   color: var(--color-white);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
