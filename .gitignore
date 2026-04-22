@@ -1,13 +1,21 @@
 # System
 .DS_Store
 Thumbs.db
+*~
 
 # Environment
 .env
 .env.local
 .env.production
 
-# Python (legacy from prior experiments)
+# Hugo build output (generated into public/writing/)
+public/writing/
+
+# Hugo resource cache
+blog/resources/
+blog/.hugo_build.lock
+
+# Python (only used for local dev server)
 __pycache__/
 *.pyc
 *.pyo
@@ -15,16 +23,23 @@ __pycache__/
 .venv/
 venv/
 
-# Node / Astro
+# Node (if anyone installs tooling later)
 node_modules/
-dist/
-.astro/
-build/
+npm-debug.log
+.pnpm-debug.log*
 
-# Editor/tooling
+# Editor / IDE
 .vscode/
 .idea/
+*.swp
 *.log
+
+# Build artifacts
+dist/
+build/
+
+# Claude Code session cache
+.claude/local/
 
 # Scratch + archives
 class-with-nico.zip
