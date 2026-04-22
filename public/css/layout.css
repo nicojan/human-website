@@ -1,0 +1,124 @@
+/*
+ * Layout — containers, grid patterns, section wrappers.
+ */
+
+@layer layout {
+  .container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--sp-md);
+  }
+
+  @media (min-width: 40rem) {
+    .container { padding-inline: var(--sp-xl); }
+  }
+
+  @media (min-width: 64rem) {
+    .container { padding-inline: var(--sp-2xl); }
+  }
+
+  .container--narrow {
+    max-width: var(--content-width);
+  }
+
+  /* Sections — vertical rhythm and background roles */
+  .section {
+    padding-block: var(--sp-3xl);
+  }
+
+  @media (min-width: 48rem) {
+    .section { padding-block: var(--sp-4xl); }
+  }
+
+  @media (min-width: 64rem) {
+    .section--hero { padding-block: var(--sp-4xl) var(--sp-3xl); }
+  }
+
+  .section--tight { padding-block: var(--sp-2xl); }
+
+  .section--canvas    { background: var(--bg-canvas); color: var(--text-primary); }
+  .section--warm      { background: var(--bg-warm); color: var(--text-primary); }
+  .section--surface   { background: var(--bg-surface); color: var(--text-primary); }
+  .section--emphasis  { background: var(--bg-emphasis); color: var(--text-inverse); }
+
+  .section--emphasis :is(h1, h2, h3, h4) { color: var(--text-inverse); }
+  .section--emphasis .eyebrow,
+  .section--emphasis .caption { color: var(--neutral-400); }
+
+  /* Grids */
+  .grid {
+    display: grid;
+    gap: var(--sp-lg);
+  }
+
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr; }
+
+  @media (min-width: 40rem) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 48rem) {
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (min-width: 64rem) {
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* Split — two-column with optional reverse */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-xl);
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    .split { grid-template-columns: 1fr 1fr; gap: var(--sp-2xl); }
+    .split--narrow-first { grid-template-columns: 5fr 7fr; }
+    .split--narrow-last  { grid-template-columns: 7fr 5fr; }
+    .split--reverse > :first-child { order: 2; }
+  }
+
+  /* Section header — eyebrow, title, optional sub */
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-base-sm);
+    margin-bottom: var(--sp-2xl);
+    max-width: 52rem;
+  }
+
+  .section-header__sub {
+    font-size: var(--fs-body-lg);
+    color: var(--text-secondary);
+    max-width: 40rem;
+  }
+
+  .section--emphasis .section-header__sub { color: var(--neutral-200); }
+
+  /* Stack utility */
+  .stack { display: flex; flex-direction: column; }
+  .stack--xs  { gap: var(--sp-xs); }
+  .stack--sm  { gap: var(--sp-sm); }
+  .stack--md  { gap: var(--sp-md); }
+  .stack--lg  { gap: var(--sp-lg); }
+  .stack--xl  { gap: var(--sp-xl); }
+  .stack--2xl { gap: var(--sp-2xl); }
+
+  /* Cluster — horizontal wrap with gap */
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+    align-items: center;
+  }
+
+  .cluster--sm { gap: var(--sp-sm); }
+  .cluster--lg { gap: var(--sp-lg); }
+}
