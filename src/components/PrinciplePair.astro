@@ -1,0 +1,118 @@
+---
+/**
+ * PrinciplePair — a single numbered principle with a parallel text +
+ * video layout. Desktop alternates text-left / text-right down the page;
+ * mobile always stacks text-above-video.
+ *
+ * The body copy is English; the ZH title line under the EN title
+ * provides the parallel idea without translating the full paragraph.
+ */
+import MediaCard from './MediaCard.astro';
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  number: number;
+  titleEn: string;
+  titleZh: string;
+  body: string;
+  /** Desktop layout alternation. Mobile always stacks. */
+  layout?: 'text-left' | 'text-right';
+  /** Video metadata. For v1 the href is just a placeholder. */
+  video?: {
+    src?: string;
+    href?: string;
+    ariaLabel: string;
+    caption?: string;
+  };
+}
+
+const {
+  number,
+  titleEn,
+  titleZh,
+  body,
+  layout = 'text-left',
+  video,
+} = Astro.props;
+const numberLabel = String(number).padStart(2, '0');
+---
+<article class:list={['pp', `pp--${layout}`]}>
+  <div class="pp__text">
+    <span class="pp__number" aria-hidden="true">{numberLabel}</span>
+    <Eyebrow en="PRINCIPLE" zh="原則" class="pp__eyebrow" />
+    <div class="pp__titles">
+      <h3 class="pp__title-en" lang="en-CA">{titleEn}</h3>
+      <p class="pp__title-zh" lang="zh-Hant">{titleZh}</p>
+    </div>
+    <p class="pp__body" lang="en-CA">{body}</p>
+  </div>
+  <div class="pp__media">
+    {video && (
+      <MediaCard
+        src={video.src}
+        href={video.href}
+        ariaLabel={video.ariaLabel}
+        caption={video.caption}
+      />
+    )}
+  </div>
+</article>
+
+<style>
+.pp {
+  display: grid;
+  gap: var(--space-8);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 64rem) {
+  .pp { grid-template-columns: 1fr 1fr; gap: var(--space-16); }
+  .pp--text-right { grid-template-areas: 'media text'; }
+  .pp--text-right .pp__text { grid-area: text; }
+  .pp--text-right .pp__media { grid-area: media; }
+}
+
+.pp__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 48ch;
+}
+
+.pp__number {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-body-bold);
+  color: var(--color-terracotta);
+  letter-spacing: 0;
+}
+
+.pp__eyebrow { margin-top: 0; }
+
+.pp__titles { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.pp__title-en {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: var(--fw-h1);
+  color: var(--text-primary);
+}
+
+.pp__title-zh {
+  font-family: 'Noto Serif TC', 'Literata', ui-serif, serif;
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+
+.pp__body {
+  margin-top: var(--space-4);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg);
+  color: var(--text-primary);
+}
+
+.pp__media { min-width: 0; }
+</style>

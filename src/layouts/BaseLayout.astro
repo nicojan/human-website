@@ -2,17 +2,24 @@
 /**
  * BaseLayout — root layout for every page.
  *
- * The site is bilingual on every URL, so the `<html lang>` attribute
- * represents the *primary* language of the document chrome (English);
- * inline content in the other language is tagged with lang attributes
- * on the element that holds it.
+ * The document <html lang> reflects the primary language of the page.
+ * Home uses en-CA (even though ZH co-exists on the page via inline lang
+ * attributes). Mono inner pages use en-CA or zh-Hant to match the page
+ * language.
+ *
+ * Nav / Footer variant is picked by prop:
+ *   - chrome="bilingual" — Home only. Bilingual nav + footer.
+ *   - chrome="mono"       — inner pages.
+ *
+ * mirrorHref is used by the LanguageToggle on mono pages; it's the URL
+ * of the other-language version of the current page.
  */
 import '@styles/tokens.css';
 import '@styles/reset.css';
 import '@styles/global.css';
 
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
+import Nav from '@components/Nav.astro';
+import SiteFooter from '@components/SiteFooter.astro';
 import { SITE_DESCRIPTION, A11Y } from '@i18n/strings';
 
 interface Props {
@@ -21,18 +28,41 @@ interface Props {
   canonical?: string;
   mainClass?: string;
   ogImage?: string;
+  /** Chrome variant. Defaults to "mono" for inner pages. */
+  chrome?: 'bilingual' | 'mono';
+  /** Document language. */
+  htmlLang?: 'en-CA' | 'zh-Hant';
+  /** Locale used by the language toggle on mono pages. */
+  locale?: 'en' | 'zh-hant';
+  /** Href of the mirror page for the toggle. */
+  mirrorHref?: string;
+  /** Additional <link rel="alternate"> entries for hreflang. */
+  hreflang?: Array<{ hreflang: string; href: string }>;
 }
 
-const { title, description, canonical, mainClass, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  mainClass,
+  ogImage,
+  chrome = 'mono',
+  htmlLang = 'en-CA',
+  locale = 'en',
+  mirrorHref = '/',
+  hreflang,
+} = Astro.props;
 
 const pageTitle = title === 'Human,' ? title : `${title} — Human,`;
 const pageDesc = description ?? SITE_DESCRIPTION.en;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site ?? 'https://forhuman.ca').toString();
 const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? 'https://forhuman.ca').toString();
+
+const skipLabel = htmlLang === 'zh-Hant' ? A11Y.skipToContent.zh : A11Y.skipToContent.en;
 ---
 <!doctype html>
-<html lang="en-CA">
+<html lang={htmlLang}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,6 +72,10 @@ const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? '
   <title>{pageTitle}</title>
   <meta name="description" content={pageDesc} />
   <link rel="canonical" href={canonicalUrl} />
+
+  {hreflang?.map((alt) => (
+    <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+  ))}
 
   <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
@@ -53,8 +87,8 @@ const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? '
   <meta property="og:description" content={pageDesc} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImg} />
-  <meta property="og:locale" content="en_CA" />
-  <meta property="og:locale:alternate" content="zh_Hant" />
+  <meta property="og:locale" content={htmlLang === 'zh-Hant' ? 'zh_Hant' : 'en_CA'} />
+  <meta property="og:locale:alternate" content={htmlLang === 'zh-Hant' ? 'en_CA' : 'zh_Hant'} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDesc} />
@@ -71,12 +105,17 @@ const ogImg = new URL(ogImage ?? '/brand/human-og-1200x630.png', Astro.site ?? '
 </head>
 <body>
   <div class="page">
-    <a href="#main" class="skip-link" lang="en-CA">{A11Y.skipToContent.en}</a>
-    <Header />
+    <a href="#main" class="skip-link">{skipLabel}</a>
+    <Nav
+      variant={chrome}
+      currentPath={Astro.url.pathname}
+      currentLocale={locale}
+      mirrorHref={mirrorHref}
+    />
     <main id="main" class={mainClass}>
       <slot />
     </main>
-    <Footer />
+    <SiteFooter variant={chrome} />
   </div>
 </body>
 </html>

@@ -1,0 +1,128 @@
+---
+/**
+ * BlogCard — monolingual blog post preview for the homepage "Recent
+ * Writing" row. Image placeholder + date + title + excerpt + author·time.
+ *
+ * Takes a resolved content entry OR raw fields (for placeholders during
+ * early development when the blog collection isn't populated yet).
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post?: CollectionEntry<'blog'>;
+  /** Fallback fields when no entry is passed. */
+  title?: string;
+  summary?: string;
+  date?: Date;
+  author?: string;
+  slug?: string;
+  /** Estimated read time in minutes. */
+  readTime?: number;
+}
+
+const { post, title, summary, date, author, slug, readTime = 5 } = Astro.props;
+
+const resolvedTitle = post?.data.title ?? title ?? 'Untitled';
+const resolvedSummary = post?.data.summary ?? summary ?? '';
+const resolvedDate = post?.data.date ?? date ?? new Date();
+const resolvedAuthor = post?.data.author ?? author ?? 'Nico Jan';
+const resolvedSlug = post?.data.pair_key ?? slug ?? '#';
+const href = resolvedSlug.startsWith('http') || resolvedSlug.startsWith('/')
+  ? resolvedSlug
+  : `/writing/${resolvedSlug}`;
+
+const dateLabel = new Intl.DateTimeFormat('en-CA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(resolvedDate);
+---
+<article class="blog-card">
+  <a class="blog-card__link" href={href}>
+    <div class="blog-card__thumb" aria-hidden="true"></div>
+    <div class="blog-card__body">
+      <time datetime={resolvedDate.toISOString()} class="blog-card__date">{dateLabel}</time>
+      <h3 class="blog-card__title">{resolvedTitle}</h3>
+      <p class="blog-card__summary">{resolvedSummary}</p>
+      <p class="blog-card__meta">
+        <span>{resolvedAuthor}</span>
+        <span aria-hidden="true">·</span>
+        <span>{readTime} min read</span>
+      </p>
+    </div>
+  </a>
+</article>
+
+<style>
+.blog-card {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+.blog-card:hover {
+  border-color: var(--border-brand);
+  transform: translateY(-2px);
+}
+
+.blog-card__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.blog-card__link:hover { text-decoration: none; }
+
+.blog-card__thumb {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: linear-gradient(135deg, var(--color-cream-mid) 0%, var(--color-terracotta-light) 100%);
+}
+
+.blog-card__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.blog-card__date {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-body-bold);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.blog-card__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  font-weight: var(--fw-h3);
+  color: var(--text-primary);
+}
+.blog-card:hover .blog-card__title {
+  color: var(--text-brand);
+}
+
+.blog-card__summary {
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.blog-card__meta {
+  margin-top: auto;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+</style>

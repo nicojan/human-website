@@ -173,11 +173,16 @@
   --border-strong:  var(--color-neutral-400);
   --border-brand:   var(--color-terracotta);
 
-  /* Actions */
-  --action-primary:          var(--color-terracotta);
-  --action-primary-hover:    #A0603F;
-  --action-secondary:        var(--color-ink);
-  --action-secondary-hover:  #1E2C3D;
+  /* Actions
+   * --action-primary keeps the brand terracotta for decorative use (pill stamps,
+   * bullets, rules). --action-primary-accessible darkens it to 4.6:1 with white
+   * for button backgrounds, which is WCAG AA safe for 17px button text.
+   */
+  --action-primary:             var(--color-terracotta);
+  --action-primary-accessible:  #9A5533;
+  --action-primary-hover:       #8A4C2E;
+  --action-secondary:           var(--color-ink);
+  --action-secondary-hover:     #1E2C3D;
 
   /* Status */
   --status-success-fg: var(--color-sage);

@@ -67,9 +67,11 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
 .btn--lg { padding: var(--space-3) var(--space-6); font-size: var(--fs-body-lg); }
 
 .btn--primary {
-  background: var(--action-primary);
+  /* Uses the darker terracotta (4.6:1 with white) so 17px button text
+   * clears WCAG AA. Brand terracotta stays for decorative accents only. */
+  background: var(--action-primary-accessible);
   color: var(--text-inverse);
-  border-color: var(--action-primary);
+  border-color: var(--action-primary-accessible);
 }
 .btn--primary:hover {
   background: var(--action-primary-hover);

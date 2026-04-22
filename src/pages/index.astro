@@ -1,7 +1,301 @@
 ---
+/**
+ * Home — always bilingual landing page.
+ *
+ * Sections (per 04-pages.md):
+ *   1. Hero (bilingual, desktop VerticalChinese)
+ *   2. "Learning is the point" bilingual block
+ *   3. Five principles, alternating text-left/right
+ *   4. Outcomes / university logo grid
+ *   5. Recent writing (2 latest blog posts)
+ *   6. Closing CTA band
+ *
+ * Structured data: Organization schema injected into <head> via slot.
+ */
+import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import HomeContent from '@components/content/HomeContent.astro';
+import Hero from '@components/Hero.astro';
+import BilingualBlock from '@components/BilingualBlock.astro';
+import SectionHeader from '@components/SectionHeader.astro';
+import PrinciplePair from '@components/PrinciplePair.astro';
+import BlogCard from '@components/BlogCard.astro';
+import CTABand from '@components/CTABand.astro';
+import { CAL_COM_URL } from '@i18n/strings';
+
+const principles = [
+  {
+    n: 1,
+    en: 'Curiosity over compliance.',
+    zh: '好奇心，而非順從。',
+    body: 'We connect classwork to the world beyond the page. We watch short clips and examine reliable websites to build context. Students test claims, compare sources, and apply new ideas to issues that matter to them.',
+    ariaLabel: 'Play: a student choosing a source and building context',
+    caption: 'Choosing and testing sources together.',
+  },
+  {
+    n: 2,
+    en: 'Close reading, thinking out loud.',
+    zh: '細讀，也讓思考出聲。',
+    body: 'We annotate literature and graphic novels together, modelling how to notice, question, and connect. Students turn careful observation into clear argument, and learn to do the same work on their own.',
+    ariaLabel: 'Play: annotating a graphic novel together',
+    caption: 'Annotating a graphic novel together.',
+  },
+  {
+    n: 3,
+    en: 'Progress you can see.',
+    zh: '看得見的進步。',
+    body: 'We track every week on a shared Kanban board. Goals, samples of work, and next steps are visible to parents and students. Learning becomes a process, not a grade at the end of term.',
+    ariaLabel: 'Play: weekly Kanban review with a student',
+    caption: 'A weekly Kanban review.',
+  },
+  {
+    n: 4,
+    en: 'Research habits that travel.',
+    zh: '帶得走的研究習慣。',
+    body: 'We use current research tools and academic databases to plan, narrow, and verify. Students learn to manage sources, cite responsibly, and write with evidence, well before university asks them to.',
+    ariaLabel: 'Play: planning a research project together',
+    caption: 'Planning a research project.',
+  },
+  {
+    n: 5,
+    en: 'Human first, tools second.',
+    zh: '人先於工具。',
+    body: 'Technology serves thinking, or it replaces it. We use AI, software, and reference tools when they sharpen the work, and refuse them when they do the work for the student.',
+    ariaLabel: 'Play: when to use AI, and when to switch it off',
+    caption: 'Using AI carefully, not reflexively.',
+  },
+];
+
+const universities = [
+  'Berkeley', 'UBC', 'McGill', 'Toronto',
+  "Queen's", 'HKU', 'Ivey (Western)', 'Smith (Queen\u2019s)',
+  'SFU Beedie', 'UBC Sauder', 'Western',
+];
+
+const allBlog = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
+const recentPosts = allBlog
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2);
+
+const pageDesc = 'One-on-one tutoring in English literature, writing, and critical thinking. We help students think clearly, read closely, and write with purpose.';
+
+const hreflang = [
+  { hreflang: 'en', href: 'https://forhuman.ca/' },
+  { hreflang: 'zh-Hant', href: 'https://forhuman.ca/' },
+  { hreflang: 'x-default', href: 'https://forhuman.ca/' },
+];
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: 'Human,',
+  legalName: 'Human Education Collective Ltd.',
+  url: 'https://forhuman.ca',
+  email: 'hi@forhuman.ca',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Vancouver',
+    addressRegion: 'BC',
+    addressCountry: 'CA',
+  },
+};
 ---
-<BaseLayout title="Human,">
-  <HomeContent />
+<BaseLayout
+  title="Human,"
+  description={pageDesc}
+  chrome="bilingual"
+  htmlLang="en-CA"
+  hreflang={hreflang}
+>
+  <script is:inline type="application/ld+json" slot="head" set:html={JSON.stringify(orgSchema)} />
+
+  <Hero
+    variant="bilingual"
+    en={{
+      headline: 'We help students think clearly, read closely, and write with purpose.',
+      sub: 'One-on-one tutoring in English literature, writing, and critical thinking. Online, from Vancouver.',
+    }}
+    zh={{
+      headline: '我們幫助學生把話想清楚、把文本讀透、把字寫準。',
+      sub: '一對一教學，聚焦英文文學、寫作與批判思考。從溫哥華連線授課。',
+      verticalColumns: ['把話想清楚', '把文本讀透', '把字寫準。'],
+    }}
+    cta={{
+      label: 'Book a consult · 預約諮詢',
+      href: CAL_COM_URL,
+    }}
+  />
+
+  <BilingualBlock
+    eyebrowEn="WHAT WE BELIEVE"
+    eyebrowZh="我們的信念"
+    en={{
+      title: 'Learning is the point. Not the scores.',
+      body: 'In the age of AI, the most important question is no longer what children learn, but how they stay human while learning. When answers are instant, the muscle that builds real thinking weakens. We teach so that muscle gets stronger.',
+    }}
+    zh={{
+      title: '學習本身，才是重點。',
+      body: '在 AI 的時代，最重要的問題已經不是學什麼，而是學習的過程裡如何保有自己。當答案隨手可得，思考的肌肉就容易鬆弛。我們的教學，就是讓那塊肌肉練回來。',
+    }}
+  />
+
+  <section class="section principles">
+    <div class="container">
+      <SectionHeader
+        eyebrowEn="HOW WE TEACH"
+        eyebrowZh="我們的教學"
+        title="Five principles, with evidence."
+        align="left"
+      />
+      <div class="principles__list">
+        {principles.map((p, i) => (
+          <PrinciplePair
+            number={p.n}
+            titleEn={p.en}
+            titleZh={p.zh}
+            body={p.body}
+            layout={i % 2 === 0 ? 'text-left' : 'text-right'}
+            video={{
+              ariaLabel: p.ariaLabel,
+              caption: p.caption,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section outcomes">
+    <div class="container">
+      <SectionHeader
+        eyebrowEn="OUTCOMES"
+        eyebrowZh="學生去向"
+        title="Where students go next."
+        sub="Programs range from arts and humanities to engineering, business, and the sciences."
+        align="left"
+      />
+      <ul class="outcomes__grid" role="list">
+        {universities.map((u) => (
+          <li class="outcomes__cell">{u}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section writing">
+    <div class="container">
+      <SectionHeader
+        eyebrowEn="RECENT WRITING"
+        eyebrowZh="近期文章"
+        title="Recent writing."
+        sub="Notes on teaching, learning, and the tools we use."
+        align="left"
+      />
+      <div class="writing__grid">
+        {recentPosts.length > 0 ? (
+          recentPosts.map((post) => (
+            <BlogCard post={post} />
+          ))
+        ) : (
+          <>
+            <BlogCard
+              title="Why the comma."
+              summary="The trailing comma in our name is a design choice with a reason. Here is the reason."
+              date={new Date('2026-04-01')}
+              author="Nico Jan"
+              slug="why-the-comma"
+              readTime={4}
+            />
+            <BlogCard
+              title="The struggle is the subject."
+              summary="On the muscle of sitting with a question, and why AI-era tutoring has to protect it."
+              date={new Date('2026-03-15')}
+              author="Nico Jan"
+              slug="the-struggle-is-the-subject"
+              readTime={6}
+            />
+          </>
+        )}
+      </div>
+      <p class="writing__all">
+        <a href="/writing" class="writing__all-link">All writing &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <CTABand
+    variant="bilingual"
+    en={{
+      headline: 'Ready to talk?',
+      sub: 'Fifteen minutes, no obligation. We listen first.',
+    }}
+    zh={{
+      headline: '想聊聊嗎？',
+      sub: '15 分鐘，沒有壓力。我們會先聽。',
+    }}
+    cta={{
+      label: 'Book a consult · 預約諮詢',
+      href: CAL_COM_URL,
+    }}
+  />
 </BaseLayout>
+
+<style>
+.principles__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.outcomes { background: var(--bg-warm); }
+
+.outcomes__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 40rem) {
+  .outcomes__grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 64rem) {
+  .outcomes__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.outcomes__cell {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body-medium);
+  color: var(--text-primary);
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.writing__grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 48rem) {
+  .writing__grid { grid-template-columns: 1fr 1fr; gap: var(--space-8); }
+}
+
+.writing__all {
+  margin-top: var(--space-8);
+}
+.writing__all-link {
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-body-medium);
+  color: var(--color-terracotta);
+  text-decoration: none;
+}
+.writing__all-link:hover { text-decoration: underline; }
+</style>

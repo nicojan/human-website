@@ -1,0 +1,70 @@
+---
+/**
+ * VerticalChinese — three-column stacked-character display.
+ *
+ * Used in the desktop home hero. Columns are given in reading order
+ * (col 1 reads first) and reversed visually so CSS row layout puts col 1
+ * on the right. Screen readers get the full sentence via aria-label;
+ * the visual columns are aria-hidden.
+ *
+ * Default columns render the homepage hero sentence:
+ *   把話想清楚、把文本讀透、把字寫準。
+ */
+interface Props {
+  /** Columns in reading order (col 1 first). */
+  columns?: string[];
+  /** Full sentence for assistive tech. */
+  ariaLabel?: string;
+  /** Optional class passthrough. */
+  class?: string;
+}
+
+const {
+  columns = ['把話想清楚', '把文本讀透', '把字寫準。'],
+  ariaLabel = '把話想清楚、把文本讀透、把字寫準。',
+  class: className,
+} = Astro.props;
+---
+<div
+  class:list={['vertical-cn', className]}
+  role="group"
+  aria-label={ariaLabel}
+  lang="zh-Hant"
+>
+  {columns.slice().reverse().map((col) => (
+    <div class="vertical-cn__col" aria-hidden="true">
+      {Array.from(col).map((ch) => (
+        <span class="vertical-cn__char">{ch}</span>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+.vertical-cn {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-5);
+  font-family: 'Noto Serif TC', 'Literata', ui-serif, serif;
+  font-weight: var(--fw-h2);
+  color: var(--text-primary);
+  align-items: flex-start;
+}
+.vertical-cn__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.vertical-cn__char {
+  display: block;
+  font-size: clamp(2.5rem, 2rem + 3vw, 5rem); /* 40 → 80 */
+  line-height: 1.05;
+  text-align: center;
+  font-variant-east-asian: proportional-width;
+}
+/* The first character in each column is the terracotta accent used in
+ * the Figma mockup — keeps the eye moving top-to-bottom. */
+.vertical-cn__col .vertical-cn__char:first-child {
+  color: var(--color-terracotta);
+}
+</style>

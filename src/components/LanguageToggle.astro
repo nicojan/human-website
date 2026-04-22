@@ -1,0 +1,65 @@
+---
+/**
+ * LanguageToggle — "EN / 繁" toggle for inner pages.
+ *
+ * Both labels render; the current locale is marked with aria-current and
+ * styled so the reader can see which is active. The other label is a link
+ * to the mirror URL.
+ *
+ * Rendered inside <div role="group" aria-label="Language"> so assistive
+ * tech announces it as a language switcher.
+ */
+interface Props {
+  /** Which locale the current page is in. */
+  current: 'en' | 'zh-hant';
+  /** Href for the other-language version of this page. */
+  otherHref: string;
+}
+
+const { current, otherHref } = Astro.props;
+const isEn = current === 'en';
+---
+<div class="lang-toggle" role="group" aria-label="Language">
+  {isEn ? (
+    <>
+      <span class="lang-toggle__current" aria-current="true" lang="en-CA">EN</span>
+      <span class="lang-toggle__sep" aria-hidden="true">/</span>
+      <a class="lang-toggle__other" href={otherHref} lang="zh-Hant" hreflang="zh-Hant">繁</a>
+    </>
+  ) : (
+    <>
+      <a class="lang-toggle__other" href={otherHref} lang="en-CA" hreflang="en-CA">EN</a>
+      <span class="lang-toggle__sep" aria-hidden="true">/</span>
+      <span class="lang-toggle__current" aria-current="true" lang="zh-Hant">繁</span>
+    </>
+  )}
+</div>
+
+<style>
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-label);
+  font-weight: var(--fw-body-bold);
+  letter-spacing: var(--ls-label);
+  line-height: 1;
+}
+.lang-toggle__current {
+  color: var(--text-primary);
+}
+.lang-toggle__other {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+}
+.lang-toggle__other:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.lang-toggle__sep {
+  color: var(--text-tertiary);
+  padding-inline: 2px;
+}
+</style>

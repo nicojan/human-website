@@ -10,16 +10,16 @@ export default defineConfig({
         defaultLocale: 'en',
         locales: {
           en: 'en-CA',
-          zh: 'zh-Hant',
+          'zh-hant': 'zh-Hant',
         },
       },
     }),
   ],
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh'],
+    locales: ['en', 'zh-hant'],
     routing: {
-      // English at /, Chinese at /zh/
+      // English at /, Traditional Chinese at /zh-hant/*
       prefixDefaultLocale: false,
     },
   },

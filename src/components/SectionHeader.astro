@@ -1,0 +1,95 @@
+---
+/**
+ * SectionHeader — eyebrow + title + optional sub.
+ *
+ * The de-facto section opener across the site. Accepts either a single
+ * language via `title` or a bilingual pair via `titleEn` + `titleZh`.
+ * The eyebrow component is inlined so callers pass eyebrow props through.
+ */
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  /** Eyebrow. Mono via `eyebrow` or bilingual via `eyebrowEn`+`eyebrowZh`. */
+  eyebrow?: string;
+  eyebrowEn?: string;
+  eyebrowZh?: string;
+  /** Section title. Mono via `title` or bilingual via `titleEn`+`titleZh`. */
+  title?: string;
+  titleEn?: string;
+  titleZh?: string;
+  /** Optional subtitle / lede below the title. */
+  sub?: string;
+  /** Alignment. Left for narrow columns, center for wide outcome blocks. */
+  align?: 'left' | 'center';
+  /** Optional class passthrough. */
+  class?: string;
+}
+
+const {
+  eyebrow,
+  eyebrowEn,
+  eyebrowZh,
+  title,
+  titleEn,
+  titleZh,
+  sub,
+  align = 'left',
+  class: className,
+} = Astro.props;
+---
+<header class:list={['section-header', `section-header--${align}`, className]}>
+  {(eyebrow || eyebrowEn || eyebrowZh) && (
+    <Eyebrow text={eyebrow} en={eyebrowEn} zh={eyebrowZh} />
+  )}
+  {title && <h2 class="section-header__title">{title}</h2>}
+  {(titleEn || titleZh) && (
+    <div class="section-header__titles">
+      {titleEn && <h2 class="section-header__title" lang="en-CA">{titleEn}</h2>}
+      {titleZh && <h2 class="section-header__title section-header__title--zh" lang="zh-Hant">{titleZh}</h2>}
+    </div>
+  )}
+  {sub && <p class="section-header__sub">{sub}</p>}
+</header>
+
+<style>
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-10);
+}
+.section-header--center {
+  align-items: center;
+  text-align: center;
+}
+.section-header__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: var(--fw-h1);
+  max-width: 26ch;
+}
+.section-header--center .section-header__title { max-width: 32ch; margin-inline: auto; }
+.section-header__title--zh {
+  font-family: 'Noto Serif TC', 'Literata', ui-serif, serif;
+}
+.section-header__titles {
+  display: grid;
+  gap: var(--space-3);
+}
+@media (min-width: 48rem) {
+  .section-header__titles {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: baseline;
+  }
+}
+.section-header__sub {
+  color: var(--text-secondary);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg);
+  max-width: 54ch;
+}
+.section-header--center .section-header__sub { margin-inline: auto; }
+</style>

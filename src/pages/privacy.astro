@@ -1,10 +1,69 @@
 ---
+/**
+ * Privacy — short, honest, monolingual. The site collects almost
+ * nothing; this page says so plainly. Keep it short so families can
+ * actually read it.
+ */
 import BaseLayout from '@layouts/BaseLayout.astro';
-import PrivacyContent from '@components/content/PrivacyContent.astro';
+import Hero from '@components/Hero.astro';
 ---
 <BaseLayout
   title="Privacy"
   description="What Human, collects, what we don't, and your rights."
+  chrome="mono"
+  htmlLang="en-CA"
+  locale="en"
+  mirrorHref="/privacy"
 >
-  <PrivacyContent />
+  <Hero
+    variant="mono"
+    en={{
+      headline: 'Privacy, kept short.',
+      sub: 'What we collect, what we don\u2019t, and your rights.',
+    }}
+  />
+
+  <section class="section section--narrow">
+    <div class="container narrow prose">
+      <h2>What we collect</h2>
+      <p>
+        We collect your name, your email, your WeChat ID (only if you give it), and the messages you send us when you book a consult or ask a question. If you become a student, we add the information needed to hold lessons, like timezone and your school grade level.
+      </p>
+
+      <h2>What we don\u2019t</h2>
+      <p>
+        We don\u2019t run an analytics pixel. We don\u2019t set advertising cookies. We don\u2019t sell or trade your data. We don\u2019t track you across the internet.
+      </p>
+
+      <h2>Where your data lives</h2>
+      <p>
+        Our booking runs on Cal.com. Our email is Google Workspace. Our notes live in a password-protected workspace used only by teachers. We pick vendors carefully and keep the list short on purpose.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Ask us to see what we have. Ask us to correct or delete anything. Ask us what we share with whom. We\u2019ll respond within a week, usually within a day.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Email <a href="mailto:hi@forhuman.ca">hi@forhuman.ca</a>. We read it.
+      </p>
+
+      <p class="privacy-updated">This page was last updated on 2026-04-21.</p>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+.section--narrow { padding-block: var(--space-16); }
+.narrow { max-width: 48rem; margin-inline: auto; }
+
+.privacy-updated {
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+</style>

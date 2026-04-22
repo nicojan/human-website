@@ -1,0 +1,55 @@
+---
+/**
+ * Eyebrow — small caps label above section titles.
+ *
+ * Renders either a single-language label or a bilingual "EN · ZH" pair
+ * with a middle-dot separator. The separator is terracotta to keep the
+ * brand accent alive in small UI.
+ */
+interface Props {
+  /** Primary (usually EN) label. */
+  children?: never;
+  en?: string;
+  zh?: string;
+  /** When only `text` is provided, the eyebrow is monolingual. */
+  text?: string;
+  /** Optional class passthrough. */
+  class?: string;
+}
+
+const { en, zh, text, class: className } = Astro.props;
+---
+{text ? (
+  <span class:list={['eyebrow', className]}>{text}</span>
+) : (
+  <span class:list={['eyebrow', className]}>
+    {en && <span lang="en-CA">{en}</span>}
+    {en && zh && <span class="eyebrow__dot" aria-hidden="true"> · </span>}
+    {zh && <span lang="zh-Hant">{zh}</span>}
+  </span>
+)}
+
+<style>
+.eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-body-bold);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+.eyebrow__dot {
+  color: var(--color-terracotta);
+  font-weight: var(--fw-body-bold);
+}
+/* Chinese numerals/chars inside eyebrows stay in the body stack so
+ * Noto Sans TC kicks in without overpowering the label feel. */
+.eyebrow [lang='zh-Hant'] {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+</style>

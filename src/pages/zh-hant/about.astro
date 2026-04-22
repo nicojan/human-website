@@ -1,0 +1,59 @@
+---
+/**
+ * About (ZH) — v1 stub. The full Chinese translation is deferred until
+ * the founder signs off with a native Taiwan-convention editor.
+ *
+ * The language toggle still appears in the nav so parents can see the
+ * page is bilingual; it routes back to the English version.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+
+const hreflang = [
+  { hreflang: 'en', href: 'https://forhuman.ca/about' },
+  { hreflang: 'zh-Hant', href: 'https://forhuman.ca/zh-hant/about' },
+  { hreflang: 'x-default', href: 'https://forhuman.ca/about' },
+];
+---
+<BaseLayout
+  title="關於"
+  description="關於 Human, 共學社的理念與組織方式。完整中文版即將推出。"
+  chrome="mono"
+  htmlLang="zh-Hant"
+  locale="zh-hant"
+  mirrorHref="/about"
+  hreflang={hreflang}
+>
+  <Hero
+    variant="mono"
+    en={{
+      headline: '即將推出',
+      sub: 'Coming soon. This page is being translated with care. For now, the English version at /about has the full story.',
+    }}
+  />
+
+  <section class="section section--narrow">
+    <div class="container narrow">
+      <p lang="zh-Hant" class="coming-soon-body">
+        我們正在與母語編輯一起準備完整的中文版。目前英文版已上線，點擊上方的「EN」即可閱讀。謝謝您的耐心。
+      </p>
+      <p lang="en-CA" class="coming-soon-body">
+        We're preparing the Traditional Chinese version with a native editor. The English page is live — click "EN" above to read it. Thank you for your patience.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.section--narrow { padding-block: var(--space-16); }
+.narrow { max-width: 48rem; margin-inline: auto; }
+.coming-soon-body {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg);
+  color: var(--text-secondary);
+  max-width: 54ch;
+}
+.coming-soon-body + .coming-soon-body {
+  margin-top: var(--space-6);
+}
+</style>
