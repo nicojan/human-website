@@ -136,6 +136,15 @@
     .nav__burger { display: none; }
   }
 
+  /* Inner-page CTA: visible on md+ only; mobile uses the drawer */
+  .nav__cta {
+    display: none;
+  }
+
+  @media (min-width: 48rem) {
+    .nav__cta { display: inline-flex; }
+  }
+
   .nav__burger:hover { background: var(--bg-surface); }
 
   .nav__burger-icon {

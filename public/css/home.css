@@ -395,4 +395,10 @@
     color: var(--text-inverse);
     opacity: 0.95;
   }
+
+  .closing-cta__sub {
+    font-size: var(--fs-body-lg);
+    color: var(--neutral-200);
+    max-width: 36rem;
+  }
 }

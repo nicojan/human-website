@@ -45,6 +45,12 @@
   .section--emphasis :is(h1, h2, h3, h4) { color: var(--text-inverse); }
   .section--emphasis .eyebrow,
   .section--emphasis .caption { color: var(--neutral-400); }
+  .section--emphasis .prose-block p { color: var(--neutral-200); }
+  .section--emphasis .bc-benefit__bullets li { color: var(--neutral-200); }
+  .section--emphasis .pill--stamp {
+    color: var(--text-inverse);
+    border-color: var(--neutral-600);
+  }
 
   /* Grids */
   .grid {

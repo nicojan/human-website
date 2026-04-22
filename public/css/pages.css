@@ -1,0 +1,343 @@
+/*
+ * pages.css — shared page-level styles for About, Services, Contact, 404.
+ *
+ * Home-specific styles live in home.css.
+ */
+
+@layer pages {
+  /* ────────────────────────────────────────────────────────────────── */
+  /* Shared page hero                                                    */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .page-hero {
+    padding-block: var(--sp-3xl) var(--sp-2xl);
+  }
+
+  @media (min-width: 48rem) {
+    .page-hero { padding-block: var(--sp-4xl) var(--sp-3xl); }
+  }
+
+  .page-hero__kicker {
+    margin-bottom: var(--sp-md);
+  }
+
+  .page-hero__headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.4rem + 3.5vw, 3.5rem);
+    font-weight: var(--fw-medium);
+    line-height: 1.1;
+    letter-spacing: var(--ls-display);
+    color: var(--text-primary);
+    max-width: 44rem;
+    margin-bottom: var(--sp-lg);
+  }
+
+  .page-hero__sub {
+    font-size: var(--fs-body-lg);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 38rem;
+  }
+
+  /* ────────────────────────────────────────────────────────────────── */
+  /* About                                                               */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .prose-block {
+    max-width: 40rem;
+    margin-inline: 0;
+  }
+
+  .prose-block p {
+    font-size: var(--fs-body-lg);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: var(--sp-md);
+  }
+
+  .prose-block p:last-child { margin-bottom: 0; }
+
+  .pullquote {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+    font-weight: var(--fw-medium);
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    color: var(--text-primary);
+    padding: var(--sp-xl) var(--sp-lg);
+    border-left: 3px solid var(--accent);
+    margin-top: var(--sp-xl);
+    max-width: 44rem;
+  }
+
+  .about-principles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-lg);
+  }
+
+  @media (min-width: 48rem) {
+    .about-principles { grid-template-columns: repeat(2, 1fr); gap: var(--sp-xl); }
+  }
+
+  .about-principle {
+    background: var(--bg-surface);
+    padding: var(--sp-xl);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .about-principle__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+  }
+
+  .about-principle__body {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* BC Benefit emphasis block */
+  .bc-benefit__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-xl);
+    max-width: 44rem;
+  }
+
+  .bc-benefit__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.5rem);
+    font-weight: var(--fw-medium);
+    line-height: 1.15;
+  }
+
+  .bc-benefit__bullets {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    margin-block: var(--sp-md);
+    max-width: 48rem;
+  }
+
+  .bc-benefit__bullets li {
+    position: relative;
+    padding-left: var(--sp-xl);
+    line-height: 1.55;
+    font-size: var(--fs-body-lg);
+  }
+
+  .bc-benefit__bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 1rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .bc-benefit__intro { max-width: 48rem; }
+  .bc-benefit__outro { margin-top: var(--sp-xl); }
+
+  /* ────────────────────────────────────────────────────────────────── */
+  /* Services                                                            */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-lg);
+  }
+
+  @media (min-width: 48rem) {
+    .service-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-xl); }
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    background: var(--bg-surface);
+    padding: var(--sp-xl);
+    border-radius: var(--radius-lg);
+    position: relative;
+  }
+
+  .service-card__number {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-regular);
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .service-card__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: 1.3;
+  }
+
+  .service-card__body { color: var(--text-secondary); line-height: 1.55; }
+
+  .service-card__good {
+    margin-top: auto;
+    padding-top: var(--sp-sm);
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+  }
+
+  .service-card__good strong {
+    display: block;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--text-primary);
+    margin-bottom: var(--sp-xs);
+  }
+
+  /* ────────────────────────────────────────────────────────────────── */
+  /* Contact                                                             */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-2xl);
+  }
+
+  @media (min-width: 64rem) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--sp-3xl);
+      align-items: start;
+    }
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md-lg);
+    background: var(--bg-surface);
+    padding: var(--sp-xl);
+    border-radius: var(--radius-lg);
+  }
+
+  .contact-form__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-md-lg);
+  }
+
+  @media (min-width: 48rem) {
+    .contact-form__row--split { grid-template-columns: 1fr 1fr; }
+  }
+
+  .contact-form__submit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    align-items: flex-start;
+  }
+
+  .contact-form__status {
+    display: none;
+    padding: var(--sp-md);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+  }
+
+  .contact-form__status.is-visible { display: block; }
+
+  .contact-form__status--success {
+    background: var(--status-success-bg);
+    color: var(--sage-deep);
+    border-left: 3px solid var(--status-success-fg);
+  }
+
+  .contact-form__status--error {
+    background: var(--status-error-bg);
+    color: var(--text-primary);
+    border-left: 3px solid var(--status-error-fg);
+  }
+
+  .contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-lg);
+  }
+
+  .contact-sidebar__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
+  }
+
+  .contact-sidebar__heading {
+    font-size: var(--fs-label);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .contact-sidebar__value {
+    font-size: var(--fs-body);
+    color: var(--text-primary);
+  }
+
+  .contact-sidebar__value a { color: inherit; }
+
+  /* Thank-you state replaces the form */
+  .contact-form--sent .contact-form__fields { display: none; }
+  .contact-form--sent .contact-form__submit { display: none; }
+
+  /* ────────────────────────────────────────────────────────────────── */
+  /* 404                                                                 */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .notfound {
+    min-height: 60vh;
+    display: grid;
+    place-items: center;
+    padding-block: var(--sp-4xl);
+  }
+
+  .notfound__content {
+    text-align: center;
+    max-width: 36rem;
+  }
+
+  .notfound__code {
+    font-family: var(--font-mono);
+    color: var(--text-tertiary);
+    font-size: var(--fs-caption);
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--sp-sm);
+  }
+
+  .notfound__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+    font-weight: var(--fw-medium);
+    line-height: 1.1;
+    margin-bottom: var(--sp-md);
+  }
+
+  .notfound__links {
+    margin-top: var(--sp-xl);
+    display: inline-flex;
+    gap: var(--sp-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
