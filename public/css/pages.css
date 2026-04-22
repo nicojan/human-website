@@ -340,4 +340,12 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+
+  .notfound__links--start { justify-content: flex-start; }
+
+  /* Minimal footer variant for standalone pages (404) — no top border */
+  .footer__bottom--plain {
+    border-top: 0;
+    padding-top: 0;
+  }
 }
