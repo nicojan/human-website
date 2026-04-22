@@ -93,19 +93,34 @@ In Matomo, go through:
   - Disable browser fingerprint.
   - Optionally: auto-delete visitor logs older than 180 days.
 - **Privacy → Users opt-out** → the iframe snippet is useful for a future `/privacy` page on `forhuman.ca`.
+- **Personal → Plugins → Custom Dimensions** → create two **action-scoped** dimensions so the tracker's extra context surfaces in reports:
+  1. `pageLanguage` — active (ID **1**). Values: `en`, `zh-hant`.
+  2. `pageSection` — active (ID **2**). Values: `home`, `about`, `services`, `writing`, `contact`, `other`.
+
+  The IDs must match `setCustomDimension` in `public/js/matomo.js`. Unknown IDs are silently dropped by Matomo, so creating them later is safe; reports just stay empty until then.
 
 ## 6. Wire the website to Matomo
 
-In the website repo, edit `public/js/matomo.js`:
+The site id lives at the top of `public/js/matomo.js`:
 
-```diff
-- const SITE_ID = 'SITE_ID_PLACEHOLDER';
-+ const SITE_ID = '1';
+```js
+const SITE_ID = '1';
 ```
 
-Commit with `feat(analytics): set Matomo site id`, push. Cloudflare Pages rebuilds automatically.
+The same file also pushes page views, heartbeat time, outbound links + downloads (with `.webm|.mp4|.m4a|.mov|.avif|.webp|.opus` added), visible content impressions, custom dimensions 1 + 2, and the following custom events:
 
-(You can also merge [PR #3](https://github.com/nicojan/human-website/pull/3) first, then edit on `main` afterward.)
+| Category     | When it fires                                                |
+| ------------ | ------------------------------------------------------------ |
+| `CTA`        | clicks on `.button--primary`, `.hero__cta`, `.link-cta`, closing-cta |
+| `Navigation` | clicks on `.nav__links a`                                    |
+| `Language`   | internal link that crosses `/` ⇄ `/zh-hant/`                 |
+| `FAQ`        | `<details.faq-item>` open / close                            |
+| `Video`      | first `play` on any `<video>`                                |
+| `Form`       | first focus + submit on `.contact-form`                      |
+| `Scroll`     | depth milestones at 25 / 50 / 75 / 100 %                     |
+| `JSError`    | `window.onerror` + `unhandledrejection`                      |
+
+If you add new surfaces (e.g. a search box, a newsletter form, a booking widget), extend the `wire()` block in `public/js/matomo.js` to emit matching events — don't sprinkle `_paq.push` calls across pages.
 
 ## 7. Verify tracking
 
