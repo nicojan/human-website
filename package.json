@@ -13,20 +13,24 @@
     "start": "node scripts/sandbox.mjs dev",
     "build": "node scripts/sandbox.mjs build",
     "build:raw": "astro build",
-    "preview": "node scripts/sandbox.mjs preview",
+    "preview": "npm run build:raw && wrangler dev",
     "check": "node scripts/sandbox.mjs check",
     "check:raw": "astro check",
     "humanize": "node scripts/humanize.mjs",
     "humanize:check": "node scripts/humanize.mjs --check",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "npm run build:raw && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "12",
     "@astrojs/sitemap": "^3.2.0",
     "astro": "^5.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
     "gray-matter": "^4.0.3",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "wrangler": "^4.84.1"
   }
 }

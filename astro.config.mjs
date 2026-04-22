@@ -1,9 +1,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://forhuman.ca',
+
   integrations: [
     sitemap({
       i18n: {
@@ -15,6 +18,7 @@ export default defineConfig({
       },
     }),
   ],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'zh-hant'],
@@ -23,8 +27,12 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+
   trailingSlash: 'ignore',
+
   build: {
     format: 'directory',
   },
+
+  adapter: cloudflare()
 });
