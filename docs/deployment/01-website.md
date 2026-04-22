@@ -1,29 +1,32 @@
-# Deploy the website to Cloudflare Pages
+# Deploy the website to Cloudflare Workers
 
-The deployable tree is `/public`. Hugo generates `/public/writing/` at build time. No npm install. No Node runtime.
+The site is served by a Cloudflare **Worker** with static assets — no Worker script, just the `./public` tree served directly from the edge. `wrangler.toml` in the repo root does the wiring.
+
+The deployable tree is `./public`. Hugo generates `./public/writing/` at build time, so the Workers Build step must run `bash scripts/build.sh` before `wrangler deploy`.
 
 ## 1. Merge the rebuild
 
-Open [PR #2](https://github.com/nicojan/human-website/pull/2) and merge it into `main`.
+Open [PR #2](https://github.com/nicojan/human-website/pull/2) and merge it into `main`. Also merge [PR #3](https://github.com/nicojan/human-website/pull/3) (Matomo snippet) if you want that in the first deploy.
 
-If Cloudflare Pages is already configured, it will trigger a build automatically. If not, follow step 2.
+Cloudflare Workers will trigger a build automatically on push to `main`.
 
-## 2. First-time Cloudflare Pages setup
+## 2. Update two fields in the Workers dashboard
 
-In the Cloudflare dashboard:
+Open the `human-website` Worker in the Cloudflare dashboard → **Settings → Build**. The dashboard shows "Latest build failed" because these two fields are wrong:
 
-1. **Workers & Pages → Create application → Pages → Connect to Git.**
-2. Choose `nicojan/human-website`, production branch `main`.
-3. Build configuration:
-   - **Framework preset:** None
-   - **Build command:** `bash scripts/build.sh`
-   - **Build output directory:** `public`
-   - **Root directory:** `/`
-4. **Environment variables** (Production):
-   - `HUGO_VERSION=0.122.0` (or the version you want pinned — the Cloudflare Pages build image supports Hugo directly)
-   - `NODE_VERSION=20` (optional — no Node is needed, but Pages may expect one)
-5. **Custom domains:** add `forhuman.ca` and `www.forhuman.ca`. Point the DNS records at the Pages target.
-6. Deploy.
+1. **Build command** — currently `None`. Change to: `bash scripts/build.sh`
+2. **Environment variables** (under Build configuration or a separate "Variables and Secrets" field for build-time) — add `HUGO_VERSION=0.122.0`
+
+Leave everything else as-is:
+
+- Deploy command: `npx wrangler deploy` (already correct)
+- Version command: `npx wrangler versions upload` (already correct)
+- Root directory: `/` (already correct)
+- Production branch: `main` (already correct)
+- Compatibility date and flags: already set to match `wrangler.toml`
+- Custom domain: `forhuman.ca` already bound
+
+Kick off a new deploy by re-running the failed build, or push any small change to `main`.
 
 ## 3. Verify
 
@@ -54,8 +57,11 @@ Design tokens live in `public/css/tokens.css`. Reference semantic tokens (`var(-
 
 ## Troubleshooting
 
-**Cloudflare Pages build fails at `hugo: command not found`.**
-Set `HUGO_VERSION` in Pages env vars. `0.122.0` or later works.
+**Workers build fails at `hugo: command not found`.**
+Set `HUGO_VERSION=0.122.0` (or later) as a build env var. Cloudflare's build image installs Hugo when that variable is present, same as Pages.
+
+**Workers build fails at `wrangler: not found`.**
+The project has no `package.json`, so `npx wrangler` has nothing to resolve from. Cloudflare Workers' build step adds `wrangler` to the image automatically if `wrangler.toml` exists — which it does in this repo. If this error still surfaces, add a minimal `package.json` with `wrangler` as a devDependency.
 
 **Blog posts don't show up after push.**
 Check the post's `date` — Hugo skips future-dated posts by default. Use `buildFuture = true` in `hugo.toml` if you want them visible.

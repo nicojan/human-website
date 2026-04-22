@@ -58,11 +58,16 @@ If a Figma token changes, update the primitive value in `tokens.css`. Semantic a
 
 ## Deploy
 
-Cloudflare Pages:
+Deployed as a Cloudflare **Worker** with static assets. `wrangler.toml` in the repo root tells `wrangler deploy` to upload `./public` at the edge.
 
-- **Build command:** `bash scripts/build.sh`
-- **Output directory:** `public`
-- **Environment variable:** `HUGO_VERSION=0.122.0` (or whatever version is pinned in `build.sh`)
+In the Cloudflare dashboard (Settings → Build):
+
+- **Build command:** `bash scripts/build.sh` — runs Hugo into `public/writing/`
+- **Deploy command:** `npx wrangler deploy`
+- **Root directory:** `/`
+- **Environment variable:** `HUGO_VERSION=0.122.0`
+
+Custom domain `forhuman.ca` is bound via the dashboard (Settings → Domains & Routes), not in `wrangler.toml`.
 
 ## Repo map
 

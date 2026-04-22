@@ -1,0 +1,35 @@
+# Cloudflare Workers — static assets deploy for forhuman.ca.
+#
+# No Worker script. The "assets" directive tells Cloudflare to serve the
+# contents of ./public directly from the edge, with /404.html returned
+# for any missing route.
+#
+# The tree ./public is NOT complete as committed: Hugo writes
+# ./public/writing/ at build time. The Cloudflare Workers "Build
+# command" must be set to `bash scripts/build.sh` so Hugo runs before
+# `npx wrangler deploy` uploads the assets.
+#
+# Dashboard checklist (Settings → Build):
+#   - Build command:  bash scripts/build.sh
+#   - Deploy command: npx wrangler deploy   (already set)
+#   - Root directory: /                     (already set)
+#   - Environment variables:
+#       HUGO_VERSION=0.122.0
+
+name = "human-website"
+compatibility_date = "2026-04-22"
+compatibility_flags = ["global_fetch_strictly_public", "nodejs_compat"]
+
+[assets]
+directory = "./public"
+# Serve /404.html for any unmatched path, preserving the 404 HTTP status.
+not_found_handling = "404-page"
+# Don't intercept routes with a trailing slash or alternate casing — the
+# site uses pretty URLs (about/, services/) so the default HTML handling
+# is what we want.
+html_handling = "auto-trailing-slash"
+
+# Observability (logs) is controlled in the dashboard, not here.
+
+# No [observability], no [vars], no [routes] — the custom domain
+# forhuman.ca is bound via the dashboard (Settings → Domains & Routes).
