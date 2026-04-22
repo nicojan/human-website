@@ -1,46 +1,77 @@
 ---
 /**
- * MediaCard — 16:9 video thumbnail with play overlay.
+ * MediaCard — 16:9 video embed (or static thumbnail).
  *
- * v1: the thumbnail is a placeholder gradient (or a real image if passed
- * via `src`). Clicking opens the external video URL in a new tab; a
- * richer modal embed is a post-launch upgrade.
+ * Two modes, picked by which props arrive:
  *
- * Accessibility: the wrapping <a> carries the full descriptive label so
- * the visual caption can stay short.
+ *   1. `video` — inline <video> element with AV1 + H.264 sources.
+ *      Native browser controls; preload="metadata" so the poster
+ *      frame shows without pulling the full clip.
+ *
+ *   2. `src` — static poster image linking out to an external player.
+ *      Kept as a fallback for cases where we don't host the video.
+ *
+ * When neither is passed, a gradient placeholder renders — the page
+ * builds, but nothing plays.
  */
+interface VideoSources {
+  /** AV1 encode, preferred for modern browsers. */
+  av1?: string;
+  /** H.264 encode, the broad-compatibility fallback. */
+  h264: string;
+  /** Optional poster frame to show before play. */
+  poster?: string;
+}
+
 interface Props {
-  /** Optional static thumbnail image. */
+  /** Inline video sources. When provided, a <video> element is rendered. */
+  video?: VideoSources;
+  /** Static image URL (used only when `video` is not provided). */
   src?: string;
-  /** Visible caption below the thumbnail. */
+  /** Visible caption below the media. */
   caption?: string;
-  /** Full accessible label for the play action. */
+  /** Accessible label — used for the <video> aria-label or the <a> label. */
   ariaLabel: string;
-  /** Destination — typically a Vimeo or YouTube URL. */
+  /** External destination when falling back to the static thumbnail. */
   href?: string;
 }
 
-const { src, caption, ariaLabel, href = '#' } = Astro.props;
+const { video, src, caption, ariaLabel, href = '#' } = Astro.props;
 const isExternal = href.startsWith('http');
 ---
 <figure class="media-card">
-  <a
-    href={href}
-    class="media-card__thumb"
-    aria-label={ariaLabel}
-    target={isExternal ? '_blank' : undefined}
-    rel={isExternal ? 'noopener noreferrer' : undefined}
-  >
-    {src
-      ? <img src={src} alt="" loading="lazy" decoding="async" />
-      : <span class="media-card__placeholder" aria-hidden="true"></span>
-    }
-    <span class="media-card__play" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-        <path d="M8 5.14v13.72L19 12 8 5.14z" />
-      </svg>
-    </span>
-  </a>
+  {video ? (
+    <video
+      class="media-card__video"
+      controls
+      preload="metadata"
+      playsinline
+      poster={video.poster}
+      aria-label={ariaLabel}
+    >
+      {video.av1 && <source src={video.av1} type="video/mp4; codecs=av01.0.08M.08" />}
+      <source src={video.h264} type="video/mp4" />
+      Your browser does not support embedded video. {ariaLabel}
+    </video>
+  ) : (
+    <a
+      href={href}
+      class="media-card__thumb"
+      aria-label={ariaLabel}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+    >
+      {src
+        ? <img src={src} alt="" loading="lazy" decoding="async" />
+        : <span class="media-card__placeholder" aria-hidden="true"></span>
+      }
+      <span class="media-card__play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+          <path d="M8 5.14v13.72L19 12 8 5.14z" />
+        </svg>
+      </span>
+    </a>
+  )}
   {caption && <figcaption class="media-card__caption">{caption}</figcaption>}
 </figure>
 
@@ -50,6 +81,15 @@ const isExternal = href.startsWith('http');
   flex-direction: column;
   gap: var(--space-3);
   margin: 0;
+}
+
+.media-card__video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  background: var(--color-ink);
+  object-fit: cover;
 }
 
 .media-card__thumb {

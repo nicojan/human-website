@@ -10,6 +10,12 @@
 import MediaCard from './MediaCard.astro';
 import Eyebrow from './Eyebrow.astro';
 
+interface VideoSources {
+  av1?: string;
+  h264: string;
+  poster?: string;
+}
+
 interface Props {
   number: number;
   titleEn: string;
@@ -17,8 +23,11 @@ interface Props {
   body: string;
   /** Desktop layout alternation. Mobile always stacks. */
   layout?: 'text-left' | 'text-right';
-  /** Video metadata. For v1 the href is just a placeholder. */
-  video?: {
+  /** Media card contents. Either inline video sources or a static thumbnail. */
+  media?: {
+    /** Inline video sources (preferred). */
+    video?: VideoSources;
+    /** Fallback thumbnail + external link. */
     src?: string;
     href?: string;
     ariaLabel: string;
@@ -32,7 +41,7 @@ const {
   titleZh,
   body,
   layout = 'text-left',
-  video,
+  media,
 } = Astro.props;
 const numberLabel = String(number).padStart(2, '0');
 ---
@@ -47,12 +56,13 @@ const numberLabel = String(number).padStart(2, '0');
     <p class="pp__body" lang="en-CA">{body}</p>
   </div>
   <div class="pp__media">
-    {video && (
+    {media && (
       <MediaCard
-        src={video.src}
-        href={video.href}
-        ariaLabel={video.ariaLabel}
-        caption={video.caption}
+        video={media.video}
+        src={media.src}
+        href={media.href}
+        ariaLabel={media.ariaLabel}
+        caption={media.caption}
       />
     )}
   </div>
