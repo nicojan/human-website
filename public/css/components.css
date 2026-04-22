@@ -47,16 +47,33 @@
     width: auto;
   }
 
-  .nav__brand-zh {
-    font-family: var(--font-display-zh);
-    font-size: var(--fs-caption);
-    color: var(--text-secondary);
-    padding-left: var(--sp-sm);
-    border-left: 1px solid var(--border-default);
+  /* Bilingual nav — homepage only.
+     Layout: [EN links LEFT] [Human, wordmark CENTER, enlarged] [ZH links RIGHT]
+     No language toggle, no CTA button (per Figma). */
+  .nav--bilingual {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--sp-md);
+  }
+
+  .nav--bilingual .nav__links--en { justify-self: start; }
+  .nav--bilingual .nav__links--zh { justify-self: end; }
+
+  .nav--bilingual .nav__brand {
+    justify-self: center;
+  }
+
+  .nav--bilingual .nav__wordmark {
+    height: 2.5rem;
   }
 
   @media (max-width: 47.99rem) {
-    .nav__brand-zh { display: none; }
+    .nav--bilingual {
+      grid-template-columns: auto 1fr auto;
+    }
+    .nav--bilingual .nav__brand { justify-self: start; }
+    .nav--bilingual .nav__links { display: none; }
   }
 
   .nav__links {

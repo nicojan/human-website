@@ -62,17 +62,17 @@
     margin-top: var(--sp-md);
   }
 
-  /* Chinese vertical hero — desktop: 3 columns reading right-to-left */
+  /* Chinese vertical hero — desktop: 3 separate columns reading right-to-left.
+     Parent is horizontal flex (row-reverse so the first span is rightmost).
+     Each span gets its own writing-mode so characters stack vertically
+     within that column — NOT as one continuous flow across all three. */
   .hero__zh-vertical {
     display: none;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
     font-family: var(--font-display-zh);
     font-weight: var(--fw-semibold);
     color: var(--text-primary);
-    gap: var(--sp-lg);
-    letter-spacing: 0.08em;
-    line-height: 1.05;
+    letter-spacing: 0.06em;
+    line-height: 1;
     padding-block: var(--sp-md);
   }
 
@@ -82,14 +82,19 @@
   @media (min-width: 64rem) {
     .hero__zh-vertical {
       display: flex;
-      font-size: clamp(2.5rem, 1.2rem + 3vw, 3.5rem);
+      flex-direction: row-reverse;
       justify-content: flex-end;
-      min-height: 12rem;
+      gap: var(--sp-xl);
+      font-size: clamp(2.5rem, 1.2rem + 3vw, 3.5rem);
+      min-height: 16rem;
     }
   }
 
   .hero__zh-vertical span {
-    display: inline-block;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    display: block;
+    white-space: nowrap;
   }
 
   /* Chinese horizontal hero — mobile/tablet fallback */
@@ -267,10 +272,11 @@
     max-width: 140px;
     height: 60px;
     object-fit: contain;
-    /* Section is --bg-emphasis (Ink). Logos are various colours, so we
-       invert+grayscale for uniform treatment on dark background. */
-    filter: brightness(0) invert(1) opacity(0.78);
-    transition: filter var(--duration-fast) var(--ease-out);
+    /* Section is --bg-surface (cream-mid). Logos keep their own colours
+       but at reduced opacity for a uniform, unboxed presentation. No
+       hover effect per design brief. */
+    opacity: 0.85;
+    transition: opacity var(--duration-fast) var(--ease-out);
   }
 
   /* ────────────────────────────────────────────────────────────────── */

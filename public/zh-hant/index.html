@@ -59,37 +59,34 @@
 
   <header class="site-header" data-site-header>
     <div class="container">
-      <nav class="nav" data-nav aria-label="主要">
+      <nav class="nav nav--bilingual" data-nav aria-label="主要">
+        <ul class="nav__links nav__links--en" id="primary-nav" lang="en">
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/writing/">Writing</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+
         <a class="nav__brand" href="/zh-hant/" aria-label="人本・共學社 首頁">
-          <img class="nav__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="130" height="28" />
-          <span class="nav__brand-zh">人本・共學社</span>
+          <img class="nav__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="200" height="44" />
         </a>
 
-        <ul class="nav__links" id="primary-nav">
+        <ul class="nav__links nav__links--zh">
           <li><a href="/zh-hant/services/">課程</a></li>
           <li><a href="/zh-hant/about/">關於</a></li>
           <li><a href="/writing/">文章</a></li>
           <li><a href="/zh-hant/contact/">聯絡</a></li>
         </ul>
 
-        <div class="nav__actions">
-          <div class="nav__toggle" role="group" aria-label="Language">
-            <a class="nav__toggle-link" href="/" lang="en" aria-label="Switch to English">EN</a>
-            <span class="nav__toggle-sep" aria-hidden="true">/</span>
-            <span class="nav__toggle-current" aria-current="true">繁</span>
-          </div>
-
-          <button class="nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="primary-nav" aria-label="開啟選單">
-            <span class="nav__burger-icon" aria-hidden="true"></span>
-          </button>
-        </div>
+        <button class="nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="primary-nav" aria-label="開啟選單">
+          <span class="nav__burger-icon" aria-hidden="true"></span>
+        </button>
 
         <ul class="nav__drawer" aria-label="行動選單">
-          <li><a href="/zh-hant/services/">課程</a></li>
-          <li><a href="/zh-hant/about/">關於</a></li>
-          <li><a href="/writing/">文章</a></li>
-          <li><a href="/zh-hant/contact/">聯絡</a></li>
-          <li><a href="/" lang="en">English</a></li>
+          <li><a href="/zh-hant/services/"><span lang="en">Services</span> · 課程</a></li>
+          <li><a href="/zh-hant/about/"><span lang="en">About</span> · 關於</a></li>
+          <li><a href="/writing/"><span lang="en">Writing</span> · 文章</a></li>
+          <li><a href="/zh-hant/contact/"><span lang="en">Contact</span> · 聯絡</a></li>
         </ul>
       </nav>
     </div>
@@ -255,7 +252,7 @@
     </section>
 
     <!-- Outcomes -->
-    <section class="section section--emphasis outcomes" aria-labelledby="outcomes-heading">
+    <section class="section section--surface outcomes" aria-labelledby="outcomes-heading">
       <div class="container">
         <header class="section-header" data-animate>
           <span class="eyebrow">學生去向 · <span lang="en">Outcomes</span></span>
