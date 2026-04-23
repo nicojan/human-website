@@ -171,26 +171,15 @@
   }
 
   function getCopy() {
-    const isZh = (document.documentElement.lang || '').toLowerCase().startsWith('zh');
-    if (isZh) {
-      return {
-        send: '傳送訊息',
-        sending: '傳送中',
-        sent: '收到了。我們會在兩個工作天內回覆。',
-        failed: '訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。',
-        endpointUnreachable: '訊息伺服器目前無法連線。請稍後再試，或寫信到 contact@forhuman.ca。',
-        fixErrorsAbove: '請先填寫標示的欄位。',
-        completeSecurityCheck: '請先完成「我不是機器人」驗證。',
-      };
-    }
+    /* Bilingual strings (EN · ZH) — the contact page serves both audiences. */
     return {
-      send: 'Send Message',
-      sending: 'Sending',
-      sent: "Got it. We'll be in touch within two business days.",
-      failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca.",
-      endpointUnreachable: 'We could not reach the message server. Please try again, or email contact@forhuman.ca.',
-      fixErrorsAbove: 'Please fix the highlighted fields.',
-      completeSecurityCheck: 'Please complete the security check first.',
+      send: 'Send Message · 傳送訊息',
+      sending: 'Sending · 傳送中',
+      sent: "Got it. We'll be in touch within two business days. · 收到了，我們會在兩個工作天內回覆。",
+      failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca. · 訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。",
+      endpointUnreachable: 'We could not reach the message server. Please try again, or email contact@forhuman.ca. · 目前無法連線。請稍後再試，或寫信到 contact@forhuman.ca。',
+      fixErrorsAbove: 'Please fix the highlighted fields. · 請先修正標示的欄位。',
+      completeSecurityCheck: 'Please complete the security check first. · 請先完成「我不是機器人」驗證。',
     };
   }
 
