@@ -30,35 +30,35 @@
 
   const HANDLE_FIELDS = {
     email: {
-      labelHtml: 'Email address · <span lang="zh-Hant">電郵地址</span>',
+      labelHtml: '<span>Email address</span><span lang="zh-Hant">電郵地址</span>',
       type: 'email',
       placeholder: 'name@example.com',
       autocomplete: 'email',
       inputMode: 'email',
     },
     wechat: {
-      labelHtml: 'WeChat ID · <span lang="zh-Hant">微信號</span>',
+      labelHtml: '<span>WeChat ID</span><span lang="zh-Hant">微信號</span>',
       type: 'text',
       placeholder: 'e.g. classwithnico',
       autocomplete: 'off',
       inputMode: 'text',
     },
     line: {
-      labelHtml: 'Line ID · <span lang="zh-Hant">Line 帳號</span>',
+      labelHtml: '<span>Line ID</span><span lang="zh-Hant">Line 帳號</span>',
       type: 'text',
       placeholder: 'e.g. classwithnico',
       autocomplete: 'off',
       inputMode: 'text',
     },
     whatsapp: {
-      labelHtml: 'WhatsApp number · <span lang="zh-Hant">WhatsApp 號碼</span>',
+      labelHtml: '<span>WhatsApp number</span><span lang="zh-Hant">WhatsApp 號碼</span>',
       type: 'tel',
       placeholder: '+1 604 555 0123',
       autocomplete: 'tel',
       inputMode: 'tel',
     },
     text: {
-      labelHtml: 'Phone number · <span lang="zh-Hant">手機號碼</span>',
+      labelHtml: '<span>Phone number</span><span lang="zh-Hant">手機號碼</span>',
       type: 'tel',
       placeholder: '+1 604 555 0123',
       autocomplete: 'tel',
