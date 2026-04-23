@@ -535,8 +535,8 @@
   .input:focus,
   .textarea:focus,
   .select:focus {
-    border-color: var(--accent);
-    outline: 2px solid var(--terracotta-light);
+    border-color: var(--focus-ring);
+    outline: 2px solid var(--focus-ring-soft);
     outline-offset: 0;
   }
 

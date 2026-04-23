@@ -187,7 +187,7 @@
 
   .prose a { text-decoration: underline; }
 
-  /* Focus ring — Terracotta per brand */
+  /* Focus ring — Slate blue. Keeps it distinct from the rose error state. */
   :focus-visible {
     outline: 2px solid var(--focus-ring);
     outline-offset: 2px;

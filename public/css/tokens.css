@@ -201,7 +201,9 @@
     --link-default:      var(--ink);
     --link-hover:        var(--ink-hover);
     --link-visited:      var(--neutral-600);
-    --focus-ring:        var(--terracotta);
+    /* Focus uses slate blue so it never reads as an error state. */
+    --focus-ring:        var(--slate);
+    --focus-ring-soft:   var(--slate-light);
     --surface-active:    var(--neutral-200);
   }
 
