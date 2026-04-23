@@ -14,6 +14,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
+echo "→ injecting shared partials (footer, …)"
+python3 scripts/inject-partials.py
+
 echo "→ cleaning public/writing"
 rm -rf public/writing
 mkdir -p public/writing
