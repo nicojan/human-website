@@ -6,14 +6,15 @@
  *   - honeypot filtering
  *   - POSTs JSON to the endpoint; falls back to a stubbed success in dev
  *
- * The real endpoint lives in human-dashboard (sub-project B). Until that
- * ships, the form shows the success state without sending anywhere.
+ * Endpoint resolution:
+ *   - uses form[data-endpoint] when provided
+ *   - falls back to same-origin /api/contact
+ *   - in local dev, uses a stubbed success without network calls
  */
 
 (() => {
   'use strict';
 
-  const ENDPOINT = 'https://dashboard.forhuman.ca/api/contact';
   const IS_DEV =
     location.hostname === 'localhost' ||
     location.hostname === '127.0.0.1' ||
@@ -21,6 +22,7 @@
 
   const form = document.querySelector('[data-contact-form]');
   if (!form) return;
+  const ENDPOINT = resolveEndpoint(form);
 
   const submitBtn = form.querySelector('[data-submit]');
   const submitLabel = form.querySelector('[data-submit-label]');
@@ -89,8 +91,9 @@
       form.classList.add('contact-form--sent');
       showStatus(copy.sent, 'success');
     } catch (err) {
-      console.error('[contact.js] submission failed:', err);
-      showStatus(copy.failed, 'error');
+      console.error('[contact.js] submission failed:', { endpoint: ENDPOINT, error: err });
+      const isNetworkError = err instanceof TypeError;
+      showStatus(isNetworkError ? copy.endpointUnreachable : copy.failed, 'error');
       setSubmitting(false);
     }
   }
@@ -175,6 +178,7 @@
         sending: '傳送中',
         sent: '收到了。我們會在兩個工作天內回覆。',
         failed: '訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。',
+        endpointUnreachable: '訊息伺服器目前無法連線。請稍後再試，或寫信到 contact@forhuman.ca。',
         fixErrorsAbove: '請先填寫標示的欄位。',
         completeSecurityCheck: '請先完成「我不是機器人」驗證。',
       };
@@ -184,8 +188,19 @@
       sending: 'Sending',
       sent: "Got it. We'll be in touch within two business days.",
       failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca.",
+      endpointUnreachable: 'We could not reach the message server. Please try again, or email contact@forhuman.ca.',
       fixErrorsAbove: 'Please fix the highlighted fields.',
       completeSecurityCheck: 'Please complete the security check first.',
     };
+  }
+
+  function resolveEndpoint(formEl) {
+    const configured = (formEl.getAttribute('data-endpoint') || '').trim();
+    const fallback = '/api/contact';
+    try {
+      return new URL(configured || fallback, location.origin).toString();
+    } catch (_) {
+      return new URL(fallback, location.origin).toString();
+    }
   }
 })();
