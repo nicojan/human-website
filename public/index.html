@@ -95,6 +95,7 @@
           <li><a href="/about/">About · <span lang="zh-Hant">關於</span></a></li>
           <li><a href="/writing/">Writing · <span lang="zh-Hant">文章</span></a></li>
           <li><a href="/contact/">Contact · <span lang="zh-Hant">聯絡</span></a></li>
+          <li class="nav__drawer-lang"><a href="/zh-hant/" lang="zh-Hant">繁體中文</a></li>
         </ul>
       </nav>
     </div>
@@ -104,7 +105,12 @@
     <!-- ──────────────────────────────────────────────────────────── -->
     <!-- Hero                                                          -->
     <!-- ──────────────────────────────────────────────────────────── -->
-    <section class="section section--canvas hero" aria-labelledby="hero-headline">
+    <section class="section hero hero--video" aria-labelledby="hero-headline">
+      <video class="hero__video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="/videos/showreel.av1.mp4" type="video/mp4; codecs=av01.0.05M.08" />
+        <source src="/videos/showreel.h264.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__overlay" aria-hidden="true"></div>
       <div class="container">
         <div class="hero__grid">
           <div class="hero__en" data-animate-stagger>
@@ -114,12 +120,6 @@
             <p class="hero__sub" data-animate>
               One-on-one tutoring in English literature, writing, and critical thinking. Online, from Vancouver.
             </p>
-            <div class="hero__cta" data-animate>
-              <a class="button button--primary button--lg button--stacked" href="/contact/">
-                <span class="button__en">Book a Consult</span>
-                <span class="button__zh" lang="zh-Hant">預約諮詢</span>
-              </a>
-            </div>
 
             <!-- Mobile/tablet Chinese block renders under the EN hero -->
             <div class="hero__zh-horizontal" data-animate lang="zh-Hant" aria-label="Chinese headline">
@@ -140,6 +140,15 @@
             <span>把文本讀透</span>
             <span>把字寫準。</span>
           </div>
+        </div>
+
+        <!-- CTA sits below the bilingual grid so it's viewport-centred,
+             not trapped in either column. -->
+        <div class="hero__cta" data-animate>
+          <a class="button button--primary button--lg button--stacked" href="/contact/">
+            <span class="button__en">Book a Consult</span>
+            <span class="button__zh" lang="zh-Hant">預約諮詢</span>
+          </a>
         </div>
       </div>
     </section>
@@ -346,8 +355,7 @@
   <footer class="site-footer" role="contentinfo">
     <div class="container">
       <div class="footer__lockup">
-        <img class="footer__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="160" height="32" />
-        <span class="footer__name-zh" lang="zh-Hant">人本・共學社</span>
+        <img class="footer__wordmark" src="/brand/human-lockup-bilingual-stacked-left-on-white.svg" alt="Human, · 人本・共學社" width="180" height="142" />
       </div>
 
       <div class="footer__grid">
@@ -371,20 +379,21 @@
           </ul>
         </div>
 
-        <div class="footer__col">
-          <span class="footer__heading">Contact · <span lang="zh-Hant">聯絡方式</span></span>
-          <ul class="footer__list">
-            <li><a href="mailto:contact@forhuman.ca">contact@forhuman.ca</a></li>
-            <li>WeChat: classwithnico</li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <span class="footer__heading">Based in · <span lang="zh-Hant">所在地</span></span>
-          <ul class="footer__list">
-            <li>Vancouver, British Columbia</li>
-            <li lang="zh-Hant">溫哥華・卑詩省</li>
-          </ul>
+        <div class="footer__col footer__col--stacked">
+          <div>
+            <span class="footer__heading">Contact · <span lang="zh-Hant">聯絡方式</span></span>
+            <ul class="footer__list">
+              <li><a href="mailto:contact@forhuman.ca">contact@forhuman.ca</a></li>
+              <li>WeChat: classwithnico</li>
+            </ul>
+          </div>
+          <div>
+            <span class="footer__heading">Based in · <span lang="zh-Hant">所在地</span></span>
+            <ul class="footer__list">
+              <li>Vancouver, British Columbia</li>
+              <li lang="zh-Hant">溫哥華・卑詩省</li>
+            </ul>
+          </div>
         </div>
       </div>
 

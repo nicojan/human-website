@@ -14,13 +14,53 @@
     top: 0;
     z-index: 50;
     background: var(--bg-canvas);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--duration-fast) var(--ease-out),
-                background var(--duration-fast) var(--ease-out);
+    border: 1px solid transparent;
+    margin-inline: 0;
+    border-radius: 0;
+    transition: top var(--duration-normal) var(--ease-out),
+                margin var(--duration-normal) var(--ease-out),
+                padding var(--duration-normal) var(--ease-out),
+                background var(--duration-normal) var(--ease-out),
+                backdrop-filter var(--duration-normal) var(--ease-out),
+                -webkit-backdrop-filter var(--duration-normal) var(--ease-out),
+                border-color var(--duration-normal) var(--ease-out),
+                border-radius var(--duration-normal) var(--ease-out),
+                box-shadow var(--duration-normal) var(--ease-out);
   }
 
   .site-header.is-scrolled {
     border-bottom-color: var(--border-default);
+  }
+
+  /* Pill-mode nav — active while the video hero is in view. Floats above
+     the hero with an inset on each side, glass-blur background, and light
+     nav text so it reads against the Ink-tinted overlay. */
+  body.has-video-hero.hero-in-view .site-header {
+    top: var(--sp-sm);
+    margin-inline: var(--sp-lg);
+    border-radius: 9999px;
+    background: rgba(250, 247, 242, 0.12);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-color: rgba(250, 247, 242, 0.22);
+    box-shadow: 0 4px 28px rgba(20, 28, 40, 0.18);
+  }
+
+  body.has-video-hero.hero-in-view .site-header.is-scrolled {
+    border-bottom-color: rgba(250, 247, 242, 0.22);
+  }
+
+  body.has-video-hero.hero-in-view .site-header .nav__links a,
+  body.has-video-hero.hero-in-view .site-header .nav__toggle-current,
+  body.has-video-hero.hero-in-view .site-header .nav__toggle-sep,
+  body.has-video-hero.hero-in-view .site-header .nav__toggle-link {
+    color: var(--text-inverse);
+  }
+
+  body.has-video-hero.hero-in-view .site-header .nav__burger-icon,
+  body.has-video-hero.hero-in-view .site-header .nav__burger-icon::before,
+  body.has-video-hero.hero-in-view .site-header .nav__burger-icon::after {
+    background: var(--text-inverse);
   }
 
   .nav {
@@ -229,6 +269,18 @@
     background: var(--bg-surface);
   }
 
+  /* Language-switch entry in mobile drawer — separated from section links. */
+  .nav__drawer-lang {
+    margin-top: var(--sp-sm);
+    padding-top: var(--sp-sm);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .nav__drawer-lang a {
+    color: var(--text-secondary);
+    font-weight: var(--fw-regular);
+  }
+
   /* ────────────────────────────────────────────────────────────────── */
   /* Buttons                                                             */
   /* ────────────────────────────────────────────────────────────────── */
@@ -325,7 +377,8 @@
   .button--stacked .button__zh {
     font-size: var(--fs-caption);
     font-weight: var(--fw-regular);
-    opacity: 0.92;
+    /* Kept at full opacity so WCAG AA contrast holds (4.95:1 on terracotta-deep).
+       Hierarchy carried by size/weight, not tone. */
   }
 
   .button--lg {
@@ -544,23 +597,20 @@
     border-top: 1px solid var(--border-default);
   }
 
+  /* Used on 404-style minimal footers where the wordmark sits above a
+     plain bottom row. Grid-based footers inline the wordmark at the top
+     of the Site column (.footer__col--with-wordmark) — no wrapper needed. */
   .footer__lockup {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--sp-sm);
-    margin-bottom: var(--sp-2xl);
+    margin-bottom: var(--sp-xl);
   }
 
+  /* Stacked bilingual lockup SVG (457×360 canvas, left-aligned).
+     HTML width/height attributes control rendered size; CSS lets it scale
+     down responsively on narrow columns. */
   .footer__wordmark {
-    height: 2rem;
-    width: auto;
-  }
-
-  .footer__name-zh {
-    font-family: var(--font-display-zh);
-    font-size: var(--fs-body-lg);
-    color: var(--text-secondary);
+    display: block;
+    max-width: 100%;
+    height: auto;
   }
 
   .footer__grid {
@@ -568,7 +618,6 @@
     grid-template-columns: 1fr;
     gap: var(--sp-xl);
     padding-block: var(--sp-xl);
-    border-top: 1px solid var(--border-default);
   }
 
   @media (min-width: 40rem) {
@@ -576,10 +625,32 @@
   }
 
   @media (min-width: 64rem) {
-    .footer__grid { grid-template-columns: repeat(4, 1fr); }
+    .footer__grid {
+      /* (wordmark + site) | services (wider) | contact+based-in stacked */
+      grid-template-columns: 1fr 1.3fr 1fr;
+      align-items: start;
+    }
   }
 
   .footer__col { display: flex; flex-direction: column; gap: var(--sp-base-sm); }
+
+  /* Stacked column: Contact on top half, Based in on bottom half. */
+  .footer__col--stacked {
+    gap: var(--sp-lg);
+  }
+
+  .footer__col--stacked > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-base-sm);
+  }
+
+  @media (min-width: 64rem) {
+    .footer__col--stacked {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+    }
+  }
 
   .footer__heading {
     font-size: var(--fs-label);

@@ -25,9 +25,13 @@
   const nav = document.querySelector('[data-nav]');
   const burger = document.querySelector('[data-nav-burger]');
   if (nav && burger) {
+    const isZh = document.documentElement.lang === 'zh-Hant';
+    const labelOpen = isZh ? '開啟選單' : 'Open menu';
+    const labelClose = isZh ? '關閉選單' : 'Close menu';
     burger.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('is-open');
       burger.setAttribute('aria-expanded', String(isOpen));
+      burger.setAttribute('aria-label', isOpen ? labelClose : labelOpen);
     });
   }
 
@@ -39,6 +43,32 @@
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* Pill-mode nav: on pages with a video hero, the nav renders as a
+     floating glass pill while any part of the hero is visible, then
+     flips to the standard full-width bar once the user has scrolled
+     past the hero. The wordmark swaps to the colour-on-ink variant
+     (light "Human," with terracotta comma) while the pill is active
+     so it stays legible against the dark video behind the glass. */
+  const videoHero = document.querySelector('.hero--video');
+  if (videoHero && 'IntersectionObserver' in window) {
+    document.body.classList.add('has-video-hero', 'hero-in-view');
+    const navWordmark = document.querySelector('.nav__wordmark');
+    const WORDMARK_LIGHT_BG = '/brand/human-wordmark-colour-on-white.svg';
+    const WORDMARK_DARK_BG  = '/brand/human-wordmark-colour-on-ink.svg';
+    if (navWordmark) {
+      navWordmark.src = WORDMARK_DARK_BG;
+    }
+    const heroIO = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        document.body.classList.toggle('hero-in-view', entry.isIntersecting);
+        if (navWordmark) {
+          navWordmark.src = entry.isIntersecting ? WORDMARK_DARK_BG : WORDMARK_LIGHT_BG;
+        }
+      });
+    }, { threshold: 0 });
+    heroIO.observe(videoHero);
   }
 
   /* Scroll-in animations

@@ -32,7 +32,8 @@
     --sage-deep:         #3D5236;
     --sage-light:        #E8EDE6;
     --terracotta:        #B86F4A;
-    --terracotta-hover:  #A0603F;
+    --terracotta-deep:   #A0603F;   /* button resting on white: ≥4.5:1 */
+    --terracotta-deeper: #854D2F;   /* button hover:            ≥6.5:1 */
     --terracotta-light:  #F5E6DB;
     --clay:              #C9906D;
     --rose:              #B5454A;
@@ -174,8 +175,8 @@
     --border-subtle:     var(--neutral-200);
 
     /* Actions */
-    --action-primary:         var(--terracotta);
-    --action-primary-hover:   var(--terracotta-hover);
+    --action-primary:         var(--terracotta-deep);
+    --action-primary-hover:   var(--terracotta-deeper);
     --action-secondary:       var(--ink);
     --action-secondary-hover: var(--ink-hover);
     --action-danger:          var(--rose);

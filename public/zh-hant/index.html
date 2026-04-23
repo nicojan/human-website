@@ -87,6 +87,7 @@
           <li><a href="/zh-hant/about/"><span lang="en">About</span> · 關於</a></li>
           <li><a href="/writing/"><span lang="en">Writing</span> · 文章</a></li>
           <li><a href="/zh-hant/contact/"><span lang="en">Contact</span> · 聯絡</a></li>
+          <li class="nav__drawer-lang"><a href="/" lang="en">English</a></li>
         </ul>
       </nav>
     </div>
@@ -94,26 +95,25 @@
 
   <main id="main">
     <!-- Hero -->
-    <section class="section section--canvas hero" aria-labelledby="hero-headline">
+    <section class="section hero hero--video" aria-labelledby="hero-headline">
+      <video class="hero__video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="/videos/showreel.av1.mp4" type="video/mp4; codecs=av01.0.05M.08" />
+        <source src="/videos/showreel.h264.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__overlay" aria-hidden="true"></div>
       <div class="container">
         <div class="hero__grid">
           <div class="hero__en" data-animate-stagger>
-            <h1 class="hero__headline" id="hero-headline" data-animate lang="en">
-              We help students think clearly, read closely, and write with purpose.
+            <h1 class="hero__headline hero__headline--zh" id="hero-headline" data-animate>
+              我們幫助學生把話想清楚、把文本讀透、把字寫準。
             </h1>
-            <p class="hero__sub" data-animate lang="en">
-              One-on-one tutoring in English literature, writing, and critical thinking. Online, from Vancouver.
+            <p class="hero__sub hero__sub--zh" data-animate>
+              一對一教學，聚焦英文文學、寫作與批判思考。從溫哥華連線授課。
             </p>
-            <div class="hero__cta" data-animate>
-              <a class="button button--primary button--lg button--stacked" href="/zh-hant/contact/">
-                <span class="button__en">預約諮詢</span>
-                <span class="button__zh" lang="en">Book a Consult</span>
-              </a>
-            </div>
 
-            <div class="hero__zh-horizontal" data-animate aria-label="中文標題">
-              <p>我們幫助學生把話想清楚、把文本讀透、把字寫準。</p>
-              <p class="hero__zh-sub">一對一教學，聚焦英文文學、寫作與批判思考。從溫哥華連線授課。</p>
+            <div class="hero__en-horizontal" data-animate lang="en" aria-label="English headline">
+              <p>We help students think clearly, read closely, and write with purpose.</p>
+              <p class="hero__en-sub">One-on-one tutoring in English literature, writing, and critical thinking. Online, from Vancouver.</p>
             </div>
           </div>
 
@@ -128,6 +128,14 @@
             <span>把文本讀透</span>
             <span>把字寫準。</span>
           </div>
+        </div>
+
+        <!-- CTA sits below the bilingual grid, viewport-centred. -->
+        <div class="hero__cta" data-animate>
+          <a class="button button--primary button--lg button--stacked" href="/zh-hant/contact/">
+            <span class="button__en">預約諮詢</span>
+            <span class="button__zh" lang="en">Book a Consult</span>
+          </a>
         </div>
       </div>
     </section>
@@ -168,8 +176,8 @@
             <div class="principle__text">
               <div class="principle__number" aria-hidden="true">01</div>
               <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
-              <h3 class="principle__title-en" lang="en">Curiosity over compliance.</h3>
-              <p class="principle__title-zh">以好奇為先。</p>
+              <h3 class="principle__title-zh">以好奇為先。</h3>
+              <p class="principle__title-en" lang="en">Curiosity over compliance.</p>
               <p class="principle__body" lang="en">
                 We connect classwork to the world beyond the page. We watch short clips and examine reliable websites to build context. Students test claims, compare sources, and apply new ideas to issues that matter to them.
               </p>
@@ -186,8 +194,8 @@
             <div class="principle__text">
               <div class="principle__number" aria-hidden="true">02</div>
               <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
-              <h3 class="principle__title-en" lang="en">Close reading, thinking out loud.</h3>
-              <p class="principle__title-zh">細讀，也讓思考出聲。</p>
+              <h3 class="principle__title-zh">細讀，也讓思考出聲。</h3>
+              <p class="principle__title-en" lang="en">Close reading, thinking out loud.</p>
               <p class="principle__body" lang="en">
                 We annotate literature and graphic novels together, modelling how to notice, question, and connect. Students turn careful observation into clear argument, and learn to do the same work on their own.
               </p>
@@ -204,8 +212,8 @@
             <div class="principle__text">
               <div class="principle__number" aria-hidden="true">03</div>
               <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
-              <h3 class="principle__title-en" lang="en">Progress you can see.</h3>
-              <p class="principle__title-zh">看得見的進步。</p>
+              <h3 class="principle__title-zh">看得見的進步。</h3>
+              <p class="principle__title-en" lang="en">Progress you can see.</p>
               <p class="principle__body" lang="en">
                 We track every week on a shared Kanban board. Goals, samples of work, and next steps are visible to parents and students. Learning becomes a process, not a grade at the end of term.
               </p>
@@ -222,8 +230,8 @@
             <div class="principle__text">
               <div class="principle__number" aria-hidden="true">04</div>
               <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
-              <h3 class="principle__title-en" lang="en">Research habits that travel.</h3>
-              <p class="principle__title-zh">帶得走的研究習慣。</p>
+              <h3 class="principle__title-zh">帶得走的研究習慣。</h3>
+              <p class="principle__title-en" lang="en">Research habits that travel.</p>
               <p class="principle__body" lang="en">
                 We use current research tools and academic databases to plan, narrow, and verify. Students learn to manage sources, cite responsibly, and write with evidence, well before university asks them to.
               </p>
@@ -316,8 +324,7 @@
   <footer class="site-footer" role="contentinfo">
     <div class="container">
       <div class="footer__lockup">
-        <img class="footer__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="160" height="32" />
-        <span class="footer__name-zh">人本・共學社</span>
+        <img class="footer__wordmark" src="/brand/human-lockup-bilingual-stacked-left-on-white.svg" alt="人本・共學社 · Human," width="180" height="142" />
       </div>
 
       <div class="footer__grid">
@@ -341,20 +348,21 @@
           </ul>
         </div>
 
-        <div class="footer__col">
-          <span class="footer__heading"><span lang="en">Contact</span> · 聯絡方式</span>
-          <ul class="footer__list">
-            <li><a href="mailto:contact@forhuman.ca">contact@forhuman.ca</a></li>
-            <li>WeChat：classwithnico</li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <span class="footer__heading"><span lang="en">Based in</span> · 所在地</span>
-          <ul class="footer__list">
-            <li>溫哥華・卑詩省</li>
-            <li lang="en">Vancouver, British Columbia</li>
-          </ul>
+        <div class="footer__col footer__col--stacked">
+          <div>
+            <span class="footer__heading"><span lang="en">Contact</span> · 聯絡方式</span>
+            <ul class="footer__list">
+              <li><a href="mailto:contact@forhuman.ca">contact@forhuman.ca</a></li>
+              <li>WeChat：classwithnico</li>
+            </ul>
+          </div>
+          <div>
+            <span class="footer__heading"><span lang="en">Based in</span> · 所在地</span>
+            <ul class="footer__list">
+              <li>溫哥華・卑詩省</li>
+              <li lang="en">Vancouver, British Columbia</li>
+            </ul>
+          </div>
         </div>
       </div>
 

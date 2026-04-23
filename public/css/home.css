@@ -20,7 +20,80 @@
   }
 
   @media (min-width: 64rem) {
-    .hero { padding-block: var(--sp-3xl-lg) var(--sp-4xl); }
+    .hero {
+      padding-block: var(--sp-3xl-lg) var(--sp-4xl);
+      /* Full-viewport-height hero on desktop with a 40rem floor so short
+         viewports (e.g. 600px laptops) stay comfortable. Video heros add
+         the pull-up amount so the visible portion still fills 100vh after
+         the negative-margin that tucks them behind the sticky header. */
+      min-height: max(100vh, 40rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero--video {
+      min-height: max(
+        calc(100vh + var(--sp-3xl) + var(--sp-sm)),
+        40rem
+      );
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────────── */
+  /* Hero — video background variant                                    */
+  /* ────────────────────────────────────────────────────────────────── */
+
+  .hero--video {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-emphasis); /* fallback before video paints */
+    color: var(--text-inverse);
+    isolation: isolate;
+    /* Pull the section up behind the sticky site-header so the video
+       shows through the glass pill that floats over it. The extra
+       padding-top clears the pill + its top inset. */
+    margin-top: calc(-1 * (var(--sp-3xl) + var(--sp-sm)));
+    padding-top: calc(var(--sp-3xl) + var(--sp-sm) + var(--sp-3xl-lg));
+  }
+
+  .hero__video,
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__video {
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Ink-tinted overlay — darker at the bottom where most copy sits. */
+  .hero__overlay {
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(19, 26, 35, 0.9));
+  }
+
+  .hero--video > .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Light-theme text overrides for the video hero. */
+  .hero--video .hero__headline,
+  .hero--video .hero__zh-horizontal,
+  .hero--video .hero__en-horizontal,
+  .hero--video .hero__zh-vertical {
+    color: var(--text-inverse);
+  }
+
+  .hero--video .hero__sub,
+  .hero--video .hero__zh-sub,
+  .hero--video .hero__en-sub {
+    color: var(--neutral-200);
   }
 
   .hero__grid {
@@ -38,7 +111,9 @@
     }
   }
 
-  .hero__en { max-width: 60rem; }
+  .hero__en {
+    max-width: 60rem;
+  }
 
   .hero__headline {
     font-family: var(--font-display);
@@ -61,7 +136,9 @@
   }
 
   .hero__cta {
-    margin-top: var(--sp-md);
+    margin-top: var(--sp-2xl);
+    display: flex;
+    justify-content: center;
   }
 
   /* Chinese vertical hero — desktop: 3 separate columns reading right-to-left.
@@ -78,14 +155,23 @@
     padding-block: var(--sp-md);
   }
 
-  .hero__zh-vertical[data-animate] { transform: translateY(0) translateX(12px); }
-  .hero__zh-vertical[data-animate].is-visible { transform: none; }
+  .hero__zh-vertical[data-animate] {
+    transform: translateY(0) translateX(12px);
+  }
+  .hero__zh-vertical[data-animate].is-visible {
+    transform: none;
+  }
 
   @media (min-width: 64rem) {
     .hero__zh-vertical {
       display: flex;
+      /* row-reverse so the first source span (把話想清楚) sits visually
+         rightmost, read right-to-left per Traditional Chinese convention.
+         In row-reverse, flex-start aligns items to the visual right edge,
+         so the ZH block hugs the container's right boundary and the hero
+         reads symmetrically on the viewport. */
       flex-direction: row-reverse;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: var(--sp-xl);
       font-size: clamp(2.5rem, 1.2rem + 3vw, 3.5rem);
       min-height: 16rem;
@@ -111,7 +197,9 @@
   }
 
   @media (min-width: 64rem) {
-    .hero__zh-horizontal { display: none; }
+    .hero__zh-horizontal {
+      display: none;
+    }
   }
 
   .hero__zh-sub {
@@ -119,6 +207,43 @@
     font-size: var(--fs-body);
     margin-top: var(--sp-sm);
     font-family: var(--font-body-zh);
+  }
+
+  /* ZH-dominant hero variant (/zh-hant/): primary headline runs Chinese. */
+  .hero__headline--zh {
+    font-family: var(--font-display-zh);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-zh-body);
+    letter-spacing: 0;
+  }
+
+  .hero__sub--zh {
+    font-family: var(--font-body-zh);
+    line-height: var(--lh-zh-body);
+  }
+
+  /* English horizontal hero — fallback under ZH headline on narrow viewports. */
+  .hero__en-horizontal {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
+    color: var(--text-primary);
+    font-size: clamp(1.375rem, 0.95rem + 1.8vw, 1.75rem);
+    line-height: 1.2;
+    padding-block: var(--sp-lg);
+    max-width: 36rem;
+  }
+
+  @media (min-width: 64rem) {
+    .hero__en-horizontal {
+      display: none;
+    }
+  }
+
+  .hero__en-sub {
+    color: var(--text-secondary);
+    font-size: var(--fs-body);
+    margin-top: var(--sp-sm);
+    font-family: var(--font-body);
   }
 
   /* ────────────────────────────────────────────────────────────────── */
@@ -180,7 +305,9 @@
   }
 
   @media (min-width: 48rem) {
-    .principles__list { gap: var(--sp-5xl); }
+    .principles__list {
+      gap: var(--sp-5xl);
+    }
   }
 
   .principle {
@@ -198,11 +325,17 @@
   }
 
   @media (min-width: 64rem) {
-    .principle { gap: var(--sp-3xl); }
+    .principle {
+      gap: var(--sp-3xl);
+    }
 
     /* Alternate layout: even-numbered principles flip text + video */
-    .principle--reverse .principle__text { order: 2; }
-    .principle--reverse .principle__media { order: 1; }
+    .principle--reverse .principle__text {
+      order: 2;
+    }
+    .principle--reverse .principle__media {
+      order: 1;
+    }
   }
 
   .principle__number {
@@ -214,7 +347,9 @@
     margin-bottom: var(--sp-sm);
   }
 
-  .principle__eyebrow { margin-bottom: var(--sp-base-sm); }
+  .principle__eyebrow {
+    margin-bottom: var(--sp-base-sm);
+  }
 
   .principle__title-en {
     font-family: var(--font-display);
@@ -232,6 +367,23 @@
     line-height: 1.4;
     color: var(--text-secondary);
     margin-top: var(--sp-xs);
+  }
+
+  /* ZH page: principle titles reverse visual weight —
+     the <h3> carries the Chinese (primary), the <p> carries English. */
+  html[lang="zh-Hant"] .principle__title-zh {
+    font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+    color: var(--text-primary);
+    margin-top: 0;
+  }
+
+  html[lang="zh-Hant"] .principle__title-en {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem);
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+    margin-top: var(--sp-xs);
+    letter-spacing: 0;
   }
 
   .principle__body {
@@ -271,24 +423,23 @@
     }
   }
 
-  .outcomes__grid li { list-style: none; }
-
-  .outcome-logo {
+  .outcomes__grid li {
+    list-style: none;
     width: 100%;
-    max-width: 140px;
-    height: 60px;
-    object-fit: contain;
-    /* Unify colour/PNG/JPG variants into a single white-mono treatment so
-       the grid reads as one row on the Ink block. brightness(0) flattens
-       every non-transparent pixel to black, then invert(1) flips to white;
-       JPG backgrounds become white blocks, so Smith/Sauder still need a
-       transparent replacement — tracked as a follow-up. */
-    filter: brightness(0) invert(1);
-    opacity: 0.7;
-    transition: opacity var(--duration-fast) var(--ease-out);
+    max-width: 168px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .outcome-logo:hover { opacity: 1; }
+  .outcome-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
 
   /* ────────────────────────────────────────────────────────────────── */
   /* Recent writing                                                      */
@@ -301,7 +452,9 @@
   }
 
   @media (min-width: 48rem) {
-    .recent-writing__grid { grid-template-columns: 1fr 1fr; }
+    .recent-writing__grid {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   .post-card {
@@ -312,8 +465,9 @@
     background: var(--bg-canvas);
     border: 1px solid var(--border-default);
     border-radius: var(--radius-lg);
-    transition: box-shadow var(--duration-fast) var(--ease-out),
-                transform var(--duration-fast) var(--ease-out);
+    transition:
+      box-shadow var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
     color: inherit;
     text-decoration: none;
   }
@@ -367,13 +521,20 @@
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .post-card--skeleton .post-card__title,
-    .post-card--skeleton .post-card__summary { animation: none; }
+    .post-card--skeleton .post-card__summary {
+      animation: none;
+    }
   }
 
   .recent-writing__all {
@@ -397,6 +558,36 @@
     margin-inline: auto;
   }
 
+  /* At ≥48rem, render EN · button · ZH on one row with the BUTTON at the
+     viewport's true horizontal center. A 3-col grid with matching 1fr outer
+     columns guarantees the button sits in the middle regardless of how
+     wide the EN and ZH phrases are. Source order stays EN, ZH, button;
+     `order` rearranges the visual flow. */
+  @media (min-width: 48rem) {
+    .closing-cta__grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: var(--sp-2xl);
+      max-width: none;
+    }
+
+    .closing-cta__en {
+      order: 1;
+      justify-self: start;
+      text-align: start;
+    }
+    .closing-cta__grid > div {
+      order: 2;
+      justify-self: center;
+    }
+    .closing-cta__zh {
+      order: 3;
+      justify-self: end;
+      text-align: end;
+    }
+  }
+
   .closing-cta__en {
     font-family: var(--font-display);
     font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
@@ -407,8 +598,10 @@
 
   .closing-cta__zh {
     font-family: var(--font-display-zh);
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    /* Matches .closing-cta__en — peer hierarchy, equal weight. */
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
     font-weight: var(--fw-semibold);
+    line-height: 1.15;
     color: var(--text-inverse);
     opacity: 0.95;
   }
