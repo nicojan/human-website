@@ -147,11 +147,10 @@
             Let's talk. · <span lang="zh-Hant">讓我們聊聊。</span>
           </h1>
           <p class="page-hero__sub" data-animate>
-            Fifteen minutes, no obligation. Tell us a bit about the student and
-            we'll be in touch within a couple of days.
+            Fifteen minutes, no obligation. Tell us a bit about the student.
           </p>
           <p class="page-hero__sub" data-animate lang="zh-Hant">
-            十五分鐘，沒有壓力。和我們聊聊學生的狀況，我們會在兩個工作天內回覆。
+            十五分鐘，沒有壓力。和我們聊聊學生的狀況。
           </p>
         </div>
       </section>
@@ -169,14 +168,12 @@
               data-animate
               data-contact-form
               data-endpoint="https://dashboard.forhuman.ca/api/contact"
-              novalidate
             >
               <div class="contact-form__fields stack stack--lg">
                 <div class="contact-form__row contact-form__row--split">
                   <div class="field">
                     <label class="field__label" for="contact-parent-name">
                       Parent name · <span lang="zh-Hant">家長姓名</span>
-                      <span class="field__required">(required · <span lang="zh-Hant">必填</span>)</span>
                     </label>
                     <input
                       class="input"
@@ -186,35 +183,8 @@
                       required
                       autocomplete="name"
                     />
-                    <p
-                      class="field__error"
-                      hidden
-                      data-field-error="parent_name"
-                    >
-                      Please enter your name. · <span lang="zh-Hant">請填寫姓名。</span>
-                    </p>
                   </div>
 
-                  <div class="field">
-                    <label class="field__label" for="contact-email">
-                      Email · <span lang="zh-Hant">電郵</span>
-                      <span class="field__required">(required · <span lang="zh-Hant">必填</span>)</span>
-                    </label>
-                    <input
-                      class="input"
-                      type="email"
-                      id="contact-email"
-                      name="email"
-                      required
-                      autocomplete="email"
-                    />
-                    <p class="field__error" hidden data-field-error="email">
-                      Please enter a valid email address. · <span lang="zh-Hant">請填寫有效的電郵地址。</span>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="contact-form__row contact-form__row--split">
                   <div class="field">
                     <label class="field__label" for="contact-student-grade">
                       Student age or grade · <span lang="zh-Hant">學生年齡或年級</span>
@@ -227,25 +197,65 @@
                       placeholder="e.g. Grade 9 / 九年級"
                     />
                   </div>
+                </div>
+
+                <div class="contact-form__row contact-form__row--split">
+                  <div class="field">
+                    <label class="field__label" for="contact-method">
+                      Best way to reach you · <span lang="zh-Hant">最方便的聯絡方式</span>
+                    </label>
+                    <select
+                      class="select"
+                      id="contact-method"
+                      name="contact_method"
+                      required
+                      data-contact-method
+                    >
+                      <option value="email">Email · 電郵</option>
+                      <option value="wechat">WeChat · 微信</option>
+                      <option value="line">Line</option>
+                      <option value="whatsapp">WhatsApp</option>
+                      <option value="text">Text message · 簡訊</option>
+                    </select>
+                  </div>
 
                   <div class="field">
-                    <label class="field__label" for="contact-languages">
-                      Languages the student speaks · <span lang="zh-Hant">學生的語言</span>
+                    <label
+                      class="field__label"
+                      for="contact-handle"
+                      data-contact-handle-label
+                    >
+                      Email address · <span lang="zh-Hant">電郵地址</span>
                     </label>
                     <input
                       class="input"
-                      type="text"
-                      id="contact-languages"
-                      name="student_languages"
-                      placeholder="e.g. English, Mandarin / 英文、中文"
+                      type="email"
+                      id="contact-handle"
+                      name="contact_handle"
+                      required
+                      autocomplete="email"
+                      placeholder="name@example.com"
+                      data-contact-handle
                     />
                   </div>
                 </div>
 
                 <div class="field">
+                  <label class="field__label" for="contact-student-city">
+                    City where the student studies · <span lang="zh-Hant">學生目前就讀的城市</span>
+                  </label>
+                  <input
+                    class="input"
+                    type="text"
+                    id="contact-student-city"
+                    name="student_city"
+                    placeholder="e.g. Vancouver / 溫哥華"
+                  />
+                </div>
+
+                <div class="field">
                   <label class="field__label" for="contact-message">
                     What are you hoping we can help with? · <span lang="zh-Hant">您希望我們能協助什麼？</span>
-                    <span class="field__required">(required · <span lang="zh-Hant">必填</span>)</span>
                   </label>
                   <textarea
                     class="textarea"
@@ -255,48 +265,8 @@
                     maxlength="1000"
                     rows="5"
                   ></textarea>
-                  <p class="field__help">
-                    A few sentences are plenty. Up to 1,000 characters. · <span lang="zh-Hant">幾句話就夠了，最多 1,000 字。</span>
-                  </p>
-                  <p class="field__error" hidden data-field-error="message">
-                    Please share a little about what you're looking for. · <span lang="zh-Hant">請簡單說明您正在尋找什麼。</span>
-                  </p>
                 </div>
 
-                <div class="contact-form__row contact-form__row--split">
-                  <div class="field">
-                    <label class="field__label" for="contact-source">
-                      How did you hear about us? · <span lang="zh-Hant">您是如何得知我們的？</span>
-                    </label>
-                    <select
-                      class="select"
-                      id="contact-source"
-                      name="referral_source"
-                    >
-                      <option value="">Choose one · 請選擇</option>
-                      <option value="friend_family">Friend or family · 親友介紹</option>
-                      <option value="school">School · 學校</option>
-                      <option value="google">Google · Google 搜尋</option>
-                      <option value="social_media">Social media · 社群媒體</option>
-                      <option value="other">Other · 其他</option>
-                    </select>
-                  </div>
-
-                  <div class="field">
-                    <label class="field__label" for="contact-time">
-                      Preferred time for a consult · <span lang="zh-Hant">方便諮詢的時段</span>
-                    </label>
-                    <input
-                      class="input"
-                      type="text"
-                      id="contact-time"
-                      name="preferred_time"
-                      placeholder="e.g. weekday evenings / 平日晚上"
-                    />
-                  </div>
-                </div>
-
-                <!-- Cloudflare Turnstile placeholder. Real sitekey wired in sub-project B. -->
                 <div
                   class="cf-turnstile"
                   data-sitekey="0x4AAAAAADBmP230oRRaPNxu"
@@ -304,7 +274,6 @@
                   aria-label="Spam protection"
                 ></div>
 
-                <!-- Honeypot — bots fill this, humans skip it -->
                 <div class="sr-only" aria-hidden="true">
                   <label for="contact-company">Company (leave blank)</label>
                   <input
@@ -325,10 +294,6 @@
                 >
                   <span data-submit-label>Send Message · <span lang="zh-Hant">傳送訊息</span></span>
                 </button>
-                <p class="field__help">
-                  We read every message. Expect a reply within two business
-                  days. · <span lang="zh-Hant">我們會讀每一封來信，兩個工作天內回覆。</span>
-                </p>
                 <div
                   class="contact-form__status"
                   role="status"
@@ -360,15 +325,6 @@
                 <span class="contact-sidebar__value">
                   Vancouver, British Columbia<br />
                   <span lang="zh-Hant">溫哥華・卑詩省</span>
-                </span>
-              </div>
-
-              <div class="contact-sidebar__block">
-                <span class="contact-sidebar__heading">Hours · <span lang="zh-Hant">時間</span></span>
-                <span class="contact-sidebar__value">
-                  Monday to Friday, 10 am to 8 pm Pacific.<br />
-                  Saturdays by arrangement.<br />
-                  <span lang="zh-Hant">週一至週五，太平洋時間早上 10 點至晚上 8 點；週六可另行安排。</span>
                 </span>
               </div>
             </aside>

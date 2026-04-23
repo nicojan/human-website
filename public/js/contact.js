@@ -1,15 +1,12 @@
 /*
  * contact.js — progressive enhancement for the contact form.
  *
- *   - inline validation on blur + submit (required fields, email format)
- *   - aria-live status messages
+ *   - native HTML5 required-field validation (the browser handles it)
+ *   - aria-live status messages for API-level success / failure
  *   - honeypot filtering
- *   - POSTs JSON to the endpoint; falls back to a stubbed success in dev
- *
- * Endpoint resolution:
- *   - uses form[data-endpoint] when provided
- *   - falls back to same-origin /api/contact
- *   - in local dev, uses a stubbed success without network calls
+ *   - preferred-method dropdown retargets the handle input's label, type,
+ *     and placeholder so one field handles email / WeChat / Line / WhatsApp / SMS
+ *   - POSTs JSON to form[data-endpoint]; stubs success in local dev
  */
 
 (() => {
@@ -27,30 +24,73 @@
   const submitBtn = form.querySelector('[data-submit]');
   const submitLabel = form.querySelector('[data-submit-label]');
   const statusEl = form.querySelector('[data-form-status]');
+  const methodSelect = form.querySelector('[data-contact-method]');
+  const handleInput = form.querySelector('[data-contact-handle]');
+  const handleLabel = form.querySelector('[data-contact-handle-label]');
 
-  const copy = getCopy();
+  const HANDLE_FIELDS = {
+    email: {
+      labelHtml: 'Email address · <span lang="zh-Hant">電郵地址</span>',
+      type: 'email',
+      placeholder: 'name@example.com',
+      autocomplete: 'email',
+      inputMode: 'email',
+    },
+    wechat: {
+      labelHtml: 'WeChat ID · <span lang="zh-Hant">微信號</span>',
+      type: 'text',
+      placeholder: 'e.g. classwithnico',
+      autocomplete: 'off',
+      inputMode: 'text',
+    },
+    line: {
+      labelHtml: 'Line ID · <span lang="zh-Hant">Line 帳號</span>',
+      type: 'text',
+      placeholder: 'e.g. classwithnico',
+      autocomplete: 'off',
+      inputMode: 'text',
+    },
+    whatsapp: {
+      labelHtml: 'WhatsApp number · <span lang="zh-Hant">WhatsApp 號碼</span>',
+      type: 'tel',
+      placeholder: '+1 604 555 0123',
+      autocomplete: 'tel',
+      inputMode: 'tel',
+    },
+    text: {
+      labelHtml: 'Phone number · <span lang="zh-Hant">手機號碼</span>',
+      type: 'tel',
+      placeholder: '+1 604 555 0123',
+      autocomplete: 'tel',
+      inputMode: 'tel',
+    },
+  };
 
-  /* Inline validation */
-  form.querySelectorAll('[required]').forEach((input) => {
-    input.addEventListener('blur', () => validateField(input));
-    input.addEventListener('input', () => {
-      if (input.getAttribute('aria-invalid') === 'true') validateField(input);
+  if (methodSelect && handleInput && handleLabel) {
+    methodSelect.addEventListener('change', () => {
+      applyHandleMethod(methodSelect.value);
     });
-  });
+    applyHandleMethod(methodSelect.value);
+  }
 
   form.addEventListener('submit', onSubmit);
+
+  function applyHandleMethod(method) {
+    const config = HANDLE_FIELDS[method] || HANDLE_FIELDS.email;
+    handleLabel.innerHTML = config.labelHtml;
+    handleInput.type = config.type;
+    handleInput.placeholder = config.placeholder;
+    handleInput.autocomplete = config.autocomplete;
+    handleInput.inputMode = config.inputMode;
+    /* Clear any lingering browser-validation state when switching types. */
+    handleInput.setCustomValidity('');
+  }
+
+  const copy = getCopy();
 
   async function onSubmit(event) {
     event.preventDefault();
     clearStatus();
-
-    const requiredFields = Array.from(form.querySelectorAll('[required]'));
-    const invalid = requiredFields.filter((el) => !validateField(el));
-    if (invalid.length) {
-      invalid[0].focus();
-      showStatus(copy.fixErrorsAbove, 'error');
-      return;
-    }
 
     /* Honeypot: any value here means bot */
     const honeypot = form.querySelector('input[name="company"]');
@@ -72,7 +112,6 @@
     setSubmitting(true);
     try {
       if (IS_DEV) {
-        /* Dev stub: log the payload and fake a success response */
         console.info('[contact.js] dev submission (not sent):', payload);
         await wait(400);
       } else {
@@ -96,35 +135,6 @@
       showStatus(isNetworkError ? copy.endpointUnreachable : copy.failed, 'error');
       setSubmitting(false);
     }
-  }
-
-  function validateField(input) {
-    const name = input.getAttribute('name');
-    const errorEl = form.querySelector(`[data-field-error="${name}"]`);
-    const field = input.closest('.field');
-    const value = (input.value || '').trim();
-
-    let ok = true;
-    if (input.hasAttribute('required') && !value) {
-      ok = false;
-    } else if (input.type === 'email' && value && !isEmail(value)) {
-      ok = false;
-    }
-
-    if (field) field.classList.toggle('field--error', !ok);
-    if (errorEl) errorEl.hidden = ok;
-    input.setAttribute('aria-invalid', String(!ok));
-    if (errorEl) {
-      const id = errorEl.id || `${input.id || name}-error`;
-      errorEl.id = id;
-      input.setAttribute('aria-describedby', id);
-    }
-    return ok;
-  }
-
-  function isEmail(v) {
-    /* Lightweight check; real validation happens server-side. */
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
   function serialize(el) {
@@ -175,10 +185,9 @@
     return {
       send: 'Send Message · 傳送訊息',
       sending: 'Sending · 傳送中',
-      sent: "Got it. We'll be in touch within two business days. · 收到了，我們會在兩個工作天內回覆。",
+      sent: "Got it. We'll be in touch soon. · 收到了，我們很快會回覆您。",
       failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca. · 訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。",
       endpointUnreachable: 'We could not reach the message server. Please try again, or email contact@forhuman.ca. · 目前無法連線。請稍後再試，或寫信到 contact@forhuman.ca。',
-      fixErrorsAbove: 'Please fix the highlighted fields. · 請先修正標示的欄位。',
       completeSecurityCheck: 'Please complete the security check first. · 請先完成「我不是機器人」驗證。',
     };
   }
