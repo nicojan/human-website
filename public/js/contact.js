@@ -59,6 +59,13 @@
     }
 
     const payload = serialize(form);
+    const hasTurnstileWidget = Boolean(form.querySelector('.cf-turnstile'));
+    const hasTurnstileToken = Boolean(payload['cf-turnstile-response']);
+    if (hasTurnstileWidget && !hasTurnstileToken) {
+      showStatus(copy.completeSecurityCheck, 'error');
+      form.querySelector('.cf-turnstile')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -73,7 +80,10 @@
           body: JSON.stringify(payload),
           credentials: 'omit',
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          const detail = (await res.text().catch(() => '')).trim();
+          throw new Error(`HTTP ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ''}`);
+        }
       }
 
       form.classList.add('contact-form--sent');
@@ -166,6 +176,7 @@
         sent: '收到了。我們會在兩個工作天內回覆。',
         failed: '訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。',
         fixErrorsAbove: '請先填寫標示的欄位。',
+        completeSecurityCheck: '請先完成「我不是機器人」驗證。',
       };
     }
     return {
@@ -174,6 +185,7 @@
       sent: "Got it. We'll be in touch within two business days.",
       failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca.",
       fixErrorsAbove: 'Please fix the highlighted fields.',
+      completeSecurityCheck: 'Please complete the security check first.',
     };
   }
 })();
