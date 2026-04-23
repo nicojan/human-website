@@ -38,13 +38,15 @@
     }
   }
 
-  .hero__en { max-width: 52rem; }
+  .hero__en { max-width: 60rem; }
 
   .hero__headline {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 1.2rem + 4.5vw, 4.25rem);
+    /* Capped one step below the previous 4.25rem so the lede fits in 2–3
+       lines on a 1440px viewport inside the 1.3fr grid column. */
+    font-size: clamp(2.25rem, 1.1rem + 4vw, 3.75rem);
     font-weight: var(--fw-medium);
-    line-height: 1.06;
+    line-height: 1.08;
     letter-spacing: -0.022em;
     color: var(--text-primary);
     margin-bottom: var(--sp-lg);
@@ -245,10 +247,12 @@
   /* ────────────────────────────────────────────────────────────────── */
 
   .outcomes__grid {
+    list-style: none;
+    padding-left: 0;
+    margin: var(--sp-2xl) 0 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--sp-xl);
-    margin-top: var(--sp-2xl);
     align-items: center;
     justify-items: center;
   }
@@ -267,17 +271,24 @@
     }
   }
 
+  .outcomes__grid li { list-style: none; }
+
   .outcome-logo {
     width: 100%;
     max-width: 140px;
     height: 60px;
     object-fit: contain;
-    /* Section is --bg-surface (cream-mid). Logos keep their own colours
-       but at reduced opacity for a uniform, unboxed presentation. No
-       hover effect per design brief. */
-    opacity: 0.85;
+    /* Unify colour/PNG/JPG variants into a single white-mono treatment so
+       the grid reads as one row on the Ink block. brightness(0) flattens
+       every non-transparent pixel to black, then invert(1) flips to white;
+       JPG backgrounds become white blocks, so Smith/Sauder still need a
+       transparent replacement — tracked as a follow-up. */
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
     transition: opacity var(--duration-fast) var(--ease-out);
   }
+
+  .outcome-logo:hover { opacity: 1; }
 
   /* ────────────────────────────────────────────────────────────────── */
   /* Recent writing                                                      */

@@ -117,6 +117,12 @@
             </div>
           </div>
 
+          <!--
+            3-column vertical ZH hero — read right-to-left per Traditional
+            Chinese convention. Source order is LTR (把話想清楚, 把文本讀透,
+            把字寫準。); CSS flips visual order via flex-direction: row-reverse.
+            Do NOT reorder the spans.
+          -->
           <div class="hero__zh-vertical" aria-hidden="true" data-animate>
             <span>把話想清楚</span>
             <span>把文本讀透</span>
@@ -154,7 +160,7 @@
       <div class="container">
         <header class="section-header" data-animate>
           <span class="eyebrow">我們的教學 · <span lang="en">How We Teach</span></span>
-          <h2 id="principles-heading">五個原則，背後有依據。</h2>
+          <h2 id="principles-heading">四個原則，附證據。</h2>
         </header>
 
         <div class="principles__list">
@@ -163,7 +169,7 @@
               <div class="principle__number" aria-hidden="true">01</div>
               <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
               <h3 class="principle__title-en" lang="en">Curiosity over compliance.</h3>
-              <p class="principle__title-zh">好奇心，而非順從。</p>
+              <p class="principle__title-zh">以好奇為先。</p>
               <p class="principle__body" lang="en">
                 We connect classwork to the world beyond the page. We watch short clips and examine reliable websites to build context. Students test claims, compare sources, and apply new ideas to issues that matter to them.
               </p>
@@ -230,29 +236,12 @@
             </div>
           </article>
 
-          <article class="principle" data-animate>
-            <div class="principle__text">
-              <div class="principle__number" aria-hidden="true">05</div>
-              <span class="eyebrow principle__eyebrow">原則 · <span lang="en">Principle</span></span>
-              <h3 class="principle__title-en" lang="en">Human first, tools second.</h3>
-              <p class="principle__title-zh">人先於工具。</p>
-              <p class="principle__body" lang="en">
-                Technology serves thinking, or it replaces it. We use AI, software, and reference tools when they sharpen the work, and refuse them when they do the work for the student.
-              </p>
-            </div>
-            <div class="principle__media">
-              <video class="media-video" autoplay muted loop playsinline preload="metadata" aria-label="學生手寫筆記，旁邊放著筆電，思考何時該用工具">
-                <source src="/videos/production.av1.mp4" type="video/mp4; codecs=av01.0.05M.08" />
-                <source src="/videos/production.h264.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </article>
         </div>
       </div>
     </section>
 
     <!-- Outcomes -->
-    <section class="section section--surface outcomes" aria-labelledby="outcomes-heading">
+    <section class="section section--emphasis outcomes" aria-labelledby="outcomes-heading">
       <div class="container">
         <header class="section-header" data-animate>
           <span class="eyebrow">學生去向 · <span lang="en">Outcomes</span></span>
@@ -269,11 +258,12 @@
           <li data-animate><img class="outcome-logo" src="/images/schools/u-of-t.png" alt="多倫多大學" loading="lazy" /></li>
           <li data-animate><img class="outcome-logo" src="/images/schools/Queens.svg" alt="皇后大學" loading="lazy" /></li>
           <li data-animate><img class="outcome-logo" src="/images/schools/HKU.svg" alt="香港大學" loading="lazy" /></li>
+          <li><img class="outcome-logo" src="/images/schools/SFU.png" alt="西門菲莎大學" loading="lazy" /></li>
+          <li><img class="outcome-logo" src="/images/schools/Western.svg" alt="西安大略大學" loading="lazy" /></li>
           <li><img class="outcome-logo" src="/images/schools/Ivey.png" alt="西安大略大學 Ivey 商學院" loading="lazy" /></li>
           <li><img class="outcome-logo" src="/images/schools/Smith.jpg" alt="皇后大學 Smith 商學院" loading="lazy" /></li>
           <li><img class="outcome-logo" src="/images/schools/Beedie.png" alt="SFU Beedie 商學院" loading="lazy" /></li>
           <li><img class="outcome-logo" src="/images/schools/Sauder.jpg" alt="UBC Sauder 商學院" loading="lazy" /></li>
-          <li><img class="outcome-logo" src="/images/schools/Western.svg" alt="西安大略大學" loading="lazy" /></li>
         </ul>
       </div>
     </section>
@@ -328,7 +318,6 @@
       <div class="footer__lockup">
         <img class="footer__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="160" height="32" />
         <span class="footer__name-zh">人本・共學社</span>
-        <span class="footer__descriptor" lang="en">an Education Collective.</span>
       </div>
 
       <div class="footer__grid">
@@ -345,10 +334,10 @@
         <div class="footer__col">
           <span class="footer__heading"><span lang="en">Services</span> · 課程</span>
           <ul class="footer__list">
-            <li>K–12 學術英文</li>
-            <li>英語學習者課程</li>
-            <li>英文考試準備</li>
-            <li>大學申請輔導</li>
+            <li>K–12 英文課 · <span lang="en">K–12 academic English</span></li>
+            <li>英語學習者 · <span lang="en">English language learners</span></li>
+            <li>升學英語 · <span lang="en">English for exams</span></li>
+            <li>大學申請輔導 · <span lang="en">University application coaching</span></li>
           </ul>
         </div>
 
@@ -357,8 +346,6 @@
           <ul class="footer__list">
             <li><a href="mailto:contact@forhuman.ca">contact@forhuman.ca</a></li>
             <li>WeChat：classwithnico</li>
-            <li><a href="https://instagram.com/" rel="noopener">Instagram</a></li>
-            <li><a href="https://wa.me/" rel="noopener">WhatsApp</a></li>
           </ul>
         </div>
 

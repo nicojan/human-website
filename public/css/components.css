@@ -563,11 +563,6 @@
     color: var(--text-secondary);
   }
 
-  .footer__descriptor {
-    font-size: var(--fs-caption);
-    color: var(--text-secondary);
-  }
-
   .footer__grid {
     display: grid;
     grid-template-columns: 1fr;

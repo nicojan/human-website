@@ -44,7 +44,12 @@
   /* Scroll-in animations
      Elements with [data-animate] start hidden (via CSS) and gain .is-visible
      once they enter the viewport. Parents with [data-animate-stagger] cascade
-     their children with a short delay. */
+     their children with a short delay.
+
+     Above-the-fold elements are revealed immediately on first paint. The
+     IntersectionObserver only fires on intersection *changes* — elements that
+     are already in view when observe() is called never trigger a callback,
+     so without this initial sweep the hero would stay at opacity: 0. */
   const animatedEls = document.querySelectorAll('[data-animate]');
   if (animatedEls.length) {
     const staggerParents = document.querySelectorAll('[data-animate-stagger]');
@@ -57,7 +62,9 @@
       });
     });
 
-    if ('IntersectionObserver' in window) {
+    if (prefersReducedMotion) {
+      animatedEls.forEach((el) => el.classList.add('is-visible'));
+    } else if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -65,9 +72,18 @@
             io.unobserve(entry.target);
           }
         });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
 
-      animatedEls.forEach((el) => io.observe(el));
+      const viewportHeight = window.innerHeight;
+      animatedEls.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const inView = rect.top < viewportHeight && rect.bottom > 0;
+        if (inView) {
+          el.classList.add('is-visible');
+        } else {
+          io.observe(el);
+        }
+      });
     } else {
       animatedEls.forEach((el) => el.classList.add('is-visible'));
     }
