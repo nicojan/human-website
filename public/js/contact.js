@@ -68,7 +68,7 @@
     },
   };
 
-  const REDIRECT_PATH = '/services/';
+  const REDIRECT_PATH = '/';
   const REDIRECT_SECONDS = 5;
   const successEl = form.querySelector('[data-form-success]');
 
@@ -99,7 +99,7 @@
     clearStatus();
 
     /* Honeypot: any value here means bot. Hide the form quietly without
-       triggering the redirect — no point sending bots to /services/. */
+       triggering the redirect — no point sending bots anywhere. */
     const honeypot = form.querySelector('input[name="company"]');
     if (honeypot && honeypot.value) {
       form.classList.add('contact-form--sent');
