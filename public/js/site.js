@@ -119,6 +119,27 @@
     }
   }
 
+  /* Principle media tilt — fires later than the generic [data-animate]
+     observer above. The rootMargin trims the top and bottom by 30%, so
+     each .principle gains .is-tilted only when it crosses into the
+     middle 40% band of the viewport (its near-centre). One-shot — the
+     class stays once added. */
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const principles = document.querySelectorAll('.principle');
+    if (principles.length) {
+      const tiltIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-tilted');
+            tiltIO.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '-30% 0px -30% 0px', threshold: 0.01 });
+
+      principles.forEach((el) => tiltIO.observe(el));
+    }
+  }
+
   /* Reduced motion: pause autoplay videos */
   if (prefersReducedMotion) {
     document.querySelectorAll('video[autoplay]').forEach((video) => {

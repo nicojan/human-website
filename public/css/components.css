@@ -854,7 +854,8 @@
     object-fit: cover;
     background: var(--bg-surface);
     display: block;
-    border-radius: 0; /* per design spec — no rounded corners */
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--accent);
   }
 
   /* ────────────────────────────────────────────────────────────────── */
