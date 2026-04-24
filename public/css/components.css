@@ -199,7 +199,9 @@
     .nav:not(.nav--bilingual) .nav__actions {
       display: contents;
     }
-    .nav:not(.nav--bilingual) .nav__toggle {
+    /* Only the header-level toggle is hidden on mobile; the one
+       re-rendered inside the drawer must stay visible. */
+    .nav:not(.nav--bilingual) .nav__actions .nav__toggle {
       display: none;
     }
     .nav:not(.nav--bilingual) .nav__cta {
@@ -428,12 +430,15 @@
   }
 
   /* Dedicated × close button, visible only while the drawer is open.
-     Anchored top-left to mirror where the burger sat, so the tap target
-     feels continuous between the two states. */
+     Positioned to sit exactly where the burger was (container padding +
+     vertical centre of the nav bar) so the icon doesn't leap when the
+     state flips. Nav height = 4rem min-height + 2×0.75rem padding =
+     5.5rem; burger is 2.75rem, centred in the content area → top of
+     the burger is 1.375rem below viewport top in non-pill mode. */
   .nav__drawer-close {
     position: fixed;
-    top: var(--sp-base-sm);
-    left: var(--sp-lg);
+    top: 1.375rem;
+    left: var(--sp-md);
     z-index: 200;
     width: 2.75rem;
     height: 2.75rem;
