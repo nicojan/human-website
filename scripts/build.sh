@@ -14,7 +14,10 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-echo "→ injecting shared partials (footer, …)"
+echo "→ building school-logo marquee partials"
+python3 scripts/build-school-marquee.py
+
+echo "→ injecting shared partials (footer, school-marquee, …)"
 python3 scripts/inject-partials.py
 
 echo "→ cleaning public/writing"

@@ -13,6 +13,12 @@ cd "$ROOT"
 
 PORT=${PORT:-4321}
 
+echo "→ building school-logo marquee partials"
+python3 scripts/build-school-marquee.py
+
+echo "→ injecting shared partials"
+python3 scripts/inject-partials.py
+
 mkdir -p public/writing
 
 cleanup() {
