@@ -1,27 +1,40 @@
 {{ define "main" }}
+{{- $isZh := eq .Lang "zh-hant" -}}
+{{- $eyebrow := cond $isZh "部落格 · Blog" "Blog · 部落格" -}}
+{{- $fallbackTitle := cond $isZh "部落格" "Blog" -}}
+{{- $fallbackDesc := cond $isZh "關於教學、學習，以及我們用的工具。" "Notes on teaching, learning, and the tools we use." -}}
+{{- $allLabel := cond $isZh "全部" "All" -}}
+{{- $filterLabel := cond $isZh "依標籤篩選文章" "Filter posts by tag" -}}
+{{- $tagsLabel := cond $isZh "標籤" "Tags" -}}
+{{- $readLabel := cond $isZh "閱讀" "Read" -}}
+{{- $emptySection := cond $isZh "部落格文章很快就來。" "First posts are on the way." -}}
+{{- $emptyFilter := cond $isZh "沒有符合的文章。" "No posts match that tag." -}}
+{{- $resetLabel := cond $isZh "顯示全部" "Show all posts" -}}
+{{- $allPostsLabel := cond $isZh "所有文章" "All posts" -}}
+{{- $dateFormat := cond $isZh "2006 年 1 月 2 日" "January 2, 2006" -}}
 <section class="section section--canvas page-hero" aria-labelledby="writing-hero">
   <div class="container">
-    <span class="eyebrow" data-animate>Blog · <span lang="zh-Hant">部落格</span></span>
-    <h1 class="page-hero__headline" id="writing-hero" data-animate>{{ .Title | default "Blog" }}</h1>
+    <span class="eyebrow" data-animate>{{ $eyebrow | safeHTML }}</span>
+    <h1 class="page-hero__headline" id="writing-hero" data-animate>{{ .Title | default $fallbackTitle }}</h1>
     <p class="page-hero__sub" data-animate>
-      {{ with .Description }}{{ . }}{{ else }}Notes on teaching, learning, and the tools we use.{{ end }}
+      {{ with .Description }}{{ . }}{{ else }}{{ $fallbackDesc }}{{ end }}
     </p>
   </div>
 </section>
 
 <section class="section section--warm" aria-labelledby="posts-list">
   <div class="container container--narrow">
-    <h2 class="sr-only" id="posts-list">All posts</h2>
+    <h2 class="sr-only" id="posts-list">{{ $allPostsLabel }}</h2>
 
     {{ $posts := where .Site.RegularPages "Section" "posts" }}
     {{ if eq (len $posts) 0 }}
       <div class="prose-block" data-animate>
-        <p>First posts are on the way.</p>
+        <p>{{ $emptySection }}</p>
       </div>
     {{ else }}
       {{ with .Site.Taxonomies.tags }}
-        <div class="tag-pills" data-tag-filter data-animate aria-label="Filter posts by tag">
-          <button type="button" class="tag-pill tag-pill--active" data-tag="all" aria-pressed="true">All</button>
+        <div class="tag-pills" data-tag-filter data-animate aria-label="{{ $filterLabel }}">
+          <button type="button" class="tag-pill tag-pill--active" data-tag="all" aria-pressed="true">{{ $allLabel }}</button>
           {{ range $name, $taxonomy := . }}
             <button type="button" class="tag-pill" data-tag="{{ $name | urlize }}" aria-pressed="false">{{ $name }}</button>
           {{ end }}
@@ -33,7 +46,7 @@
           <li data-animate data-post data-tags="{{ delimit (apply .Params.tags "urlize" ".") " " }}">
             <article class="writing-entry">
               <div class="writing-entry__meta">
-                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $dateFormat }}</time>
                 {{ with .Params.author }} · <span>{{ . }}</span>{{ end }}
               </div>
               <h2 class="writing-entry__title">
@@ -43,19 +56,19 @@
                 <p class="writing-entry__summary">{{ . | plainify }}</p>
               {{ end }}
               {{ with .Params.tags }}
-                <ul class="writing-entry__tags" aria-label="Tags">
+                <ul class="writing-entry__tags" aria-label="{{ $tagsLabel }}">
                   {{ range . }}
                     <li>{{ . }}</li>
                   {{ end }}
                 </ul>
               {{ end }}
-              <a class="link-cta" href="{{ .RelPermalink }}">Read <span aria-hidden="true">→</span></a>
+              <a class="link-cta" href="{{ .RelPermalink }}">{{ $readLabel }} <span aria-hidden="true">→</span></a>
             </article>
           </li>
         {{ end }}
       </ul>
 
-      <p class="writing-list__empty" data-post-empty hidden>No posts match that tag. <button type="button" class="link-cta" data-tag-reset>Show all posts</button></p>
+      <p class="writing-list__empty" data-post-empty hidden>{{ $emptyFilter }} <button type="button" class="link-cta" data-tag-reset>{{ $resetLabel }}</button></p>
     {{ end }}
   </div>
 </section>

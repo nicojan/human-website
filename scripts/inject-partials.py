@@ -37,7 +37,8 @@ PUBLIC_DIR = ROOT / "public"
 # instead of importing we mirror the partial into its layout tree. The value
 # is the canonical partial name (minus .html) in partials/.
 MIRRORED_TARGETS: dict[Path, str] = {
-    ROOT / "blog" / "layouts" / "partials" / "footer.html": "footer-en",
+    ROOT / "blog" / "layouts" / "partials" / "footer-en.html": "footer-en",
+    ROOT / "blog" / "layouts" / "partials" / "footer-zh.html": "footer-zh",
 }
 
 MARKER_PATTERN = re.compile(

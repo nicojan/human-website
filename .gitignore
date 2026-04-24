@@ -8,8 +8,9 @@ Thumbs.db
 .env.local
 .env.production
 
-# Hugo build output (generated into public/writing/)
+# Hugo build output (generated into public/writing/ and public/zh-hant/writing/)
 public/writing/
+public/zh-hant/writing/
 
 # Hugo resource cache
 blog/resources/

@@ -1,9 +1,13 @@
 {{ define "main" }}
+{{- $isZh := eq .Lang "zh-hant" -}}
+{{- $dateFormat := cond $isZh "2006 年 1 月 2 日" "January 2, 2006" -}}
+{{- $allLabel := cond $isZh "所有文章" "All posts" -}}
+{{- $listUrl := cond $isZh "/zh-hant/writing/" "/writing/" -}}
 <article class="section section--canvas writing-post">
   <div class="container container--narrow">
     <header class="writing-post__header" data-animate>
       <p class="writing-post__meta">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format $dateFormat }}</time>
         {{ with .Params.author }} · <span>{{ . }}</span>{{ end }}
       </p>
       <h1 class="writing-post__title">{{ .Title }}</h1>
@@ -25,7 +29,7 @@
         </div>
       {{ end }}
       <p>
-        <a class="link-cta" href="/writing/">All writing <span aria-hidden="true">→</span></a>
+        <a class="link-cta" href="{{ $listUrl }}">{{ $allLabel }} <span aria-hidden="true">→</span></a>
       </p>
     </footer>
   </div>

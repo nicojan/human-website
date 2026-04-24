@@ -1,6 +1,10 @@
-# Hugo config for the Human, blog (/writing/).
+# Hugo config for the Human, blog.
 #
-# Runs as part of scripts/build.sh, output goes to ../public/writing/.
+# Multilingual: EN ships at /writing/, ZH at /zh-hant/writing/. A single
+# Hugo invocation writes both; scripts/build.sh then relocates the ZH
+# subtree from public/writing/zh-hant/ → public/zh-hant/writing/ so the
+# Cloudflare output matches the public URL structure.
+#
 # Marketing pages live outside Hugo at /public/*.html.
 
 baseURL = "https://forhuman.ca/writing/"
@@ -8,6 +12,7 @@ languageCode = "en-CA"
 title = "Blog · Human,"
 enableRobotsTXT = true
 defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
 enableGitInfo = false
 pluralizelisttitles = false
 summaryLength = 40
@@ -34,14 +39,31 @@ uglyURLs = false
   taxonomy = ["html"]
   term = ["html"]
 
-[permalinks]
-  posts = "/:slug/"
-
 [taxonomies]
   tag = "tags"
 
-# Single-language for v1. ZH blog is v2 — see copy doc 06-copy-zh.md.
 [languages.en]
   languageName = "English"
   weight = 1
   title = "Blog · Human,"
+  baseURL = "https://forhuman.ca/writing/"
+  contentDir = "content/en"
+  [languages.en.params]
+    description = "Notes on teaching, learning, and the tools we use."
+  [languages.en.permalinks]
+    posts = "/:slug/"
+
+[languages.zh-hant]
+  languageName = "繁體中文"
+  languageCode = "zh-Hant"
+  weight = 2
+  title = "部落格 · Human,"
+  contentDir = "content/zh-hant"
+  # Absolute ZH baseURL so permalinks resolve to /zh-hant/writing/… not
+  # /writing/zh-hant/… (the Hugo default under a single publishDir).
+  # scripts/build.sh physically relocates the publishDir subtree to match.
+  baseURL = "https://forhuman.ca/zh-hant/writing/"
+  [languages.zh-hant.params]
+    description = "關於教學、學習，以及我們用的工具。"
+  [languages.zh-hant.permalinks]
+    posts = "/:slug/"
