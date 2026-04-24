@@ -58,7 +58,9 @@
     color: var(--text-inverse);
   }
 
-  body.has-video-hero.hero-in-view .site-header .nav__burger-icon,
+  /* Burger bars go light on the pill. NOTE: do NOT include the icon
+     container itself — it has intrinsic width/height (22×14) and would
+     paint as a solid white rectangle, obscuring the bars. */
   body.has-video-hero.hero-in-view .site-header .nav__burger-icon::before,
   body.has-video-hero.hero-in-view .site-header .nav__burger-icon::after {
     background: var(--text-inverse);
@@ -165,26 +167,31 @@
     gap: var(--sp-md);
   }
 
-  /* Mobile layout — same three-column grid for every nav variant so the
-     comma-mark in the centre column is always exactly viewport-centred
-     regardless of what sits on either side. `.nav__actions` becomes
-     `display: contents` on mobile so its children (cta, possibly other
-     controls) participate in the grid directly. The header-level toggle
-     is hidden on mobile and re-rendered inside the drawer. */
+  /* Mobile layout. Use flex for the bar (so the burger and CTA align
+     vertically as siblings) and absolute-position the brand at the
+     geometric centre of the nav — that way the comma-mark stays exactly
+     horizontally-centred regardless of whether the right side has a
+     CTA button or nothing at all. `.nav__actions` becomes display:
+     contents so its children (cta, burger) sit as direct flex children.
+     The header-level toggle is hidden on mobile; the same markup is
+     re-rendered inside the drawer. */
   @media (max-width: 47.99rem) {
     .nav {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: var(--sp-sm);
-    }
-    .nav__burger {
-      grid-column: 1;
-      justify-self: start;
+      position: relative;
     }
     .nav__brand {
-      grid-column: 2;
-      justify-self: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+    }
+    .nav__burger {
+      order: -1;
     }
     .nav__links {
       display: none;
@@ -196,9 +203,8 @@
       display: none;
     }
     .nav:not(.nav--bilingual) .nav__cta {
-      grid-column: 3;
-      justify-self: end;
       display: inline-flex;
+      margin-left: auto;
     }
   }
 
