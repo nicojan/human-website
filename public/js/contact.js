@@ -186,12 +186,12 @@
 
     const intervalId = window.setInterval(() => {
       remaining -= 1;
+      paint(counters, remaining);
       if (remaining <= 0) {
         window.clearInterval(intervalId);
-        window.location.assign(REDIRECT_PATH);
-        return;
+        /* Hold on 0 briefly so the count visibly completes before navigation. */
+        window.setTimeout(() => window.location.assign(REDIRECT_PATH), 600);
       }
-      paint(counters, remaining);
     }, 1000);
   }
 

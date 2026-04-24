@@ -301,7 +301,9 @@
   .contact-form--sent .contact-form__fields { display: none; }
   .contact-form--sent .contact-form__submit { display: none; }
 
-  .contact-form__success {
+  /* Scope the layout to the un-hidden state — class specificity beats
+     the [hidden] UA rule otherwise, leaving the block visible at page load. */
+  .contact-form__success:not([hidden]) {
     display: flex;
     flex-direction: column;
     gap: var(--sp-md);
