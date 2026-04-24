@@ -363,8 +363,6 @@
   }
 
   .button--primary {
-    position: relative;
-    isolation: isolate;
     background: var(--action-primary);
     color: var(--text-inverse);
     box-shadow: var(--shadow-xs);
@@ -373,77 +371,6 @@
   .button--primary:hover:not(:disabled) {
     background: var(--action-primary-hover);
     color: var(--text-inverse);
-  }
-
-  /* Crawling border glow. A conic gradient rotates around the button via
-     @property + keyframes; a content-box mask cuts out the inside so only
-     the 1.5px ring lights up. Sits behind text, below hover shadow. */
-  @property --cta-glow-angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-  }
-
-  @keyframes cta-glow-crawl {
-    to { --cta-glow-angle: 360deg; }
-  }
-
-  .button--primary::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 3px;
-    background: conic-gradient(
-      from var(--cta-glow-angle),
-      transparent 0deg,
-      var(--terracotta-light) 15deg,
-      var(--terracotta) 35deg,
-      var(--terracotta-deep) 50deg,
-      var(--terracotta) 65deg,
-      var(--terracotta-light) 85deg,
-      transparent 110deg,
-      transparent 360deg
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
-    animation: cta-glow-crawl 5s linear infinite;
-    opacity: 1;
-    z-index: 1;
-  }
-
-  /* Soft halo behind the button — blurred conic sitting below the fill,
-     amplifies the crawling head of the gradient without washing the body. */
-  .button--primary::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from var(--cta-glow-angle),
-      transparent 0deg,
-      color-mix(in srgb, var(--terracotta) 55%, transparent) 30deg,
-      color-mix(in srgb, var(--terracotta-light) 70%, transparent) 60deg,
-      transparent 100deg,
-      transparent 360deg
-    );
-    filter: blur(8px);
-    pointer-events: none;
-    animation: cta-glow-crawl 5s linear infinite;
-    z-index: -1;
-    opacity: 0.9;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .button--primary::before,
-    .button--primary::after { animation: none; opacity: 0; }
   }
 
   .button--secondary {
