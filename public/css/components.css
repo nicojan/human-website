@@ -504,7 +504,7 @@
   }
 
   .field__label > [lang="zh-Hant"] {
-    font-size: var(--fs-caption);
+    font-size: var(--fs-label);
   }
 
   .field__required {
