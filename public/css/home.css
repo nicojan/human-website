@@ -394,6 +394,23 @@
     max-width: 30rem;
   }
 
+  /* On the dark emphasis background, lighten secondary text so it stays
+     legible. The --text-inverse rule in layout.css already covers headings.
+     On the ZH page the primary/secondary roles swap, so re-override the
+     ZH title to full inverse and the EN sub-title to muted. */
+  .section--emphasis .principle__title-zh,
+  .section--emphasis .principle__body {
+    color: var(--neutral-200);
+  }
+
+  html[lang="zh-Hant"] .section--emphasis .principle__title-zh {
+    color: var(--text-inverse);
+  }
+
+  html[lang="zh-Hant"] .section--emphasis .principle__title-en {
+    color: var(--neutral-200);
+  }
+
   /* ────────────────────────────────────────────────────────────────── */
   /* Outcomes                                                            */
   /* ────────────────────────────────────────────────────────────────── */
