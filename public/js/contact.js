@@ -28,9 +28,11 @@
   const handleInput = form.querySelector('[data-contact-handle]');
   const handleLabel = form.querySelector('[data-contact-handle-label]');
 
+  /* Brand names (WeChat, Line, WhatsApp) keep trademark casing; the rest is
+     lowercase to match the redesigned label voice. */
   const HANDLE_FIELDS = {
     email: {
-      labelHtml: '<span>Email address</span><span lang="zh-Hant">電郵地址</span>',
+      labelHtml: '<span>email address</span><span lang="zh-Hant">電郵地址</span>',
       type: 'email',
       placeholder: 'name@example.com',
       autocomplete: 'email',
@@ -58,13 +60,17 @@
       inputMode: 'tel',
     },
     text: {
-      labelHtml: '<span>Phone number</span><span lang="zh-Hant">手機號碼</span>',
+      labelHtml: '<span>phone number</span><span lang="zh-Hant">手機號碼</span>',
       type: 'tel',
       placeholder: '+1 604 555 0123',
       autocomplete: 'tel',
       inputMode: 'tel',
     },
   };
+
+  const REDIRECT_PATH = '/services/';
+  const REDIRECT_SECONDS = 5;
+  const successEl = form.querySelector('[data-form-success]');
 
   if (methodSelect && handleInput && handleLabel) {
     methodSelect.addEventListener('change', () => {
@@ -92,10 +98,10 @@
     event.preventDefault();
     clearStatus();
 
-    /* Honeypot: any value here means bot */
+    /* Honeypot: any value here means bot. Hide the form quietly without
+       triggering the redirect — no point sending bots to /services/. */
     const honeypot = form.querySelector('input[name="company"]');
     if (honeypot && honeypot.value) {
-      showStatus(copy.sent, 'success');
       form.classList.add('contact-form--sent');
       return;
     }
@@ -128,7 +134,7 @@
       }
 
       form.classList.add('contact-form--sent');
-      showStatus(copy.sent, 'success');
+      revealSuccess();
     } catch (err) {
       console.error('[contact.js] submission failed:', { endpoint: ENDPOINT, error: err });
       const isNetworkError = err instanceof TypeError;
@@ -170,6 +176,30 @@
     statusEl.textContent = '';
   }
 
+  function revealSuccess() {
+    if (!successEl) return;
+    successEl.hidden = false;
+
+    let remaining = REDIRECT_SECONDS;
+    const counters = successEl.querySelectorAll('[data-countdown]');
+    paint(counters, remaining);
+
+    const intervalId = window.setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        window.clearInterval(intervalId);
+        window.location.assign(REDIRECT_PATH);
+        return;
+      }
+      paint(counters, remaining);
+    }, 1000);
+  }
+
+  function paint(nodes, value) {
+    const text = String(value);
+    nodes.forEach((node) => { node.textContent = text; });
+  }
+
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -185,7 +215,6 @@
     return {
       send: 'Send Message · 傳送訊息',
       sending: 'Sending · 傳送中',
-      sent: "Got it. We'll be in touch soon. · 收到了，我們很快會回覆您。",
       failed: "Your message didn't go through. Please try again, or email contact@forhuman.ca. · 訊息沒送出。請稍後再試，或寫信到 contact@forhuman.ca。",
       endpointUnreachable: 'We could not reach the message server. Please try again, or email contact@forhuman.ca. · 目前無法連線。請稍後再試，或寫信到 contact@forhuman.ca。',
       completeSecurityCheck: 'Please complete the security check first. · 請先完成「我不是機器人」驗證。',
