@@ -363,6 +363,8 @@
   }
 
   .button--primary {
+    position: relative;
+    isolation: isolate;
     background: var(--action-primary);
     color: var(--text-inverse);
     box-shadow: var(--shadow-xs);
@@ -371,6 +373,51 @@
   .button--primary:hover:not(:disabled) {
     background: var(--action-primary-hover);
     color: var(--text-inverse);
+  }
+
+  /* Crawling border glow. A conic gradient rotates around the button via
+     @property + keyframes; a content-box mask cuts out the inside so only
+     the 1.5px ring lights up. Sits behind text, below hover shadow. */
+  @property --cta-glow-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes cta-glow-crawl {
+    to { --cta-glow-angle: 360deg; }
+  }
+
+  .button--primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--cta-glow-angle),
+      transparent 0deg,
+      var(--terracotta-light) 25deg,
+      var(--terracotta) 45deg,
+      var(--terracotta-light) 65deg,
+      transparent 90deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: cta-glow-crawl 7s linear infinite;
+    opacity: 0.85;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button--primary::before { animation: none; opacity: 0; }
   }
 
   .button--secondary {
