@@ -185,6 +185,14 @@
       grid-column: 1;
       justify-self: start;
     }
+    /* The unconditional `.nav--bilingual .nav__brand { justify-self: center }`
+       (0,2,0) out-specifies the plain `.nav__brand` rule above on mobile,
+       which otherwise leaves the comma offset to the left-quarter instead
+       of flush with the container padding like the non-bilingual pages.
+       Scope a matching-specificity override here. */
+    .nav--bilingual .nav__brand {
+      justify-self: start;
+    }
     .nav__burger {
       grid-column: 3;
       justify-self: end;
