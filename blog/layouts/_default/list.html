@@ -19,9 +19,18 @@
         <p>First posts are on the way.</p>
       </div>
     {{ else }}
-      <ul class="writing-list stack stack--2xl" data-animate-stagger>
+      {{ with .Site.Taxonomies.tags }}
+        <div class="tag-pills" data-tag-filter data-animate aria-label="Filter posts by tag">
+          <button type="button" class="tag-pill tag-pill--active" data-tag="all" aria-pressed="true">All</button>
+          {{ range $name, $taxonomy := . }}
+            <button type="button" class="tag-pill" data-tag="{{ $name | urlize }}" aria-pressed="false">{{ $name }}</button>
+          {{ end }}
+        </div>
+      {{ end }}
+
+      <ul class="writing-list stack stack--2xl" data-animate-stagger data-post-list>
         {{ range $posts.ByDate.Reverse }}
-          <li data-animate>
+          <li data-animate data-post data-tags="{{ delimit (apply .Params.tags "urlize" ".") " " }}">
             <article class="writing-entry">
               <div class="writing-entry__meta">
                 <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
@@ -33,12 +42,23 @@
               {{ with .Summary }}
                 <p class="writing-entry__summary">{{ . | plainify }}</p>
               {{ end }}
+              {{ with .Params.tags }}
+                <ul class="writing-entry__tags" aria-label="Tags">
+                  {{ range . }}
+                    <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              {{ end }}
               <a class="link-cta" href="{{ .RelPermalink }}">Read <span aria-hidden="true">→</span></a>
             </article>
           </li>
         {{ end }}
       </ul>
+
+      <p class="writing-list__empty" data-post-empty hidden>No posts match that tag. <button type="button" class="link-cta" data-tag-reset>Show all posts</button></p>
     {{ end }}
   </div>
 </section>
+
+<script src="/js/blog-filter.js" defer></script>
 {{ end }}

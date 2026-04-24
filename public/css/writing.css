@@ -11,12 +11,88 @@
     margin: 0;
   }
 
+  .writing-list__empty {
+    margin-top: var(--sp-xl);
+    color: var(--text-secondary);
+  }
+
+  .writing-list__empty .link-cta {
+    margin-left: var(--sp-xs);
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  /* Tag filter pills ------------------------------------------------ */
+
+  .tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-sm);
+    margin-bottom: var(--sp-xl);
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    line-height: 1.2;
+    color: var(--text-secondary);
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-default);
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      background var(--duration-instant) var(--ease-out),
+      border-color var(--duration-instant) var(--ease-out),
+      color var(--duration-instant) var(--ease-out);
+  }
+
+  .tag-pill:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  .tag-pill--active {
+    background: var(--action-primary);
+    border-color: var(--action-primary);
+    color: var(--text-inverse);
+  }
+
+  .tag-pill--active:hover {
+    background: var(--action-primary-hover);
+    border-color: var(--action-primary-hover);
+    color: var(--text-inverse);
+  }
+
   .writing-entry {
     display: flex;
     flex-direction: column;
     gap: var(--sp-sm);
     padding-bottom: var(--sp-xl);
     border-bottom: 1px solid var(--border-default);
+  }
+
+  .writing-entry__tags {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-xs) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-xs);
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+  }
+
+  .writing-entry__tags li {
+    padding: 0.15rem 0.55rem;
+    background: var(--bg-surface);
+    border-radius: 999px;
   }
 
   .writing-entry__meta {

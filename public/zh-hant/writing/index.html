@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>部落格｜人本・共學社</title>
-  <meta name="description" content="中文部落格即將推出。目前可先閱讀英文版部落格，或直接聯絡我們。" />
+  <meta name="description" content="關於教學、學習，以及我們用的工具。" />
   <link rel="canonical" href="https://forhuman.ca/zh-hant/writing/" />
   <link rel="alternate" hreflang="en" href="https://forhuman.ca/writing/" />
   <link rel="alternate" hreflang="zh-Hant" href="https://forhuman.ca/zh-hant/writing/" />
@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="/css/layout.css" />
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/writing.css" />
 </head>
 
 <body>
@@ -66,17 +67,25 @@
   </header>
 
   <main id="main">
-    <section class="section section--canvas page-hero">
+    <section class="section section--canvas page-hero" aria-labelledby="writing-hero">
       <div class="container">
         <span class="eyebrow" data-animate>部落格 · <span lang="en">Blog</span></span>
-        <h1 class="page-hero__headline" data-animate>中文部落格即將推出。</h1>
+        <h1 class="page-hero__headline" id="writing-hero" data-animate>部落格。</h1>
         <p class="page-hero__sub" data-animate>
-          我們正在準備中文版的部落格文章。目前可以先閱讀英文版，或是直接寫信給我們聊聊。
+          關於教學、學習，以及我們用的工具。目前的文章以英文為主，中文版正在準備中。
         </p>
-        <div class="notfound__links notfound__links--start" data-animate>
-          <a class="button button--primary" href="/writing/" lang="en">Read in English</a>
-          <a class="button button--outline" href="/contact/">直接聯絡</a>
-        </div>
+      </div>
+    </section>
+
+    <section class="section section--warm" aria-labelledby="posts-list">
+      <div class="container container--narrow">
+        <h2 class="sr-only" id="posts-list">所有文章</h2>
+
+        <div class="tag-pills" data-tag-filter data-animate aria-label="依標籤篩選文章"></div>
+
+        <ul class="writing-list stack stack--2xl" data-animate-stagger data-post-list data-post-list-hydrate></ul>
+
+        <p class="writing-list__empty" data-post-empty hidden>沒有符合的文章。<button type="button" class="link-cta" data-tag-reset>顯示全部</button></p>
       </div>
     </section>
   </main>
@@ -137,5 +146,6 @@
 
   <script src="/js/site.js" defer></script>
   <script src="/js/matomo.js" defer></script>
+  <script src="/js/blog-filter.js" defer></script>
 </body>
 </html>
