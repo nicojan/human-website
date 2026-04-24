@@ -23,9 +23,13 @@
 
   /* Mobile nav toggle — full-viewport overlay. Locks body scroll while
      open, responds to ESC, and auto-closes when the viewport crosses
-     back into the desktop breakpoint (so the state can't get stuck). */
+     back into the desktop breakpoint (so the state can't get stuck).
+     The drawer has a dedicated × close button; the burger is covered
+     by the drawer once open and needs no state of its own beyond the
+     ARIA flip. */
   const nav = document.querySelector('[data-nav]');
   const burger = document.querySelector('[data-nav-burger]');
+  const closeBtn = document.querySelector('[data-nav-close]');
   if (nav && burger) {
     const isZh = document.documentElement.lang === 'zh-Hant';
     const labelOpen = isZh ? '開啟選單' : 'Open menu';
@@ -37,6 +41,9 @@
       burger.setAttribute('aria-label', isOpen ? labelClose : labelOpen);
     };
     burger.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => setOpen(false));
+    }
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && nav.classList.contains('is-open')) setOpen(false);
     });

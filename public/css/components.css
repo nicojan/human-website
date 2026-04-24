@@ -124,21 +124,9 @@
     height: 2.5rem;
   }
 
-  @media (max-width: 47.99rem) {
-    .nav--bilingual {
-      grid-template-columns: auto 1fr auto;
-    }
-    .nav--bilingual .nav__brand {
-      justify-self: start;
-    }
-    .nav--bilingual .nav__links {
-      display: none;
-    }
-    .nav--bilingual .nav__burger {
-      grid-column: 3;
-      justify-self: end;
-    }
-  }
+  /* Bilingual nav on mobile inherits the shared grid from .nav above.
+     Burger at col 1, brand centered at col 2, col 3 empty (no CTA in
+     bilingual). No overrides needed here. */
 
   .nav__links {
     display: none;
@@ -177,31 +165,40 @@
     gap: var(--sp-md);
   }
 
-  /* Mobile inner-page layout: flatten .nav__actions so its children (toggle,
-     cta, burger) become direct flex children of .nav. Combined with `order:`
-     they lay out as [toggle | brand-centered | cta | burger]. */
+  /* Mobile layout — same three-column grid for every nav variant so the
+     comma-mark in the centre column is always exactly viewport-centred
+     regardless of what sits on either side. `.nav__actions` becomes
+     `display: contents` on mobile so its children (cta, possibly other
+     controls) participate in the grid directly. The header-level toggle
+     is hidden on mobile and re-rendered inside the drawer. */
   @media (max-width: 47.99rem) {
-    .nav:not(.nav--bilingual) {
+    .nav {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
       gap: var(--sp-sm);
+    }
+    .nav__burger {
+      grid-column: 1;
+      justify-self: start;
+    }
+    .nav__brand {
+      grid-column: 2;
+      justify-self: center;
+    }
+    .nav__links {
+      display: none;
     }
     .nav:not(.nav--bilingual) .nav__actions {
       display: contents;
     }
     .nav:not(.nav--bilingual) .nav__toggle {
-      order: 1;
-      padding-inline: var(--sp-xs);
-    }
-    .nav:not(.nav--bilingual) .nav__brand {
-      order: 2;
-      flex: 1;
-      justify-content: center;
+      display: none;
     }
     .nav:not(.nav--bilingual) .nav__cta {
-      order: 3;
+      grid-column: 3;
+      justify-self: end;
       display: inline-flex;
-    }
-    .nav:not(.nav--bilingual) .nav__burger {
-      order: 4;
     }
   }
 
@@ -308,34 +305,48 @@
     transform: rotate(-45deg);
   }
 
-  /* Full-viewport mobile menu. The header stays sticky at the top; the
-     drawer sits below it and fills the rest of the viewport. On open we
-     promote the burger to fixed-position in the top-right corner so the
-     user can always reach the × to close. */
+  /* Full-viewport mobile menu. The drawer covers everything — including
+     the top bar — and fades in while sliding down. The burger sits under
+     the drawer once open; a dedicated close button anchored top-left
+     handles dismissal so the trigger doesn't visually leap between the
+     burger's in-flow position and a fixed close-button position. */
   .nav__drawer {
-    display: none;
     position: fixed;
-    top: 4rem;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 150;
     background: var(--bg-canvas);
-    padding: var(--sp-xl) var(--sp-lg) var(--sp-xl);
+    padding: 4.5rem var(--sp-lg) var(--sp-lg);
     list-style: none;
     margin: 0;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-sm);
     overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12%);
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out),
+      visibility 0s linear var(--duration-normal);
   }
 
   .nav.is-open .nav__drawer {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out),
+      visibility 0s linear 0s;
   }
 
   @media (min-width: 48rem) {
     .nav__drawer {
+      display: none !important;
+    }
+    .nav__drawer-close {
       display: none !important;
     }
   }
@@ -344,15 +355,31 @@
     overflow: hidden;
   }
 
-  /* When open, lift the burger above the drawer so × stays tappable. */
-  body.nav-open .nav__burger {
-    position: fixed;
-    top: var(--sp-base-sm);
-    right: var(--sp-lg);
-    z-index: 200;
+  /* Drawer items are large display-type links. Each one fades in and rises
+     slightly; transition-delay per :nth-child makes the list stagger from
+     top to bottom. On close the delays reset so everything fades together. */
+  .nav__drawer > li {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
-  .nav__drawer a {
+  .nav.is-open .nav__drawer > li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav.is-open .nav__drawer > li:nth-child(1) { transition-delay: 120ms; }
+  .nav.is-open .nav__drawer > li:nth-child(2) { transition-delay: 180ms; }
+  .nav.is-open .nav__drawer > li:nth-child(3) { transition-delay: 240ms; }
+  .nav.is-open .nav__drawer > li:nth-child(4) { transition-delay: 300ms; }
+  .nav.is-open .nav__drawer > li:nth-child(5) { transition-delay: 360ms; }
+  .nav.is-open .nav__drawer > li:nth-child(6) { transition-delay: 420ms; }
+
+  .nav__drawer > li > a {
     display: block;
     width: 100%;
     padding: var(--sp-base-sm) 0;
@@ -365,25 +392,84 @@
     min-height: auto;
   }
 
-  .nav__drawer a:hover,
-  .nav__drawer a[aria-current="page"] {
+  .nav__drawer > li > a:hover,
+  .nav__drawer > li > a[aria-current="page"] {
     background: transparent;
     color: var(--action-primary);
   }
 
-  /* Language-switch entry pinned at the bottom, separated from section links. */
+  /* Language switcher pinned at the bottom-left of the drawer. */
   .nav__drawer-lang {
     margin-top: auto;
     padding-top: var(--sp-xl);
-    border-top: 1px solid var(--border-subtle);
-    width: 100%;
   }
 
-  .nav__drawer-lang a {
+  .nav__drawer-lang > a,
+  .nav__drawer-lang .nav__toggle {
+    font-family: var(--font-body);
     font-size: clamp(1.125rem, 0.95rem + 0.7vw, 1.375rem);
-    color: var(--text-secondary);
     font-weight: var(--fw-regular);
+    color: var(--text-secondary);
+    padding: var(--sp-xs) 0;
+    min-height: auto;
+    gap: var(--sp-xs);
   }
+
+  .nav__drawer-lang .nav__toggle-current,
+  .nav__drawer-lang .nav__toggle-link {
+    font-size: inherit;
+    padding: 0;
+  }
+
+  /* Dedicated × close button, visible only while the drawer is open.
+     Anchored top-left to mirror where the burger sat, so the tap target
+     feels continuous between the two states. */
+  .nav__drawer-close {
+    position: fixed;
+    top: var(--sp-base-sm);
+    left: var(--sp-lg);
+    z-index: 200;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      visibility 0s linear var(--duration-fast);
+  }
+
+  .nav.is-open .nav__drawer-close {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 80ms, 0s;
+  }
+
+  .nav__drawer-close-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav__drawer-close-icon::before,
+  .nav__drawer-close-icon::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+  }
+
+  .nav__drawer-close-icon::before { transform: rotate(45deg); }
+  .nav__drawer-close-icon::after  { transform: rotate(-45deg); }
 
   /* ────────────────────────────────────────────────────────────────── */
   /* Buttons                                                             */

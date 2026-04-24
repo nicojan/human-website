@@ -56,15 +56,31 @@
           <li><a href="/zh-hant/about/">關於</a></li>
           <li><a href="/zh-hant/writing/" aria-current="page">部落格</a></li>
           <li><a href="/contact/">聯絡</a></li>
-          <li><a href="{{ $toggleHref }}" lang="en">English</a></li>
+          <li class="nav__drawer-lang">
+            <div class="nav__toggle" role="group" aria-label="Language">
+              <a class="nav__toggle-link" href="{{ $toggleHref }}" lang="en" aria-label="Switch to English">EN</a>
+              <span class="nav__toggle-sep" aria-hidden="true">/</span>
+              <span class="nav__toggle-current" aria-current="true">繁體</span>
+            </div>
+          </li>
         {{ else }}
           <li><a href="/services/">Services</a></li>
           <li><a href="/about/">About</a></li>
           <li><a href="/writing/" aria-current="page">Blog</a></li>
           <li><a href="/contact/">Contact</a></li>
-          <li><a href="{{ $toggleHref }}" lang="zh-Hant">繁體中文</a></li>
+          <li class="nav__drawer-lang">
+            <div class="nav__toggle" role="group" aria-label="Language">
+              <span class="nav__toggle-current" aria-current="true">EN</span>
+              <span class="nav__toggle-sep" aria-hidden="true">/</span>
+              <a class="nav__toggle-link" href="{{ $toggleHref }}" lang="zh-Hant" aria-label="切換到繁體中文">繁體</a>
+            </div>
+          </li>
         {{ end }}
       </ul>
+
+      <button class="nav__drawer-close" type="button" data-nav-close aria-label="{{ if $isZh }}關閉選單{{ else }}Close menu{{ end }}">
+        <span class="nav__drawer-close-icon" aria-hidden="true"></span>
+      </button>
     </nav>
   </div>
 </header>

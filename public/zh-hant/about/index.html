@@ -60,8 +60,18 @@
           <li><a href="/zh-hant/about/" aria-current="page">關於</a></li>
           <li><a href="/zh-hant/writing/">部落格</a></li>
           <li><a href="/contact/">聯絡</a></li>
-          <li><a href="/about/" lang="en">English</a></li>
+          <li class="nav__drawer-lang">
+            <div class="nav__toggle" role="group" aria-label="Language">
+              <a class="nav__toggle-link" href="/about/" lang="en" aria-label="Switch to English">EN</a>
+              <span class="nav__toggle-sep" aria-hidden="true">/</span>
+              <span class="nav__toggle-current" aria-current="true">繁體</span>
+            </div>
+          </li>
         </ul>
+
+        <button class="nav__drawer-close" type="button" data-nav-close aria-label="關閉選單">
+          <span class="nav__drawer-close-icon" aria-hidden="true"></span>
+        </button>
       </nav>
     </div>
   </header>

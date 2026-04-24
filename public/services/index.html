@@ -69,8 +69,18 @@
           <li><a href="/about/">About</a></li>
           <li><a href="/writing/">Blog</a></li>
           <li><a href="/contact/">Contact</a></li>
-          <li><a href="/zh-hant/services/" lang="zh-Hant">繁體中文</a></li>
+          <li class="nav__drawer-lang">
+            <div class="nav__toggle" role="group" aria-label="Language">
+              <span class="nav__toggle-current" aria-current="true">EN</span>
+              <span class="nav__toggle-sep" aria-hidden="true">/</span>
+              <a class="nav__toggle-link" href="/zh-hant/services/" lang="zh-Hant" aria-label="切換到繁體中文">繁體</a>
+            </div>
+          </li>
         </ul>
+
+        <button class="nav__drawer-close" type="button" data-nav-close aria-label="Close menu">
+          <span class="nav__drawer-close-icon" aria-hidden="true"></span>
+        </button>
       </nav>
     </div>
   </header>
