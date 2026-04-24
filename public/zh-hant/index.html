@@ -59,35 +59,36 @@
 
   <header class="site-header" data-site-header>
     <div class="container">
-      <nav class="nav nav--bilingual" data-nav aria-label="主要">
-        <ul class="nav__links nav__links--en" id="primary-nav" lang="en">
-          <li><a href="/services/">Services</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/writing/">Writing</a></li>
-          <li><a href="/contact/">Contact</a></li>
-        </ul>
-
+      <nav class="nav" data-nav aria-label="主要">
         <a class="nav__brand" href="/zh-hant/" aria-label="人本・共學社 首頁">
-          <img class="nav__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="200" height="44" />
+          <img class="nav__wordmark" src="/brand/human-wordmark-colour-on-white.svg" alt="Human," width="130" height="28" />
         </a>
 
-        <ul class="nav__links nav__links--zh">
+        <ul class="nav__links" id="primary-nav">
           <li><a href="/zh-hant/services/">課程</a></li>
           <li><a href="/zh-hant/about/">關於</a></li>
           <li><a href="/writing/">文章</a></li>
           <li><a href="/contact/">聯絡</a></li>
         </ul>
 
-        <button class="nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="primary-nav" aria-label="開啟選單">
-          <span class="nav__burger-icon" aria-hidden="true"></span>
-        </button>
+        <div class="nav__actions">
+          <div class="nav__toggle" role="group" aria-label="Language">
+            <a class="nav__toggle-link" href="/" lang="en" aria-label="Switch to English">EN</a>
+            <span class="nav__toggle-sep" aria-hidden="true">/</span>
+            <span class="nav__toggle-current" aria-current="true">繁體</span>
+          </div>
+          <a class="button button--primary button--sm nav__cta" href="/contact/">預約諮詢</a>
+          <button class="nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="primary-nav" aria-label="開啟選單">
+            <span class="nav__burger-icon" aria-hidden="true"></span>
+          </button>
+        </div>
 
         <ul class="nav__drawer" aria-label="行動選單">
-          <li><a href="/zh-hant/services/"><span lang="en">Services</span> · 課程</a></li>
-          <li><a href="/zh-hant/about/"><span lang="en">About</span> · 關於</a></li>
-          <li><a href="/writing/"><span lang="en">Writing</span> · 文章</a></li>
-          <li><a href="/contact/"><span lang="en">Contact</span> · 聯絡</a></li>
-          <li class="nav__drawer-lang"><a href="/" lang="en">English</a></li>
+          <li><a href="/zh-hant/services/">課程</a></li>
+          <li><a href="/zh-hant/about/">關於</a></li>
+          <li><a href="/writing/">文章</a></li>
+          <li><a href="/contact/">聯絡</a></li>
+          <li><a href="/" lang="en">English</a></li>
         </ul>
       </nav>
     </div>
@@ -102,7 +103,7 @@
       </video>
       <div class="hero__overlay" aria-hidden="true"></div>
       <div class="container">
-        <div class="hero__grid">
+        <div class="hero__grid hero__grid--zh">
           <div class="hero__en" data-animate-stagger>
             <h1 class="hero__headline hero__headline--zh" id="hero-headline" data-animate>
               我們幫助學生把話想清楚、把文本讀透、把字寫準。
@@ -115,18 +116,6 @@
               <p>We help students think clearly, read closely, and write with purpose.</p>
               <p class="hero__en-sub">One-on-one tutoring in English literature, writing, and critical thinking. Online, from Vancouver.</p>
             </div>
-          </div>
-
-          <!--
-            3-column vertical ZH hero — read right-to-left per Traditional
-            Chinese convention. Source order is LTR (把話想清楚, 把文本讀透,
-            把字寫準。); CSS flips visual order via flex-direction: row-reverse.
-            Do NOT reorder the spans.
-          -->
-          <div class="hero__zh-vertical" aria-hidden="true" data-animate>
-            <span>把話想清楚</span>
-            <span>把文本讀透</span>
-            <span>把字寫準。</span>
           </div>
         </div>
 
@@ -148,7 +137,7 @@
             <span class="eyebrow">我們的信念</span>
             <h2 class="belief__heading-zh" id="belief-heading">學習本身，才是重點。</h2>
             <p class="belief__body belief__body-zh">
-              在 AI 的時代，最重要的問題已經不是學什麼，而是學習的過程裡如何保有自己。當答案隨手可得，思考的肌肉就容易鬆弛。我們的教學，就是讓那塊肌肉練回來。
+              在 AI 的時代，關鍵已經不是孩子學什麼，而是在學習裡怎麼保有自己。答案隨手可得時，思考反而容易偷懶。我們教的，就是把那塊肌肉重新鍛鍊回來。
             </p>
           </div>
 

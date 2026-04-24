@@ -186,6 +186,16 @@
     line-height: 1.3;
   }
 
+  .service-card__title-zh {
+    display: block;
+    margin-top: var(--sp-xs);
+    font-family: var(--font-display-zh);
+    font-size: clamp(1rem, 0.9rem + 0.35vw, 1.125rem);
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
   .service-card__body { color: var(--text-secondary); line-height: 1.55; }
 
   .service-card__good {
@@ -361,12 +371,32 @@
     margin-bottom: var(--sp-sm);
   }
 
+  .notfound__code-zh {
+    display: block;
+    font-family: var(--font-body-zh);
+    letter-spacing: 0;
+    margin-top: var(--sp-xs);
+  }
+
   .notfound__title {
     font-family: var(--font-display);
     font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
     font-weight: var(--fw-medium);
     line-height: 1.1;
     margin-bottom: var(--sp-md);
+  }
+
+  .notfound__title-zh {
+    display: block;
+    font-family: var(--font-display-zh);
+    font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+    color: var(--text-secondary);
+    margin-top: var(--sp-xs);
+  }
+
+  .notfound__sub-zh {
+    color: var(--text-secondary);
+    margin-top: var(--sp-sm);
   }
 
   .notfound__links {
