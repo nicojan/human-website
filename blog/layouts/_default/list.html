@@ -1,8 +1,8 @@
 {{ define "main" }}
 <section class="section section--canvas page-hero" aria-labelledby="writing-hero">
   <div class="container">
-    <span class="eyebrow" data-animate>Writing · <span lang="zh-Hant">文章</span></span>
-    <h1 class="page-hero__headline" id="writing-hero" data-animate>{{ .Title | default "Writing" }}</h1>
+    <span class="eyebrow" data-animate>Blog · <span lang="zh-Hant">部落格</span></span>
+    <h1 class="page-hero__headline" id="writing-hero" data-animate>{{ .Title | default "Blog" }}</h1>
     <p class="page-hero__sub" data-animate>
       {{ with .Description }}{{ . }}{{ else }}Notes on teaching, learning, and the tools we use.{{ end }}
     </p>

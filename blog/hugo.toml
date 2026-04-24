@@ -5,7 +5,7 @@
 
 baseURL = "https://forhuman.ca/writing/"
 languageCode = "en-CA"
-title = "Writing · Human,"
+title = "Blog · Human,"
 enableRobotsTXT = true
 defaultContentLanguage = "en"
 enableGitInfo = false
@@ -44,4 +44,4 @@ uglyURLs = false
 [languages.en]
   languageName = "English"
   weight = 1
-  title = "Writing · Human,"
+  title = "Blog · Human,"
