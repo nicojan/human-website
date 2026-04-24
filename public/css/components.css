@@ -391,16 +391,18 @@
   .button--primary::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -1px;
     border-radius: inherit;
-    padding: 1.5px;
+    padding: 3px;
     background: conic-gradient(
       from var(--cta-glow-angle),
       transparent 0deg,
-      var(--terracotta-light) 25deg,
-      var(--terracotta) 45deg,
-      var(--terracotta-light) 65deg,
-      transparent 90deg,
+      var(--terracotta-light) 15deg,
+      var(--terracotta) 35deg,
+      var(--terracotta-deep) 50deg,
+      var(--terracotta) 65deg,
+      var(--terracotta-light) 85deg,
+      transparent 110deg,
       transparent 360deg
     );
     -webkit-mask:
@@ -412,12 +414,36 @@
       linear-gradient(#000 0 0);
     mask-composite: exclude;
     pointer-events: none;
-    animation: cta-glow-crawl 7s linear infinite;
-    opacity: 0.85;
+    animation: cta-glow-crawl 5s linear infinite;
+    opacity: 1;
+    z-index: 1;
+  }
+
+  /* Soft halo behind the button — blurred conic sitting below the fill,
+     amplifies the crawling head of the gradient without washing the body. */
+  .button--primary::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--cta-glow-angle),
+      transparent 0deg,
+      color-mix(in srgb, var(--terracotta) 55%, transparent) 30deg,
+      color-mix(in srgb, var(--terracotta-light) 70%, transparent) 60deg,
+      transparent 100deg,
+      transparent 360deg
+    );
+    filter: blur(8px);
+    pointer-events: none;
+    animation: cta-glow-crawl 5s linear infinite;
+    z-index: -1;
+    opacity: 0.9;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .button--primary::before { animation: none; opacity: 0; }
+    .button--primary::before,
+    .button--primary::after { animation: none; opacity: 0; }
   }
 
   .button--secondary {
