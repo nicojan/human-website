@@ -90,7 +90,16 @@
     width: auto;
   }
 
-  /* Bilingual nav — homepage only.
+  /* Responsive brand: comma-only mark on mobile, full wordmark on desktop. */
+  .nav__wordmark--full { display: none; }
+  .nav__wordmark--mark { display: inline-block; height: 1.75rem; width: auto; }
+
+  @media (min-width: 48rem) {
+    .nav__wordmark--full { display: inline-block; }
+    .nav__wordmark--mark { display: none; }
+  }
+
+  /* Bilingual nav — homepage and contact.
      Layout: [EN links LEFT] [Human, wordmark CENTER, enlarged] [ZH links RIGHT]
      No language toggle, no CTA button (per Figma). */
   .nav--bilingual {
@@ -111,7 +120,7 @@
     justify-self: center;
   }
 
-  .nav--bilingual .nav__wordmark {
+  .nav--bilingual .nav__wordmark--full {
     height: 2.5rem;
   }
 
@@ -124,6 +133,10 @@
     }
     .nav--bilingual .nav__links {
       display: none;
+    }
+    .nav--bilingual .nav__burger {
+      grid-column: 3;
+      justify-self: end;
     }
   }
 
@@ -162,6 +175,34 @@
     display: flex;
     align-items: center;
     gap: var(--sp-md);
+  }
+
+  /* Mobile inner-page layout: flatten .nav__actions so its children (toggle,
+     cta, burger) become direct flex children of .nav. Combined with `order:`
+     they lay out as [toggle | brand-centered | cta | burger]. */
+  @media (max-width: 47.99rem) {
+    .nav:not(.nav--bilingual) {
+      gap: var(--sp-sm);
+    }
+    .nav:not(.nav--bilingual) .nav__actions {
+      display: contents;
+    }
+    .nav:not(.nav--bilingual) .nav__toggle {
+      order: 1;
+      padding-inline: var(--sp-xs);
+    }
+    .nav:not(.nav--bilingual) .nav__brand {
+      order: 2;
+      flex: 1;
+      justify-content: center;
+    }
+    .nav:not(.nav--bilingual) .nav__cta {
+      order: 3;
+      display: inline-flex;
+    }
+    .nav:not(.nav--bilingual) .nav__burger {
+      order: 4;
+    }
   }
 
   .nav__toggle {
@@ -224,16 +265,20 @@
     }
   }
 
-  .nav__burger:hover {
-    background: var(--bg-surface);
+  /* Burger icon: two lines that collapse into an × when open. Icon has no
+     background box — just the two bars against the page. */
+  .nav__burger,
+  .nav__burger:hover,
+  .nav__burger:active,
+  .nav__burger:focus-visible {
+    background: transparent;
+    border: 0;
   }
 
   .nav__burger-icon {
     position: relative;
-    width: 18px;
-    height: 2px;
-    background: var(--text-primary);
-    border-radius: 2px;
+    width: 22px;
+    height: 14px;
   }
 
   .nav__burger-icon::before,
@@ -241,7 +286,7 @@
     content: "";
     position: absolute;
     left: 0;
-    width: 18px;
+    right: 0;
     height: 2px;
     background: var(--text-primary);
     border-radius: 2px;
@@ -251,39 +296,38 @@
       bottom var(--duration-fast) var(--ease-out);
   }
 
-  .nav__burger-icon::before {
-    top: -6px;
-  }
-  .nav__burger-icon::after {
-    bottom: -6px;
-  }
+  .nav__burger-icon::before { top: 0; }
+  .nav__burger-icon::after  { bottom: 0; }
 
-  .nav.is-open .nav__burger-icon {
-    background: transparent;
-  }
   .nav.is-open .nav__burger-icon::before {
-    top: 0;
+    top: 6px;
     transform: rotate(45deg);
   }
   .nav.is-open .nav__burger-icon::after {
-    bottom: 0;
+    bottom: 6px;
     transform: rotate(-45deg);
   }
 
-  /* Mobile nav drawer */
+  /* Full-viewport mobile menu. The header stays sticky at the top; the
+     drawer sits below it and fills the rest of the viewport. On open we
+     promote the burger to fixed-position in the top-right corner so the
+     user can always reach the × to close. */
   .nav__drawer {
     display: none;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 4rem;
     left: 0;
     right: 0;
+    bottom: 0;
+    z-index: 150;
     background: var(--bg-canvas);
-    border-bottom: 1px solid var(--border-default);
-    padding: var(--sp-md) var(--sp-md) var(--sp-xl);
+    padding: var(--sp-xl) var(--sp-lg) var(--sp-xl);
     list-style: none;
     margin: 0;
     flex-direction: column;
-    gap: var(--sp-xs);
+    align-items: flex-start;
+    gap: var(--sp-sm);
+    overflow-y: auto;
   }
 
   .nav.is-open .nav__drawer {
@@ -296,28 +340,47 @@
     }
   }
 
+  body.nav-open {
+    overflow: hidden;
+  }
+
+  /* When open, lift the burger above the drawer so × stays tappable. */
+  body.nav-open .nav__burger {
+    position: fixed;
+    top: var(--sp-base-sm);
+    right: var(--sp-lg);
+    z-index: 200;
+  }
+
   .nav__drawer a {
     display: block;
-    padding: var(--sp-md) var(--sp-md);
+    width: 100%;
+    padding: var(--sp-base-sm) 0;
     color: var(--text-primary);
     text-decoration: none;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
     font-weight: var(--fw-medium);
-    border-radius: var(--radius-md);
-    min-height: 44px;
+    line-height: 1.15;
+    min-height: auto;
   }
 
-  .nav__drawer a:hover {
-    background: var(--bg-surface);
+  .nav__drawer a:hover,
+  .nav__drawer a[aria-current="page"] {
+    background: transparent;
+    color: var(--action-primary);
   }
 
-  /* Language-switch entry in mobile drawer — separated from section links. */
+  /* Language-switch entry pinned at the bottom, separated from section links. */
   .nav__drawer-lang {
-    margin-top: var(--sp-sm);
-    padding-top: var(--sp-sm);
+    margin-top: auto;
+    padding-top: var(--sp-xl);
     border-top: 1px solid var(--border-subtle);
+    width: 100%;
   }
 
   .nav__drawer-lang a {
+    font-size: clamp(1.125rem, 0.95rem + 0.7vw, 1.375rem);
     color: var(--text-secondary);
     font-weight: var(--fw-regular);
   }

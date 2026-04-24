@@ -21,18 +21,34 @@
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  /* Mobile nav toggle */
+  /* Mobile nav toggle — full-viewport overlay. Locks body scroll while
+     open, responds to ESC, and auto-closes when the viewport crosses
+     back into the desktop breakpoint (so the state can't get stuck). */
   const nav = document.querySelector('[data-nav]');
   const burger = document.querySelector('[data-nav-burger]');
   if (nav && burger) {
     const isZh = document.documentElement.lang === 'zh-Hant';
     const labelOpen = isZh ? '開啟選單' : 'Open menu';
     const labelClose = isZh ? '關閉選單' : 'Close menu';
-    burger.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('is-open');
+    const setOpen = (isOpen) => {
+      nav.classList.toggle('is-open', isOpen);
+      document.body.classList.toggle('nav-open', isOpen);
       burger.setAttribute('aria-expanded', String(isOpen));
       burger.setAttribute('aria-label', isOpen ? labelClose : labelOpen);
+    };
+    burger.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) setOpen(false);
     });
+    const desktopMql = window.matchMedia('(min-width: 48rem)');
+    const handleViewportChange = () => {
+      if (desktopMql.matches && nav.classList.contains('is-open')) setOpen(false);
+    };
+    if (desktopMql.addEventListener) {
+      desktopMql.addEventListener('change', handleViewportChange);
+    } else if (desktopMql.addListener) {
+      desktopMql.addListener(handleViewportChange);
+    }
   }
 
   /* Sticky header state */
@@ -48,24 +64,35 @@
   /* Pill-mode nav: on pages with a video hero, the nav renders as a
      floating glass pill while any part of the hero is visible, then
      flips to the standard full-width bar once the user has scrolled
-     past the hero. The wordmark swaps to the colour-on-ink variant
-     (light "Human," with terracotta comma) while the pill is active
-     so it stays legible against the dark video behind the glass. */
+     past the hero. The full wordmark and the mobile comma-mark both
+     swap to their on-ink variants while the pill is active so they
+     stay legible against the dark video behind the glass. */
   const videoHero = document.querySelector('.hero--video');
   if (videoHero && 'IntersectionObserver' in window) {
     document.body.classList.add('has-video-hero', 'hero-in-view');
-    const navWordmark = document.querySelector('.nav__wordmark');
-    const WORDMARK_LIGHT_BG = '/brand/human-wordmark-colour-on-white.svg';
-    const WORDMARK_DARK_BG  = '/brand/human-wordmark-colour-on-ink.svg';
-    if (navWordmark) {
-      navWordmark.src = WORDMARK_DARK_BG;
-    }
+    const markEls = {
+      full: document.querySelector('.nav__wordmark--full'),
+      mark: document.querySelector('.nav__wordmark--mark'),
+    };
+    const MARKS = {
+      light: {
+        full: '/brand/human-wordmark-colour-on-white.svg',
+        mark: '/brand/human-comma-terracotta.svg',
+      },
+      dark: {
+        full: '/brand/human-wordmark-colour-on-ink.svg',
+        mark: '/brand/human-comma-white-on-ink.svg',
+      },
+    };
+    const applyVariant = (variant) => {
+      if (markEls.full) markEls.full.src = MARKS[variant].full;
+      if (markEls.mark) markEls.mark.src = MARKS[variant].mark;
+    };
+    applyVariant('dark');
     const heroIO = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         document.body.classList.toggle('hero-in-view', entry.isIntersecting);
-        if (navWordmark) {
-          navWordmark.src = entry.isIntersecting ? WORDMARK_DARK_BG : WORDMARK_LIGHT_BG;
-        }
+        applyVariant(entry.isIntersecting ? 'dark' : 'light');
       });
     }, { threshold: 0 });
     heroIO.observe(videoHero);
