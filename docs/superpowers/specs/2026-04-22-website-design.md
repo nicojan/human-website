@@ -339,7 +339,7 @@ Fully bilingual. The form itself is the real deliverable.
 
 #### Behaviour
 - Client-side validation via `contact.js` (HTML5 + a thin layer for error messaging).
-- Submit POSTs `application/json` to `https://dashboard.forhuman.ca/api/contact` (this endpoint is built in sub-project B).
+- Submit POSTs `application/json` to `https://class.forhuman.ca/api/contact` (this endpoint is built in sub-project B).
 - Success state: replaces form with thank-you message inline, no page navigation.
 - Error state: inline error above submit button, no field values cleared.
 - Before B ships, submit is stubbed to `console.log` and shows the success state. This way A is fully functional on its own.
@@ -592,7 +592,7 @@ echo "Build complete. Deployable root: ./public"
 
 ## 15. Out of scope (handled by other specs)
 
-- **Contact form backend** — see `2026-04-22-contact-backend-design.md` (sub-project B). The contact form in this spec POSTs to `https://dashboard.forhuman.ca/api/contact`, which doesn't exist yet. The website ships with a stub that console.logs in dev.
+- **Contact form backend** — see `2026-04-22-contact-backend-design.md` (sub-project B). The contact form in this spec POSTs to `https://class.forhuman.ca/api/contact`, which doesn't exist yet. The website ships with a stub that console.logs in dev.
 - **Matomo analytics** — see `2026-04-22-matomo-selfhost-design.md` (sub-project C). The tracking snippet is added in a one-line edit after Matomo is live.
 - **CLAUDE.md operating manual** — will be reconstructed at the end of sub-project A based on the final project structure.
 
