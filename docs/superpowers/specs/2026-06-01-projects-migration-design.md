@@ -31,6 +31,8 @@ Cost: 3 Workers and 3 GitHub repos to maintain. Cloudflare GitHub auto-deploy me
 
 ### A. `nicojan/usefulwords` — new GitHub repo
 
+**Local working path:** `/Users/nicojan/dev/human/usefulwords` (sibling to `human-website`).
+
 Repo layout:
 
 ```
@@ -72,15 +74,15 @@ Useful Words has no `og:url`, `og:image`, or `canonical` tags today. Two changes
 
 Everything else copied byte-for-byte. External dependencies stay (`http://nicojan.com/contact`, Webflow CDN jQuery from `d1tdp7z6w94jbb.cloudfront.net`).
 
-### B. `nicojan/pocket-dystopia` — existing GitHub repo (optional touch-ups)
+### B. `nicojan/pocket-dystopia` — touch-ups (in scope)
 
-Pocket Dystopia is already live at the new subdomain. Two optional improvements, out of scope unless requested:
+Pocket Dystopia is already live at the new subdomain. Three small fixes, delivered as a PR on the existing repo:
 
-1. **Footer credit** consistent with Useful Words: `designed with ❤ for Human, by Nico Jan`. Currently the page has its own "Nico Jan" link but no Human, attribution.
-2. **Pull OG image local.** `og:image` currently points at `https://raw.githubusercontent.com/nicojan/classwithnico/refs/heads/main/Development/pocket-dystopia/og-image-v1.png`. If you ever clean up the old repo, social previews break silently. Trivial to fix: copy the image into the repo and reference it relatively.
-3. **Update `og:url`** in case it still reads `https://classwith.nicojan.com/pocket-dystopia/` — should be `https://pocketdystopia.forhuman.ca/`.
+1. **Footer credit** consistent with Useful Words: `designed with ❤ for Human, by Nico Jan`. Currently the page has a "Nico Jan" link but no Human, attribution.
+2. **Pull OG image local.** `og:image` currently points at `https://raw.githubusercontent.com/nicojan/classwithnico/refs/heads/main/Development/pocket-dystopia/og-image-v1.png`. Fragile external dependency. Copy the image into the repo and reference it relatively.
+3. **Update `og:url`** from `https://classwith.nicojan.com/pocket-dystopia/` to `https://pocketdystopia.forhuman.ca/`.
 
-These are nice-to-haves on a separate repo. Do them as their own PR(s) when convenient.
+**Local working path:** `/Users/nicojan/dev/human/pocket-dystopia` (clone from GitHub). Implementation creates a branch, lands the three changes, opens a PR for review before merge.
 
 ### C. `nicojan/human-website` — this repo
 
