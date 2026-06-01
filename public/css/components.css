@@ -937,6 +937,20 @@
     color: var(--text-secondary);
   }
 
+  .footer__tools {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-base-sm);
+    padding-block: var(--sp-lg);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+
+  .footer__list--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+  }
+
   .footer__list {
     list-style: none;
     padding: 0;
