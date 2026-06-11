@@ -32,35 +32,35 @@
      lowercase to match the redesigned label voice. */
   const HANDLE_FIELDS = {
     email: {
-      labelHtml: '<span>email address</span><span lang="zh-Hant">電郵地址</span>',
+      labelHtml: '<span>email address <span class="field__required">(required)</span></span><span lang="zh-Hant">電郵地址</span>',
       type: 'email',
       placeholder: 'name@example.com',
       autocomplete: 'email',
       inputMode: 'email',
     },
     wechat: {
-      labelHtml: '<span>WeChat ID</span><span lang="zh-Hant">微信號</span>',
+      labelHtml: '<span>WeChat ID <span class="field__required">(required)</span></span><span lang="zh-Hant">微信號</span>',
       type: 'text',
       placeholder: 'e.g. classwithnico',
       autocomplete: 'off',
       inputMode: 'text',
     },
     line: {
-      labelHtml: '<span>Line ID</span><span lang="zh-Hant">Line 帳號</span>',
+      labelHtml: '<span>Line ID <span class="field__required">(required)</span></span><span lang="zh-Hant">Line 帳號</span>',
       type: 'text',
       placeholder: 'e.g. classwithnico',
       autocomplete: 'off',
       inputMode: 'text',
     },
     whatsapp: {
-      labelHtml: '<span>WhatsApp number</span><span lang="zh-Hant">WhatsApp 號碼</span>',
+      labelHtml: '<span>WhatsApp number <span class="field__required">(required)</span></span><span lang="zh-Hant">WhatsApp 號碼</span>',
       type: 'tel',
       placeholder: '+1 604 555 0123',
       autocomplete: 'tel',
       inputMode: 'tel',
     },
     text: {
-      labelHtml: '<span>phone number</span><span lang="zh-Hant">手機號碼</span>',
+      labelHtml: '<span>phone number <span class="field__required">(required)</span></span><span lang="zh-Hant">手機號碼</span>',
       type: 'tel',
       placeholder: '+1 604 555 0123',
       autocomplete: 'tel',

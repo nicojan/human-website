@@ -411,6 +411,7 @@
   .nav.is-open .nav__drawer > li:nth-child(4) { transition-delay: 300ms; }
   .nav.is-open .nav__drawer > li:nth-child(5) { transition-delay: 360ms; }
   .nav.is-open .nav__drawer > li:nth-child(6) { transition-delay: 420ms; }
+  .nav.is-open .nav__drawer > li:nth-child(7) { transition-delay: 480ms; }
 
   .nav__drawer > li > a {
     display: block;
@@ -429,6 +430,22 @@
   .nav__drawer > li > a[aria-current="page"] {
     background: transparent;
     color: var(--action-primary);
+  }
+
+  .nav__drawer-cta {
+    margin-top: var(--sp-lg);
+  }
+
+  .nav__drawer > .nav__drawer-cta > a {
+    display: inline-flex;
+    font-family: var(--font-body);
+    font-size: var(--fs-body-lg);
+    color: var(--text-inverse);
+    width: min(100%, 18rem);
+  }
+
+  .nav__drawer > .nav__drawer-cta > a:hover {
+    color: var(--text-inverse);
   }
 
   /* Language switcher pinned at the bottom-left of the drawer. */
@@ -1068,8 +1085,8 @@
   /* ────────────────────────────────────────────────────────────────── */
 
   [data-animate] {
-    opacity: 0;
-    transform: translateY(16px);
+    opacity: 1;
+    transform: none;
     transition:
       opacity var(--duration-slow) var(--ease-out),
       transform var(--duration-slow) var(--ease-out);

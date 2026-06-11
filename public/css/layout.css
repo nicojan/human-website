@@ -28,7 +28,7 @@
   }
 
   @media (min-width: 48rem) {
-    .section { padding-block: var(--sp-4xl); }
+    .section { padding-block: var(--sp-3xl-lg); }
   }
 
   @media (min-width: 64rem) {

@@ -10,11 +10,11 @@
   /* ────────────────────────────────────────────────────────────────── */
 
   .page-hero {
-    padding-block: var(--sp-3xl) var(--sp-2xl);
+    padding-block: var(--sp-3xl) var(--sp-xl);
   }
 
   @media (min-width: 48rem) {
-    .page-hero { padding-block: var(--sp-4xl) var(--sp-3xl); }
+    .page-hero { padding-block: var(--sp-3xl-lg) var(--sp-2xl); }
   }
 
   .page-hero__kicker {
@@ -87,6 +87,39 @@
     display: flex;
     flex-direction: column;
     gap: var(--sp-sm);
+    border-top: 3px solid var(--accent);
+  }
+
+  .about-signal-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-md);
+    margin-top: var(--sp-xl);
+    max-width: 48rem;
+  }
+
+  @media (min-width: 48rem) {
+    .about-signal-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .about-signal {
+    padding-block: var(--sp-lg);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .about-signal__value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--text-primary);
+  }
+
+  .about-signal__label {
+    display: block;
+    margin-top: var(--sp-xs);
+    color: var(--text-secondary);
+    line-height: 1.5;
   }
 
   .about-principle__title {
@@ -169,6 +202,7 @@
     padding: var(--sp-xl);
     border-radius: var(--radius-lg);
     position: relative;
+    border: 1px solid transparent;
   }
 
   .service-card__number {
@@ -198,6 +232,38 @@
 
   .service-card__body { color: var(--text-secondary); line-height: 1.55; }
 
+  .service-card__quick {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-sm);
+    padding-top: var(--sp-sm);
+    border-top: 1px solid var(--border-default);
+  }
+
+  @media (min-width: 40rem) {
+    .service-card__quick { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .service-card__quick-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .service-card__quick-label {
+    font-size: var(--fs-label);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .service-card__quick-value {
+    font-size: var(--fs-caption);
+    color: var(--text-primary);
+    line-height: 1.45;
+  }
+
   .service-card__good {
     margin-top: auto;
     padding-top: var(--sp-sm);
@@ -212,6 +278,31 @@
     letter-spacing: var(--ls-label);
     color: var(--text-primary);
     margin-bottom: var(--sp-xs);
+  }
+
+  .section-followup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-md);
+    margin-top: var(--sp-xl);
+    padding-top: var(--sp-xl);
+    border-top: 1px solid var(--border-default);
+  }
+
+  @media (min-width: 48rem) {
+    .section-followup {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .section-followup p {
+    max-width: 34rem;
+    color: var(--text-secondary);
+    font-size: var(--fs-body-lg);
+    line-height: 1.55;
   }
 
   /* ────────────────────────────────────────────────────────────────── */
@@ -241,6 +332,33 @@
     border-radius: var(--radius-lg);
   }
 
+  .contact-form__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    padding-bottom: var(--sp-md);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .contact-form__intro-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    line-height: 1.25;
+  }
+
+  .contact-form__intro-copy,
+  .contact-form__privacy {
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .contact-form__intro-copy > [lang="zh-Hant"],
+  .contact-form__privacy > [lang="zh-Hant"] {
+    display: block;
+    margin-top: var(--sp-xs);
+  }
+
   .contact-form__row {
     display: grid;
     grid-template-columns: 1fr;
@@ -256,6 +374,24 @@
     flex-direction: column;
     gap: var(--sp-md);
     align-items: flex-start;
+  }
+
+  .turnstile-wrap {
+    min-height: 4.25rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .turnstile-wrap::before {
+    content: "Security check loading · 驗證載入中";
+    color: var(--text-tertiary);
+    font-size: var(--fs-caption);
+  }
+
+  .turnstile-wrap:has(iframe)::before,
+  .turnstile-wrap:has(input[name="cf-turnstile-response"])::before {
+    content: "";
+    display: none;
   }
 
   .contact-form__status {

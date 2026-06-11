@@ -11,6 +11,9 @@
 {{- $emptyFilter := cond $isZh "沒有符合的文章。" "No posts match that tag." -}}
 {{- $resetLabel := cond $isZh "顯示全部" "Show all posts" -}}
 {{- $allPostsLabel := cond $isZh "所有文章" "All posts" -}}
+{{- $consultTitle := cond $isZh "讀到一個學生的問題了嗎？" "Reading with a student in mind?" -}}
+{{- $consultCopy := cond $isZh "帶著問題來聊聊。我們可以一起判斷下一步。" "Bring the question to a short consult. We can help decide the next step." -}}
+{{- $consultCta := cond $isZh "預約諮詢" "Book a Consult" -}}
 {{- $dateFormat := cond $isZh "2006 年 1 月 2 日" "January 2, 2006" -}}
 <section class="section section--canvas page-hero" aria-labelledby="writing-hero">
   <div class="container">
@@ -69,6 +72,14 @@
       </ul>
 
       <p class="writing-list__empty" data-post-empty hidden>{{ $emptyFilter }} <button type="button" class="link-cta" data-tag-reset>{{ $resetLabel }}</button></p>
+
+      <div class="section-followup writing-followup" data-animate>
+        <div>
+          <h2>{{ $consultTitle }}</h2>
+          <p>{{ $consultCopy }}</p>
+        </div>
+        <a class="button button--primary" href="/contact/">{{ $consultCta }}</a>
+      </div>
     {{ end }}
   </div>
 </section>

@@ -110,6 +110,12 @@
             <li><a href="/about/">About · <span lang="zh-Hant">關於</span></a></li>
             <li><a href="/writing/">Blog · <span lang="zh-Hant">部落格</span></a></li>
             <li><a href="/contact/" aria-current="page">Contact · <span lang="zh-Hant">聯絡</span></a></li>
+            <li class="nav__drawer-cta">
+              <a class="button button--primary button--stacked" href="/contact/">
+                <span class="button__en">Book a Consult</span>
+                <span class="button__zh" lang="zh-Hant">預約諮詢</span>
+              </a>
+            </li>
             <li class="nav__drawer-lang"><a href="/zh-hant/" lang="zh-Hant">繁體中文</a></li>
           </ul>
 
@@ -149,11 +155,21 @@
               data-contact-form
               data-endpoint="https://class.forhuman.ca/api/contact"
             >
+              <div class="contact-form__intro">
+                <p class="contact-form__intro-title">
+                  Fifteen minutes is enough to start.
+                </p>
+                <p class="contact-form__intro-copy">
+                  Tell us what the student is working through. We usually reply within one business day with a suggested next step.
+                  <span lang="zh-Hant">簡單說說孩子現在遇到什麼。我們通常會在一個工作日內回覆，並提出下一步建議。</span>
+                </p>
+              </div>
+
               <div class="contact-form__fields stack stack--lg">
                 <div class="contact-form__row contact-form__row--split">
                   <div class="field">
                     <label class="field__label" for="contact-parent-name">
-                      <span>parent name</span>
+                      <span>parent name <span class="field__required">(required)</span></span>
                       <span lang="zh-Hant">家長姓名</span>
                     </label>
                     <input
@@ -184,7 +200,7 @@
                 <div class="contact-form__row contact-form__row--split">
                   <div class="field">
                     <label class="field__label" for="contact-method">
-                      <span>best way to reach you</span>
+                      <span>best way to reach you <span class="field__required">(required)</span></span>
                       <span lang="zh-Hant">最方便的聯絡方式</span>
                     </label>
                     <select
@@ -208,7 +224,7 @@
                       for="contact-handle"
                       data-contact-handle-label
                     >
-                      <span>email address</span>
+                      <span>email address <span class="field__required">(required)</span></span>
                       <span lang="zh-Hant">電郵地址</span>
                     </label>
                     <input
@@ -240,7 +256,7 @@
 
                 <div class="field">
                   <label class="field__label" for="contact-message">
-                    <span>What can we help with?</span>
+                    <span>What can we help with? <span class="field__required">(required)</span></span>
                     <span lang="zh-Hant">我們能怎麼幫忙？</span>
                   </label>
                   <textarea
@@ -253,12 +269,19 @@
                   ></textarea>
                 </div>
 
-                <div
-                  class="cf-turnstile"
-                  data-sitekey="0x4AAAAAADBmP230oRRaPNxu"
-                  data-theme="light"
-                  aria-label="Spam protection"
-                ></div>
+                <div class="turnstile-wrap">
+                  <div
+                    class="cf-turnstile"
+                    data-sitekey="0x4AAAAAADBmP230oRRaPNxu"
+                    data-theme="light"
+                    aria-label="Spam protection"
+                  ></div>
+                </div>
+
+                <p class="contact-form__privacy">
+                  We use this only to reply to your inquiry. No mailing list, no shared student details.
+                  <span lang="zh-Hant">這些資料只用來回覆您的詢問。不會加入電子報，也不會分享學生資料。</span>
+                </p>
 
                 <div class="sr-only" aria-hidden="true">
                   <label for="contact-company">Company (leave blank)</label>

@@ -7,9 +7,8 @@ and writes two partial files (one per language) into partials/. inject-
 partials.py picks them up and injects them into the home pages via the
 matching <!-- include: school-marquee-{en,zh} --> markers.
 
-Alt text is identical for every logo on purpose: the marquee is a marketing
-flourish, not a list of named institutions. Screen readers hear the section
-heading "Where Students Go Next" plus a short generic label per logo.
+Visible logo copies use named alt text. Duplicated animation copies are hidden
+from assistive tech so each institution is announced once.
 
 Usage:
     python3 scripts/build-school-marquee.py
@@ -41,9 +40,26 @@ REGION_LABEL = {
     "zh": "學生就讀的大學",
 }
 
-LOGO_ALT = {
-    "en": "logo of prestigious university",
-    "zh": "知名大學標誌",
+SCHOOL_NAMES = {
+    "beedie.png": ("Beedie School of Business", "Beedie 商學院"),
+    "berkeley.svg": ("University of California, Berkeley", "加州大學柏克萊分校"),
+    "columbia.png": ("Columbia University", "哥倫比亞大學"),
+    "ecuad.png": ("Emily Carr University of Art and Design", "艾蜜莉卡藝術及設計大學"),
+    "hku.svg": ("The University of Hong Kong", "香港大學"),
+    "ivey.png": ("Ivey Business School", "Ivey 商學院"),
+    "mcgill.png": ("McGill University", "麥吉爾大學"),
+    "nyu.png": ("New York University", "紐約大學"),
+    "ocad.png": ("OCAD University", "安大略藝術設計大學"),
+    "queens.svg": ("Queen's University", "女王大學"),
+    "rotman.png": ("Rotman School of Management", "Rotman 管理學院"),
+    "sauder.jpg": ("UBC Sauder School of Business", "UBC Sauder 商學院"),
+    "sfu.png": ("Simon Fraser University", "西門菲沙大學"),
+    "smith.jpg": ("Smith School of Business", "Smith 商學院"),
+    "stanford.png": ("Stanford University", "史丹佛大學"),
+    "ual.jpg": ("University of the Arts London", "倫敦藝術大學"),
+    "ubc.svg": ("University of British Columbia", "英屬哥倫比亞大學"),
+    "u-of-t.png": ("University of Toronto", "多倫多大學"),
+    "western.svg": ("Western University", "西安大略大學"),
 }
 
 
@@ -65,7 +81,16 @@ def distribute(items: list[str]) -> list[list[str]]:
     return rows
 
 
-def render_logo(filename: str, alt: str, hidden: bool) -> str:
+def logo_alt(filename: str, lang: str) -> str:
+    names = SCHOOL_NAMES.get(filename.lower())
+    if names is None:
+        stem = Path(filename).stem.replace("-", " ").title()
+        return stem
+    return names[0] if lang == "en" else names[1]
+
+
+def render_logo(filename: str, lang: str, hidden: bool) -> str:
+    alt = logo_alt(filename, lang)
     img_alt = "" if hidden else alt
     li_attrs = ' aria-hidden="true"' if hidden else ""
     return (
@@ -76,9 +101,8 @@ def render_logo(filename: str, alt: str, hidden: bool) -> str:
 
 
 def render_row(items: list[str], direction: str, lang: str) -> str:
-    alt = LOGO_ALT[lang]
-    visible = "\n".join(render_logo(f, alt, hidden=False) for f in items)
-    duplicated = "\n".join(render_logo(f, alt, hidden=True) for f in items)
+    visible = "\n".join(render_logo(f, lang, hidden=False) for f in items)
+    duplicated = "\n".join(render_logo(f, lang, hidden=True) for f in items)
     lead = (
         f'      <ul class="marquee__group">\n'
         f"{visible}\n"

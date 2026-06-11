@@ -74,7 +74,7 @@
   /* Ink-tinted overlay — darker at the bottom where most copy sits. */
   .hero__overlay {
     z-index: 1;
-    background: linear-gradient(180deg, rgba(19, 26, 35, 0.9));
+    background: linear-gradient(180deg, rgba(19, 26, 35, 0.84));
   }
 
   .hero--video > .container {
@@ -547,14 +547,41 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .schools-marquee {
+      gap: var(--sp-lg);
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+
+    .marquee {
+      overflow: visible;
+    }
+
+    .marquee__track {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: var(--sp-lg);
+      padding-right: 0;
+    }
+
     .marquee--ltr .marquee__track,
     .marquee--rtl .marquee__track {
       animation: none;
       transform: none;
     }
     /* Without motion, hide the duplicate so overflow doesn't reveal it. */
-    .marquee__group--echo {
+    .marquee__group[aria-hidden="true"] {
       display: none;
+    }
+
+    .marquee__group {
+      flex-wrap: wrap;
+      gap: var(--sp-lg);
+    }
+
+    .marquee__item {
+      flex-basis: 8rem;
+      width: 8rem;
     }
   }
 

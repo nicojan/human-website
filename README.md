@@ -56,6 +56,10 @@ All colours, spacing, typography, and motion values live in `public/css/tokens.c
 
 If a Figma token changes, update the primitive value in `tokens.css`. Semantic and component-local tokens will inherit the change.
 
+### UI/UX guidelines
+
+Current site-level design guidance lives in `docs/ui-ux-guidelines.md`. In short: content renders before JavaScript, motion is an enhancement, mobile navigation includes the consult action, services stay scannable, and accessibility requirements apply to generated partials as well as hand-written pages.
+
 ## Deploy
 
 Deployed as a Cloudflare **Worker** with static assets. `wrangler.toml` in the repo root tells `wrangler deploy` to upload `./public` at the edge.
