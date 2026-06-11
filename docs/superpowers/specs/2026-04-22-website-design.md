@@ -452,7 +452,7 @@ Services page: lighter — mostly white with a cream section for FAQ, and a dark
 `blog/hugo.toml`:
 ```toml
 baseURL = "https://forhuman.ca/writing/"
-languageCode = "en-CA"
+locale = "en-CA"
 title = "Human, writing"
 publishDir = "../public/writing"
 enableRobotsTXT = true
@@ -461,13 +461,14 @@ defaultContentLanguageInSubdir = false
 
 [languages.en]
   contentDir = "content/en"
-  languageName = "English"
+  label = "English"
   weight = 1
   title = "Writing"
 
 [languages.zh-hant]
   contentDir = "content/zh-hant"
-  languageName = "繁體中文"
+  label = "繁體中文"
+  locale = "zh-Hant"
   weight = 2
   title = "文章"
 
@@ -550,7 +551,7 @@ echo "Build complete. Deployable root: ./public"
 - **Build command:** `bash scripts/build.sh`
 - **Output directory:** `public`
 - **Root directory:** `/`
-- **Hugo version:** pin to a recent stable via `HUGO_VERSION` env var (e.g. `0.122.0`).
+- **Hugo version:** pin to a recent stable via `HUGO_VERSION` env var (e.g. `0.163.0`).
 
 ## 12. Accessibility checklist (must pass before merge)
 

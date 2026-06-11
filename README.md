@@ -12,7 +12,7 @@ Hybrid static site:
 
 ## Requirements
 
-- **Hugo** `>= 0.122` — the blog generator. `brew install hugo` on macOS.
+- **Hugo** `>= 0.163` — the blog generator. `brew install hugo` on macOS.
 - **Python 3** — only for the local dev server. Any static file server works.
 
 Everything else is browser-native.
@@ -69,7 +69,7 @@ In the Cloudflare dashboard (Settings → Build):
 - **Build command:** `bash scripts/build.sh` — runs Hugo into `public/writing/`
 - **Deploy command:** `npx wrangler deploy`
 - **Root directory:** `/`
-- **Environment variable:** `HUGO_VERSION=0.122.0`
+- **Environment variable:** `HUGO_VERSION=0.163.0`
 
 Custom domain `forhuman.ca` is bound via the dashboard (Settings → Domains & Routes), not in `wrangler.toml`.
 

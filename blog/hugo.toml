@@ -8,7 +8,7 @@
 # Marketing pages live outside Hugo at /public/*.html.
 
 baseURL = "https://forhuman.ca/writing/"
-languageCode = "en-CA"
+locale = "en-CA"
 title = "Blog · Human,"
 enableRobotsTXT = true
 defaultContentLanguage = "en"
@@ -43,7 +43,7 @@ uglyURLs = false
   tag = "tags"
 
 [languages.en]
-  languageName = "English"
+  label = "English"
   weight = 1
   title = "Blog · Human,"
   baseURL = "https://forhuman.ca/writing/"
@@ -54,8 +54,8 @@ uglyURLs = false
     posts = "/:slug/"
 
 [languages.zh-hant]
-  languageName = "繁體中文"
-  languageCode = "zh-Hant"
+  label = "繁體中文"
+  locale = "zh-Hant"
   weight = 2
   title = "部落格 · Human,"
   contentDir = "content/zh-hant"

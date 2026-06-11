@@ -7,7 +7,7 @@
 # Cloudflare Pages config:
 #   Build command:     bash scripts/build.sh
 #   Output directory:  public
-#   Environment:       HUGO_VERSION=0.122.0
+#   Environment:       HUGO_VERSION=0.163.0
 
 set -euo pipefail
 

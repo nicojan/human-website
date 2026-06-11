@@ -17,7 +17,7 @@ bash scripts/dev.sh       # local dev at http://localhost:4321
 bash scripts/build.sh     # production build (outputs into public/, including public/writing/)
 ```
 
-Hugo must be installed: `brew install hugo` on macOS.
+Hugo `0.163` or newer must be installed: `brew install hugo` on macOS.
 
 ## Repo map
 
