@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- $isZh := eq .Lang "zh-hant" -}}
-{{- $eyebrow := cond $isZh "部落格 · Blog" "Blog · 部落格" -}}
+{{- $eyebrow := cond $isZh "部落格 · blog" "blog · 部落格" -}}
 {{- $fallbackTitle := cond $isZh "部落格" "Blog" -}}
 {{- $fallbackDesc := cond $isZh "關於教學、學習，以及我們用的工具。" "Notes on teaching, learning, and the tools we use." -}}
 {{- $allLabel := cond $isZh "全部" "All" -}}
