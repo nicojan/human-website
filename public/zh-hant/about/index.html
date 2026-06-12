@@ -81,7 +81,6 @@
     <!-- Hero -->
     <section class="section section--canvas page-hero" aria-labelledby="about-hero">
       <div class="container">
-        <span class="eyebrow page-hero__kicker" data-animate>ABOUT · 關於我們</span>
         <h1 class="page-hero__headline" id="about-hero" data-animate>
           <span lang="en">Human,</span> 是一間 <span lang="en">education collective</span>。
         </h1>
@@ -92,10 +91,10 @@
     </section>
 
     <!-- Why we exist -->
-    <section class="section section--warm" aria-labelledby="why-heading">
+    <section class="section section--canvas" aria-labelledby="why-heading">
       <div class="container">
         <header class="section-header" data-animate>
-          <span class="eyebrow">WHY WE EXIST · 我們為什麼開始</span>
+          <span class="eyebrow">why we exist · 我們為什麼開始</span>
           <h2 id="why-heading">問題本身，才是重點。</h2>
         </header>
 
@@ -108,9 +107,9 @@
           </p>
         </div>
 
-        <blockquote class="pullquote" data-animate>
-          教育不是為了優化。不是為了分數。不是為了準備接下 <span lang="en">AI</span> 的手。教育，是讓人成為更完整的自己。
-        </blockquote>
+        <p class="about-statement" data-animate>
+          教育從來就不是為了把孩子最佳化、把分數拉高，或讓誰準備好接住 <span lang="en">AI</span>。它的目的比這些都更簡單，也更老：讓一個人成為更完整的自己。
+        </p>
       </div>
     </section>
 
@@ -118,47 +117,59 @@
     <section class="section section--canvas" aria-labelledby="believe-heading">
       <div class="container">
         <header class="section-header" data-animate>
-          <span class="eyebrow">WHAT WE BELIEVE · 我們相信什麼</span>
+          <span class="eyebrow">what we believe · 我們相信什麼</span>
           <h2 id="believe-heading">我們堅持的四件事。</h2>
         </header>
 
-        <div class="about-principles" data-animate-stagger>
-          <article class="about-principle" data-animate>
-            <h3 class="about-principle__title">過程比結果重要。</h3>
-            <p class="about-principle__body">
+        <div class="about-tenets" data-animate-stagger>
+          <div class="about-tenet" data-animate>
+            <div class="about-tenet__lead">
+              <span class="about-tenet__index" aria-hidden="true">01</span>
+              <h3 class="about-tenet__title">過程比結果重要。</h3>
+            </div>
+            <p class="about-tenet__body">
               我們看重的是提問、卡住、修改這些動作本身，不是答對。答案會變，會過時。但「把一件事想清楚」的習慣不會。
             </p>
-          </article>
+          </div>
 
-          <article class="about-principle" data-animate>
-            <h3 class="about-principle__title">關係是地基。</h3>
-            <p class="about-principle__body">
-              被了解、被在乎的孩子，學習方式是不一樣的。老師和學生之間的關係不是附加價值，是所有學習真正站得住的那層地基。
+          <div class="about-tenet" data-animate>
+            <div class="about-tenet__lead">
+              <span class="about-tenet__index" aria-hidden="true">02</span>
+              <h3 class="about-tenet__title">關係是地基。</h3>
+            </div>
+            <p class="about-tenet__body">
+              被了解、被在乎的孩子，學習方式是不一樣的。老師和學生之間的關係不是附加價值，而是所有學習真正站得住的那層地基。
             </p>
-          </article>
+          </div>
 
-          <article class="about-principle" data-animate>
-            <h3 class="about-principle__title">人先，工具再說。</h3>
-            <p class="about-principle__body">
+          <div class="about-tenet" data-animate>
+            <div class="about-tenet__lead">
+              <span class="about-tenet__index" aria-hidden="true">03</span>
+              <h3 class="about-tenet__title">人先，工具再說。</h3>
+            </div>
+            <p class="about-tenet__body">
               科技能幫人成長時，我們歡迎它進教室。當它代替了那份「想不通」的掙扎，我們就把它放下。
             </p>
-          </article>
+          </div>
 
-          <article class="about-principle" data-animate>
-            <h3 class="about-principle__title">學習是一群人的事。</h3>
-            <p class="about-principle__body">
+          <div class="about-tenet" data-animate>
+            <div class="about-tenet__lead">
+              <span class="about-tenet__index" aria-hidden="true">04</span>
+              <h3 class="about-tenet__title">學習是一群人的事。</h3>
+            </div>
+            <p class="about-tenet__body">
               「共學社」這三個字不是包裝。教育發生在人與人之間，不是在一個人跟螢幕之間，也不是在一個人關起門來的書桌前。
             </p>
-          </article>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- How we work -->
-    <section class="section section--warm" aria-labelledby="how-heading">
+    <section class="section section--canvas" aria-labelledby="how-heading">
       <div class="container">
         <header class="section-header" data-animate>
-          <span class="eyebrow">HOW WE WORK · 我們怎麼做</span>
+          <span class="eyebrow">how we work · 我們怎麼做</span>
           <h2 id="how-heading">刻意維持小規模。</h2>
         </header>
 
@@ -171,20 +182,20 @@
           </p>
         </div>
 
-        <div class="about-signal-grid" aria-label="人本的工作方式" data-animate>
-          <div class="about-signal">
-            <span class="about-signal__value">一對一</span>
-            <span class="about-signal__label">一位學生，一位老師，一個清楚的下一步。</span>
+        <dl class="about-facts" data-animate>
+          <div class="about-fact">
+            <dt class="about-fact__term">一對一</dt>
+            <dd class="about-fact__desc">一位學生，一位老師，一個清楚的下一步。</dd>
           </div>
-          <div class="about-signal">
-            <span class="about-signal__value">每週</span>
-            <span class="about-signal__label">進度不是期末才看見，而是一路看見。</span>
+          <div class="about-fact">
+            <dt class="about-fact__term">每週</dt>
+            <dd class="about-fact__desc">進度不是期末才看見，而是一路看見。</dd>
           </div>
-          <div class="about-signal">
-            <span class="about-signal__value">不代寫</span>
-            <span class="about-signal__label">學生用自己的聲音，把作品做出來。</span>
+          <div class="about-fact">
+            <dt class="about-fact__term">不代寫</dt>
+            <dd class="about-fact__desc">學生用自己的聲音，把作品做出來。</dd>
           </div>
-        </div>
+        </dl>
       </div>
     </section>
 
@@ -192,7 +203,7 @@
     <section class="section section--canvas" aria-labelledby="teach-heading">
       <div class="container">
         <header class="section-header" data-animate>
-          <span class="eyebrow">WHAT WE TEACH · 我們教什麼</span>
+          <span class="eyebrow">what we teach · 我們教什麼</span>
           <h2 id="teach-heading">人文通識的核心。</h2>
         </header>
 
@@ -210,11 +221,8 @@
     <!-- BC Benefit Company -->
     <section class="section section--emphasis" aria-labelledby="bc-heading">
       <div class="container">
-        <div data-animate>
-          <span class="pill pill--stamp">REGISTERED IN BC · 註冊於 <span lang="en">BC</span></span>
-        </div>
         <header class="bc-benefit__header" data-animate>
-          <span class="eyebrow">HOW WE'RE ORGANIZED · 我們的組織</span>
+          <span class="eyebrow">how we're organized · 我們的組織</span>
           <h2 class="bc-benefit__title" id="bc-heading">一間 <span lang="en">BC Benefit Company</span>。</h2>
         </header>
 
@@ -243,7 +251,7 @@
     <section class="section section--canvas" aria-labelledby="serve-heading">
       <div class="container">
         <header class="section-header" data-animate>
-          <span class="eyebrow">WHO WE SERVE · 我們服務誰</span>
+          <span class="eyebrow">who we serve · 我們服務誰</span>
           <h2 id="serve-heading">願意跟一個問題待久一點的學生。</h2>
         </header>
 
