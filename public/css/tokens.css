@@ -184,6 +184,7 @@
 
     /* Accents */
     --accent:                 var(--terracotta);
+    --accent-on-dark:         var(--clay);     /* lighter terracotta: ≥3:1 on ink/emphasis surfaces */
     --accent-discovery:       var(--ochre);
     --accent-discovery-bg:    var(--ochre-light);
 

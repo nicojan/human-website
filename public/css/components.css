@@ -688,17 +688,10 @@
 
   .pill--stamp {
     background: transparent;
-    color: var(--text-primary);
-    border: 1.5px solid var(--border-default);
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
-    font-weight: var(--fw-bold);
-  }
-
-  .pill--stamp::before {
-    content: "•";
-    color: var(--accent);
-    margin-right: var(--sp-xs);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    letter-spacing: normal;
+    font-weight: var(--fw-medium);
   }
 
   /* ────────────────────────────────────────────────────────────────── */
@@ -947,10 +940,9 @@
   }
 
   .footer__heading {
-    font-size: var(--fs-label);
-    font-weight: var(--fw-bold);
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    letter-spacing: normal;
     color: var(--text-secondary);
   }
 
@@ -1013,10 +1005,9 @@
   }
 
   .faq-group__heading {
-    font-size: var(--fs-label);
-    font-weight: var(--fw-bold);
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    letter-spacing: normal;
     color: var(--text-secondary);
     margin-bottom: var(--sp-md);
   }
@@ -1077,7 +1068,7 @@
     background: var(--bg-surface);
     display: block;
     border-radius: var(--radius-lg);
-    border: 2px solid var(--accent);
+    border: 1px solid var(--border-default);
   }
 
   /* ────────────────────────────────────────────────────────────────── */

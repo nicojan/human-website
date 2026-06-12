@@ -159,13 +159,15 @@
     color: var(--text-secondary);
   }
 
+  /* Kicker / label — a quiet, lowercase fragment that sits above a heading.
+     Hierarchy is carried by the heading, not by all-caps or letterspacing
+     (AR-04); these stay muted, medium-weight, family-default tracking. */
   .label,
   .eyebrow {
-    font-size: var(--fs-label);
-    font-weight: var(--fw-bold);
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
-    line-height: 1.38;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    letter-spacing: normal;
+    line-height: 1.4;
     color: var(--text-secondary);
     font-family: var(--font-body);
   }
