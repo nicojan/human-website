@@ -93,6 +93,5 @@ If Figma token values change, update `public/css/tokens.css`. If the MCP data ch
 
 ## When in doubt
 
-- Read `docs/superpowers/specs/2026-04-22-website-design.md` for the big picture.
 - Check the copy docs (`05-copy-en.md`, `06-copy-zh.md`) for canonical page text before generating new copy.
 - If a token value seems off, call the designer MCP and the writer MCP — don't guess.
