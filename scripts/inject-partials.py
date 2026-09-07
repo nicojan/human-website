@@ -39,6 +39,7 @@ PUBLIC_DIR = ROOT / "public"
 MIRRORED_TARGETS: dict[Path, str] = {
     ROOT / "blog" / "layouts" / "partials" / "footer-en.html": "footer-en",
     ROOT / "blog" / "layouts" / "partials" / "footer-zh.html": "footer-zh",
+    ROOT / "blog" / "layouts" / "partials" / "analytics.html": "analytics",
 }
 
 MARKER_PATTERN = re.compile(

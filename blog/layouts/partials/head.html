@@ -30,3 +30,5 @@
 {{ with .OutputFormats.Get "rss" -}}
 <link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .Permalink }}" />
 {{- end }}
+
+{{ partial "analytics.html" . }}
