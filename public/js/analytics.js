@@ -7,8 +7,11 @@
  *   - skips on localhost + loopback + .local/.test (dev); `data-domains` is a
  *     second fence, so a preview deploy on another hostname sends nothing
  *   - Umami sets no cookies and stores no IP address (country/region/city only)
- *   - heatmaps are OFF (RECORDER below): turning them on is a privacy-notice
- *     change, not a setting tweak
+ *   - heatmaps are ON (RECORDER below, decided 2026-10-31; the privacy notice
+ *     says so): click positions and scroll depth only, no element text, no
+ *     keystrokes, and session replay stays OFF server-side. The recorder skips
+ *     neither DNT nor `data-domains` by itself, so it is only loaded after the
+ *     DNT return above and only on the production hostnames
  *
  * Tracks, in addition to the default page view:
  *   - page language as the Umami tag (filterable), e.g. 'en' | 'zh-hant'
@@ -34,7 +37,8 @@
 
   const UMAMI_HOST = 'https://stats.nicojan.com';
   const WEBSITE_ID = 'c2e31553-80c8-4be3-93de-b8399327657f';
-  const RECORDER = false; // heatmaps; needs the privacy notice updated first
+  const RECORDER = true; // heatmaps; turning this off needs the privacy notice changed too
+  const RECORDER_HOSTS = ['forhuman.ca', 'www.forhuman.ca'];
 
   /* Respect Do Not Track */
   const dnt =
@@ -85,7 +89,7 @@
     'data-do-not-track': 'true',
     'data-tag': pageLanguage,
   });
-  if (RECORDER) {
+  if (RECORDER && RECORDER_HOSTS.includes(host)) {
     load(`${UMAMI_HOST}/recorder.js`, {
       'data-website-id': WEBSITE_ID,
       'data-host-url': UMAMI_HOST,
